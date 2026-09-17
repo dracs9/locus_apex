@@ -1,0 +1,30 @@
+import type { components } from "./schema";
+
+type S = components["schemas"];
+
+export type University = S["University"];
+export type Major = S["Major"];
+export type Profile = S["Profile"];
+export type ProfileIn = S["ProfileIn"];
+export type Priorities = S["Priorities"];
+export type Achievement = S["Achievement"];
+export type AchievementIn = S["AchievementIn"];
+export type AchievementPatch = S["AchievementPatch"];
+export type AchievementType = Achievement["type"];
+export type Reason = S["Reason"];
+export type Recommendation = S["Recommendation"];
+export type Excluded = S["Excluded"];
+export type RecommendationResult = S["RecommendationResult"];
+export type Roadmap = S["Roadmap"];
+export type RoadmapStep = S["RoadmapStep"];
+export type Diff = S["Diff"];
+export type ComputeResponse = S["ComputeResponse"];
+export type ChancePoint = S["ChancePoint"];
+export type LatestChanges = S["LatestChanges"];
+export type PassportOut = S["PassportOut"];
+export type PassportItem = S["PassportItem"];
+export type ExplainOut = S["ExplainOut"];
+export type RoadmapTextOut = S["RoadmapTextOut"];
+export type Tier = Recommendation["tier"];
+export type Chance = Recommendation["chance"];
+export type ReasonKind = Reason["kind"];

@@ -1,0 +1,114 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Design tokens. Palette: ink indigo + tangerine accent on warm paper. Tier and reason colors are semantic. */
+@layer base {
+  :root {
+    --background: 40 33% 98%;
+    --foreground: 243 40% 12%;
+    --card: 0 0% 100%;
+    --card-foreground: 243 40% 12%;
+    --muted: 240 20% 95%;
+    --muted-foreground: 240 10% 40%;
+    --primary: 245 70% 45%;
+    --primary-foreground: 0 0% 100%;
+    --accent: 24 95% 53%;
+    --accent-foreground: 20 40% 10%;
+    --border: 240 15% 88%;
+    --input: 240 15% 85%;
+    --ring: 245 70% 45%;
+
+    --dream: 282 62% 50%;
+    --dream-soft: 282 70% 95%;
+    --target: 205 85% 40%;
+    --target-soft: 205 90% 94%;
+    --safety: 158 72% 30%;
+    --safety-soft: 150 55% 92%;
+
+    --plus: 152 62% 30%;
+    --plus-soft: 150 55% 93%;
+    --risk: 32 92% 36%;
+    --risk-soft: 42 95% 91%;
+    --blocker: 0 72% 46%;
+    --blocker-soft: 0 85% 95%;
+
+    --radius-sm: 0.5rem;
+    --radius-md: 0.75rem;
+    --radius-lg: 1rem;
+    --radius-xl: 1.5rem;
+
+    --space-1: 0.25rem;
+    --space-2: 0.5rem;
+    --space-3: 0.75rem;
+    --space-4: 1rem;
+    --space-6: 1.5rem;
+    --space-8: 2rem;
+
+    --text-xs: 0.75rem;
+    --text-sm: 0.875rem;
+    --text-base: 1rem;
+    --text-lg: 1.125rem;
+    --text-xl: 1.375rem;
+    --text-2xl: 1.75rem;
+    --text-3xl: 2.25rem;
+  }
+
+  .dark {
+    --background: 240 25% 7%;
+    --foreground: 40 20% 94%;
+    --card: 240 22% 11%;
+    --card-foreground: 40 20% 94%;
+    --muted: 240 18% 16%;
+    --muted-foreground: 240 10% 70%;
+    --primary: 245 90% 74%;
+    --primary-foreground: 240 30% 8%;
+    --accent: 26 95% 60%;
+    --accent-foreground: 20 40% 8%;
+    --border: 240 15% 21%;
+    --input: 240 15% 26%;
+    --ring: 245 90% 74%;
+
+    --dream: 282 80% 74%;
+    --dream-soft: 282 35% 18%;
+    --target: 205 90% 66%;
+    --target-soft: 205 45% 16%;
+    --safety: 158 60% 56%;
+    --safety-soft: 158 35% 14%;
+
+    --plus: 152 55% 58%;
+    --plus-soft: 152 30% 14%;
+    --risk: 38 92% 62%;
+    --risk-soft: 38 45% 15%;
+    --blocker: 0 85% 68%;
+    --blocker-soft: 0 45% 17%;
+  }
+
+  * {
+    @apply border-border;
+  }
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    overflow-x: hidden;
+  }
+  h1,
+  h2,
+  h3 {
+    @apply font-display tracking-tight;
+  }
+  :focus-visible {
+    @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+  }
+}
+
+@layer utilities {
+  .pb-safe {
+    padding-bottom: calc(env(safe-area-inset-bottom) + 5rem);
+  }
+  .text-balance {
+    text-wrap: balance;
+  }
+}

@@ -1,0 +1,258 @@
+import { useMutation, useQuery, useQueryClient, type QueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
+
+import { t } from "@/i18n/ru";
+import { diffSummary } from "@/lib/format";
+import { navigateTo } from "@/lib/nav";
+import { useNetwork } from "@/store/ui";
+
+import { api, apiBlob, ApiError } from "./client";
+import type {
+  AchievementIn,
+  AchievementPatch,
+  ChancePoint,
+  ComputeResponse,
+  ExplainOut,
+  LatestChanges,
+  Major,
+  PassportOut,
+  Priorities,
+  Profile,
+  ProfileIn,
+  RecommendationResult,
+  Roadmap,
+  RoadmapTextOut,
+  University,
+} from "./types";
+
+export const keys = {
+  profile: ["me", "profile"] as const,
+  recommendations: ["me", "recommendations"] as const,
+  roadmap: ["me", "roadmap"] as const,
+  changes: ["me", "changes"] as const,
+  favorites: ["me", "favorites"] as const,
+  chanceHistory: (ids: string) => ["me", "chance-history", ids] as const,
+  passport: ["me", "ai", "passport"] as const,
+  explain: (id: string) => ["me", "ai", "explain", id] as const,
+  roadmapText: (ids: string) => ["me", "ai", "roadmap-text", ids] as const,
+  universities: ["catalog", "universities"] as const,
+  majors: ["catalog", "majors"] as const,
+};
+
+const noRetryOn404 = (count: number, error: unknown) =>
+  !(error instanceof ApiError && (error.status === 404 || error.status === 401)) && count < 2;
+
+// --- catalog ---------------------------------------------------------------
+
+export function useUniversities() {
+  return useQuery({
+    queryKey: keys.universities,
+    queryFn: () => api<University[]>("/catalog/universities", { auth: false }),
+    staleTime: 60 * 60 * 1000,
+  });
+}
+
+export function useUniversityMap() {
+  const q = useUniversities();
+  const map = new Map((q.data ?? []).map((u) => [u.id, u]));
+  return { ...q, map };
+}
+
+export function useMajors() {
+  return useQuery({
+    queryKey: keys.majors,
+    queryFn: () => api<Major[]>("/catalog/majors", { auth: false }),
+    staleTime: 60 * 60 * 1000,
+  });
+}
+
+// --- me --------------------------------------------------------------------
+
+export function useProfile() {
+  return useQuery({ queryKey: keys.profile, queryFn: () => api<Profile>("/me/profile"), retry: noRetryOn404 });
+}
+
+export function useRecommendations(enabled = true) {
+  return useQuery({
+    queryKey: keys.recommendations,
+    queryFn: () => api<RecommendationResult>("/me/recommendations"),
+    retry: noRetryOn404,
+    enabled,
+  });
+}
+
+export function useRoadmap(enabled = true) {
+  return useQuery({ queryKey: keys.roadmap, queryFn: () => api<Roadmap>("/me/roadmap"), retry: noRetryOn404, enabled });
+}
+
+export function useLatestChanges() {
+  return useQuery({ queryKey: keys.changes, queryFn: () => api<LatestChanges>("/me/changes/latest"), retry: noRetryOn404 });
+}
+
+export function useFavorites(enabled = true) {
+  return useQuery({ queryKey: keys.favorites, queryFn: () => api<string[]>("/me/favorites"), retry: noRetryOn404, enabled });
+}
+
+export function useChanceHistory(ids: string[] = []) {
+  const joined = ids.join(",");
+  return useQuery({
+    queryKey: keys.chanceHistory(joined),
+    queryFn: () => api<ChancePoint[]>(`/me/chance-history${joined ? `?ids=${encodeURIComponent(joined)}` : ""}`),
+    retry: noRetryOn404,
+  });
+}
+
+export function usePassportText(enabled = true) {
+  return useQuery({
+    queryKey: keys.passport,
+    queryFn: () => api<PassportOut>("/ai/passport", { method: "POST" }),
+    retry: noRetryOn404,
+    staleTime: 5 * 60 * 1000,
+    enabled,
+  });
+}
+
+export function useExplain(universityId: string, enabled = true) {
+  return useQuery({
+    queryKey: keys.explain(universityId),
+    queryFn: () => api<ExplainOut>("/ai/explain", { method: "POST", body: { university_id: universityId } }),
+    retry: noRetryOn404,
+    staleTime: 5 * 60 * 1000,
+    enabled,
+  });
+}
+
+export function useRoadmapText(stepIds: string[]) {
+  const joined = stepIds.join(",");
+  return useQuery({
+    queryKey: keys.roadmapText(joined),
+    queryFn: () => api<RoadmapTextOut>("/ai/roadmap-text", { method: "POST", body: { step_ids: stepIds } }),
+    enabled: stepIds.length > 0,
+    staleTime: 10 * 60 * 1000,
+    retry: false,
+  });
+}
+
+export function usePreview(profile: Profile | undefined, priorities: Priorities | null) {
+  return useQuery({
+    queryKey: ["preview", profile?.created_at, profile, priorities],
+    queryFn: () =>
+      api<RecommendationResult>("/preview", {
+        method: "POST",
+        auth: false,
+        body: { profile, priorities_override: priorities },
+      }),
+    enabled: !!profile && !!priorities,
+    placeholderData: (prev) => prev,
+    staleTime: 60 * 1000,
+  });
+}
+
+// --- mutations -------------------------------------------------------------
+
+/** Puts a fresh ComputeResponse into the cache, refreshes dependants and shows the "route updated" toast. */
+export function applyCompute(qc: QueryClient, res: ComputeResponse, { silent = false } = {}) {
+  qc.setQueryData(keys.recommendations, res.result);
+  qc.setQueryData(keys.roadmap, res.roadmap);
+  void qc.invalidateQueries({ queryKey: keys.profile });
+  void qc.invalidateQueries({ queryKey: keys.changes });
+  void qc.invalidateQueries({ queryKey: keys.favorites });
+  void qc.invalidateQueries({ queryKey: ["me", "chance-history"] });
+  void qc.invalidateQueries({ queryKey: ["me", "ai"] });
+  if (silent || !res.diff) return;
+  const summary = diffSummary(res.diff);
+  toast.success(summary ? t.changes.toast(summary) : t.changes.toastNoChange, {
+    description: res.diff.cause,
+    action: { label: t.changes.toastAction, onClick: () => navigateTo("/changes") },
+    duration: 6000,
+  });
+}
+
+function onMutationError(e: unknown) {
+  toast.error(e instanceof ApiError ? e.message : t.errors.generic);
+}
+
+function useComputeMutation<V>(fn: (v: V) => Promise<ComputeResponse>, opts: { silent?: boolean } = {}) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (v: V) => {
+      if (useNetwork.getState().offline) return Promise.reject(new ApiError(0, "NETWORK", t.common.offlineEditsDisabled));
+      return fn(v);
+    },
+    onSuccess: (res) => applyCompute(qc, res, opts),
+    onError: onMutationError,
+  });
+}
+
+export function useSaveProfile(opts: { silent?: boolean } = {}) {
+  return useComputeMutation((body: ProfileIn) => api<ComputeResponse>("/me/profile", { method: "PUT", body }), opts);
+}
+
+export function useAddAchievement() {
+  return useComputeMutation((body: AchievementIn) => api<ComputeResponse>("/me/achievements", { method: "POST", body }));
+}
+
+export function usePatchAchievement() {
+  return useComputeMutation(({ id, body }: { id: string; body: AchievementPatch }) =>
+    api<ComputeResponse>(`/me/achievements/${id}`, { method: "PATCH", body }),
+  );
+}
+
+export function useDeleteAchievement() {
+  return useComputeMutation((id: string) => api<ComputeResponse>(`/me/achievements/${id}`, { method: "DELETE" }));
+}
+
+export function useToggleFavorite() {
+  return useComputeMutation(({ id, on }: { id: string; on: boolean }) =>
+    api<ComputeResponse>(`/me/favorites/${id}`, { method: on ? "PUT" : "DELETE" }),
+  );
+}
+
+export function useLoadDemo() {
+  return useComputeMutation(() => api<ComputeResponse>("/me/demo", { method: "POST" }), { silent: true });
+}
+
+export function usePatchStep() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, done }: { id: string; done: boolean }) =>
+      api<Roadmap>(`/me/roadmap/steps/${encodeURIComponent(id)}`, { method: "PATCH", body: { done } }),
+    onMutate: async ({ id, done }) => {
+      await qc.cancelQueries({ queryKey: keys.roadmap });
+      const prev = qc.getQueryData<Roadmap>(keys.roadmap);
+      if (prev) qc.setQueryData(keys.roadmap, { ...prev, steps: prev.steps.map((s) => (s.id === id ? { ...s, done } : s)) });
+      return { prev };
+    },
+    onSuccess: (roadmap) => qc.setQueryData(keys.roadmap, roadmap),
+    onError: (e, _v, ctx) => {
+      if (ctx?.prev) qc.setQueryData(keys.roadmap, ctx.prev);
+      onMutationError(e);
+    },
+  });
+}
+
+export function useReset() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: () => api<{ ok: boolean }>("/me/reset", { method: "POST" }),
+    onSuccess: () => {
+      qc.removeQueries({ queryKey: ["me"] });
+      qc.removeQueries({ queryKey: ["preview"] });
+    },
+    onError: onMutationError,
+  });
+}
+
+export async function downloadIcs() {
+  try {
+    const blob = await apiBlob("/me/roadmap.ics");
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "route.ics";
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  } catch (e) {
+    onMutationError(e);
+  }
+}
