@@ -1,0 +1,84 @@
+[
+  {
+    "id": "cs",
+    "name_ru": "Компьютерные науки",
+    "name_en": "Computer Science",
+    "cip_codes": [
+      "11.0701"
+    ]
+  },
+  {
+    "id": "engineering",
+    "name_ru": "Инженерия",
+    "name_en": "Engineering",
+    "cip_codes": [
+      "14.0101"
+    ]
+  },
+  {
+    "id": "economics",
+    "name_ru": "Экономика",
+    "name_en": "Economics",
+    "cip_codes": [
+      "45.0601"
+    ]
+  },
+  {
+    "id": "business",
+    "name_ru": "Бизнес и менеджмент",
+    "name_en": "Business & Management",
+    "cip_codes": [
+      "52.0201"
+    ]
+  },
+  {
+    "id": "math",
+    "name_ru": "Математика",
+    "name_en": "Mathematics",
+    "cip_codes": [
+      "27.0101"
+    ]
+  },
+  {
+    "id": "physics",
+    "name_ru": "Физика",
+    "name_en": "Physics",
+    "cip_codes": [
+      "40.0801"
+    ]
+  },
+  {
+    "id": "biology",
+    "name_ru": "Биология",
+    "name_en": "Biology",
+    "cip_codes": [
+      "26.0101"
+    ]
+  },
+  {
+    "id": "medicine",
+    "name_ru": "Медицина",
+    "name_en": "Medicine",
+    "cip_codes": [
+      "51.1201"
+    ]
+  },
+  {
+    "id": "design",
+    "name_ru": "Дизайн и архитектура",
+    "name_en": "Design & Architecture",
+    "cip_codes": [
+      "50.0401",
+      "04.0201"
+    ]
+  },
+  {
+    "id": "social_sciences",
+    "name_ru": "Социальные науки и международные отношения",
+    "name_en": "Social Sciences & IR",
+    "cip_codes": [
+      "45.0901",
+      "45.1001"
+    ]
+  }
+]

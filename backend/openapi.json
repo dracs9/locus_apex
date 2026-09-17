@@ -1,0 +1,2935 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Admission Route API",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/health": {
+      "get": {
+        "tags": [
+          "health"
+        ],
+        "summary": "Health",
+        "operationId": "health_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/catalog/universities": {
+      "get": {
+        "tags": [
+          "catalog"
+        ],
+        "summary": "List Universities",
+        "operationId": "list_universities_catalog_universities_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/University"
+                  },
+                  "type": "array",
+                  "title": "Response List Universities Catalog Universities Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/catalog/universities/{university_id}": {
+      "get": {
+        "tags": [
+          "catalog"
+        ],
+        "summary": "Get University",
+        "operationId": "get_university_catalog_universities__university_id__get",
+        "parameters": [
+          {
+            "name": "university_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "University Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/University"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/catalog/majors": {
+      "get": {
+        "tags": [
+          "catalog"
+        ],
+        "summary": "List Majors",
+        "operationId": "list_majors_catalog_majors_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/Major"
+                  },
+                  "type": "array",
+                  "title": "Response List Majors Catalog Majors Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/profile": {
+      "get": {
+        "tags": [
+          "profile"
+        ],
+        "summary": "Get Profile",
+        "operationId": "get_profile_me_profile_get",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Profile"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "profile"
+        ],
+        "summary": "Put Profile",
+        "operationId": "put_profile_me_profile_put",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProfileIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ComputeResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/achievements": {
+      "post": {
+        "tags": [
+          "achievements"
+        ],
+        "summary": "Create Achievement",
+        "operationId": "create_achievement_me_achievements_post",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AchievementIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ComputeResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/achievements/{achievement_id}": {
+      "patch": {
+        "tags": [
+          "achievements"
+        ],
+        "summary": "Patch Achievement",
+        "operationId": "patch_achievement_me_achievements__achievement_id__patch",
+        "parameters": [
+          {
+            "name": "achievement_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Achievement Id"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AchievementPatch"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ComputeResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "achievements"
+        ],
+        "summary": "Delete Achievement",
+        "operationId": "delete_achievement_me_achievements__achievement_id__delete",
+        "parameters": [
+          {
+            "name": "achievement_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Achievement Id"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ComputeResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/recommendations": {
+      "get": {
+        "tags": [
+          "recommendations"
+        ],
+        "summary": "Get Recommendations",
+        "operationId": "get_recommendations_me_recommendations_get",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecommendationResult"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/preview": {
+      "post": {
+        "tags": [
+          "recommendations"
+        ],
+        "summary": "Preview",
+        "description": "Stateless what-if: never writes anything.",
+        "operationId": "preview_preview_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PreviewIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecommendationResult"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/changes/latest": {
+      "get": {
+        "tags": [
+          "recommendations"
+        ],
+        "summary": "Latest Changes",
+        "operationId": "latest_changes_me_changes_latest_get",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LatestChanges"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/roadmap": {
+      "get": {
+        "tags": [
+          "roadmap"
+        ],
+        "summary": "Get Roadmap",
+        "operationId": "get_roadmap_me_roadmap_get",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Roadmap"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/roadmap/steps/{step_id}": {
+      "patch": {
+        "tags": [
+          "roadmap"
+        ],
+        "summary": "Patch Step",
+        "operationId": "patch_step_me_roadmap_steps__step_id__patch",
+        "parameters": [
+          {
+            "name": "step_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Step Id"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StepPatch"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Roadmap"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/roadmap.ics": {
+      "get": {
+        "tags": [
+          "roadmap"
+        ],
+        "summary": "Roadmap Ics",
+        "operationId": "roadmap_ics_me_roadmap_ics_get",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/favorites": {
+      "get": {
+        "tags": [
+          "roadmap"
+        ],
+        "summary": "Get Favorites",
+        "operationId": "get_favorites_me_favorites_get",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "title": "Response Get Favorites Me Favorites Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/favorites/{university_id}": {
+      "put": {
+        "tags": [
+          "roadmap"
+        ],
+        "summary": "Add Favorite",
+        "operationId": "add_favorite_me_favorites__university_id__put",
+        "parameters": [
+          {
+            "name": "university_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "University Id"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ComputeResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "roadmap"
+        ],
+        "summary": "Remove Favorite",
+        "operationId": "remove_favorite_me_favorites__university_id__delete",
+        "parameters": [
+          {
+            "name": "university_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "University Id"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ComputeResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/chance-history": {
+      "get": {
+        "tags": [
+          "history"
+        ],
+        "summary": "Get Chance History",
+        "operationId": "get_chance_history_me_chance_history_get",
+        "parameters": [
+          {
+            "name": "ids",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "comma-separated university ids",
+              "title": "Ids"
+            },
+            "description": "comma-separated university ids"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ChancePoint"
+                  },
+                  "title": "Response Get Chance History Me Chance History Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/demo": {
+      "post": {
+        "tags": [
+          "demo"
+        ],
+        "summary": "Load Demo",
+        "operationId": "load_demo_me_demo_post",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ComputeResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/reset": {
+      "post": {
+        "tags": [
+          "demo"
+        ],
+        "summary": "Reset",
+        "operationId": "reset_me_reset_post",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ai/passport": {
+      "post": {
+        "tags": [
+          "ai"
+        ],
+        "summary": "Passport",
+        "operationId": "passport_ai_passport_post",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PassportOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ai/explain": {
+      "post": {
+        "tags": [
+          "ai"
+        ],
+        "summary": "Explain",
+        "operationId": "explain_ai_explain_post",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExplainIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExplainOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ai/roadmap-text": {
+      "post": {
+        "tags": [
+          "ai"
+        ],
+        "summary": "Roadmap Text",
+        "operationId": "roadmap_text_ai_roadmap_text_post",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RoadmapTextIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoadmapTextOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Achievement": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "SAT",
+              "IELTS",
+              "TOEFL",
+              "OLYMPIAD",
+              "PROJECT",
+              "VOLUNTEER",
+              "COMPETITION",
+              "OTHER"
+            ],
+            "title": "Type"
+          },
+          "score": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Score"
+          },
+          "title": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Title"
+          },
+          "level": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "school",
+                  "city",
+                  "national",
+                  "international"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Level"
+          },
+          "date": {
+            "type": "string",
+            "format": "date",
+            "title": "Date"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "done",
+              "planned"
+            ],
+            "title": "Status"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "type",
+          "date",
+          "status"
+        ],
+        "title": "Achievement"
+      },
+      "AchievementIn": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "SAT",
+              "IELTS",
+              "TOEFL",
+              "OLYMPIAD",
+              "PROJECT",
+              "VOLUNTEER",
+              "COMPETITION",
+              "OTHER"
+            ],
+            "title": "Type"
+          },
+          "score": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Score"
+          },
+          "title": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Title"
+          },
+          "level": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "school",
+                  "city",
+                  "national",
+                  "international"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Level"
+          },
+          "date": {
+            "type": "string",
+            "format": "date",
+            "title": "Date"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "done",
+              "planned"
+            ],
+            "title": "Status",
+            "default": "done"
+          }
+        },
+        "type": "object",
+        "required": [
+          "type",
+          "date"
+        ],
+        "title": "AchievementIn"
+      },
+      "AchievementPatch": {
+        "properties": {
+          "type": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "SAT",
+                  "IELTS",
+                  "TOEFL",
+                  "OLYMPIAD",
+                  "PROJECT",
+                  "VOLUNTEER",
+                  "COMPETITION",
+                  "OTHER"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Type"
+          },
+          "score": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Score"
+          },
+          "title": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Title"
+          },
+          "level": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "school",
+                  "city",
+                  "national",
+                  "international"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Level"
+          },
+          "date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Date"
+          },
+          "status": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "done",
+                  "planned"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Status"
+          }
+        },
+        "type": "object",
+        "title": "AchievementPatch"
+      },
+      "ChanceChange": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "from": {
+            "type": "string",
+            "enum": [
+              "low",
+              "medium",
+              "high"
+            ],
+            "title": "From"
+          },
+          "to": {
+            "type": "string",
+            "enum": [
+              "low",
+              "medium",
+              "high"
+            ],
+            "title": "To"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "from",
+          "to"
+        ],
+        "title": "ChanceChange"
+      },
+      "ChancePoint": {
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date",
+            "title": "Date"
+          },
+          "chance_by_uni": {
+            "additionalProperties": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "low",
+                    "medium",
+                    "high"
+                  ]
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "type": "object",
+            "title": "Chance By Uni"
+          },
+          "achievement_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Achievement Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "date",
+          "chance_by_uni",
+          "achievement_id"
+        ],
+        "title": "ChancePoint"
+      },
+      "ComputeResponse": {
+        "properties": {
+          "result": {
+            "$ref": "#/components/schemas/RecommendationResult"
+          },
+          "roadmap": {
+            "$ref": "#/components/schemas/Roadmap"
+          },
+          "diff": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Diff"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "result",
+          "roadmap",
+          "diff"
+        ],
+        "title": "ComputeResponse"
+      },
+      "Conflict": {
+        "properties": {
+          "step_id": {
+            "type": "string",
+            "title": "Step Id"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message"
+          }
+        },
+        "type": "object",
+        "required": [
+          "step_id",
+          "message"
+        ],
+        "title": "Conflict"
+      },
+      "Deadline": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "ED",
+              "EA",
+              "REA",
+              "RD",
+              "UCAS",
+              "OTHER"
+            ],
+            "title": "Type"
+          },
+          "date": {
+            "type": "string",
+            "format": "date",
+            "title": "Date"
+          }
+        },
+        "type": "object",
+        "required": [
+          "type",
+          "date"
+        ],
+        "title": "Deadline"
+      },
+      "Diff": {
+        "properties": {
+          "added": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Added"
+          },
+          "removed": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Removed"
+          },
+          "tier_changed": {
+            "items": {
+              "$ref": "#/components/schemas/TierChange"
+            },
+            "type": "array",
+            "title": "Tier Changed"
+          },
+          "chance_changed": {
+            "items": {
+              "$ref": "#/components/schemas/ChanceChange"
+            },
+            "type": "array",
+            "title": "Chance Changed"
+          },
+          "gaps_closed": {
+            "items": {
+              "$ref": "#/components/schemas/GapClosed"
+            },
+            "type": "array",
+            "title": "Gaps Closed"
+          },
+          "roadmap_added": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Roadmap Added"
+          },
+          "roadmap_removed": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Roadmap Removed"
+          },
+          "cause": {
+            "type": "string",
+            "title": "Cause"
+          }
+        },
+        "type": "object",
+        "required": [
+          "added",
+          "removed",
+          "tier_changed",
+          "chance_changed",
+          "gaps_closed",
+          "roadmap_added",
+          "roadmap_removed",
+          "cause"
+        ],
+        "title": "Diff"
+      },
+      "Excluded": {
+        "properties": {
+          "university_id": {
+            "type": "string",
+            "title": "University Id"
+          },
+          "reasons": {
+            "items": {
+              "$ref": "#/components/schemas/Reason"
+            },
+            "type": "array",
+            "title": "Reasons"
+          }
+        },
+        "type": "object",
+        "required": [
+          "university_id",
+          "reasons"
+        ],
+        "title": "Excluded"
+      },
+      "ExplainIn": {
+        "properties": {
+          "university_id": {
+            "type": "string",
+            "title": "University Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "university_id"
+        ],
+        "title": "ExplainIn"
+      },
+      "ExplainOut": {
+        "properties": {
+          "university_id": {
+            "type": "string",
+            "title": "University Id"
+          },
+          "summary": {
+            "type": "string",
+            "maxLength": 500,
+            "title": "Summary"
+          },
+          "generated": {
+            "type": "boolean",
+            "title": "Generated",
+            "default": false
+          }
+        },
+        "type": "object",
+        "required": [
+          "university_id",
+          "summary"
+        ],
+        "title": "ExplainOut"
+      },
+      "GapClosed": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "code": {
+            "type": "string",
+            "title": "Code"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "code"
+        ],
+        "title": "GapClosed"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "LatestChanges": {
+        "properties": {
+          "diff": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Diff"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "cause": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cause"
+          },
+          "at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "diff",
+          "cause",
+          "at"
+        ],
+        "title": "LatestChanges"
+      },
+      "Major": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "name_ru": {
+            "type": "string",
+            "title": "Name Ru"
+          },
+          "name_en": {
+            "type": "string",
+            "title": "Name En"
+          },
+          "cip_codes": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Cip Codes",
+            "default": []
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name_ru",
+          "name_en"
+        ],
+        "title": "Major"
+      },
+      "PassportItem": {
+        "properties": {
+          "text": {
+            "type": "string",
+            "maxLength": 240,
+            "title": "Text"
+          },
+          "profile_field": {
+            "type": "string",
+            "title": "Profile Field"
+          }
+        },
+        "type": "object",
+        "required": [
+          "text",
+          "profile_field"
+        ],
+        "title": "PassportItem"
+      },
+      "PassportOut": {
+        "properties": {
+          "goal": {
+            "$ref": "#/components/schemas/PassportItem"
+          },
+          "strengths": {
+            "items": {
+              "$ref": "#/components/schemas/PassportItem"
+            },
+            "type": "array",
+            "maxItems": 3,
+            "minItems": 1,
+            "title": "Strengths"
+          },
+          "constraints": {
+            "items": {
+              "$ref": "#/components/schemas/PassportItem"
+            },
+            "type": "array",
+            "maxItems": 2,
+            "minItems": 1,
+            "title": "Constraints"
+          },
+          "risk": {
+            "$ref": "#/components/schemas/PassportItem"
+          },
+          "generated": {
+            "type": "boolean",
+            "title": "Generated",
+            "default": false
+          }
+        },
+        "type": "object",
+        "required": [
+          "goal",
+          "strengths",
+          "constraints",
+          "risk"
+        ],
+        "title": "PassportOut"
+      },
+      "PreviewIn": {
+        "properties": {
+          "profile": {
+            "$ref": "#/components/schemas/Profile"
+          },
+          "priorities_override": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Priorities"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "profile"
+        ],
+        "title": "PreviewIn"
+      },
+      "Priorities": {
+        "properties": {
+          "cost": {
+            "type": "number",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Cost",
+            "default": 0.5
+          },
+          "prestige": {
+            "type": "number",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Prestige",
+            "default": 0.5
+          },
+          "location": {
+            "type": "number",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Location",
+            "default": 0.5
+          },
+          "aid": {
+            "type": "number",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Aid",
+            "default": 0.5
+          }
+        },
+        "type": "object",
+        "title": "Priorities"
+      },
+      "Profile": {
+        "properties": {
+          "grade": {
+            "type": "integer",
+            "enum": [
+              10,
+              11,
+              12
+            ],
+            "title": "Grade"
+          },
+          "gpa5": {
+            "type": "number",
+            "maximum": 5.0,
+            "minimum": 2.0,
+            "title": "Gpa5"
+          },
+          "majors": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "maxItems": 3,
+            "minItems": 1,
+            "title": "Majors"
+          },
+          "countries": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "minItems": 1,
+            "title": "Countries"
+          },
+          "budget_per_year_usd": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Budget Per Year Usd"
+          },
+          "needs_aid": {
+            "type": "boolean",
+            "title": "Needs Aid"
+          },
+          "intake_year": {
+            "type": "integer",
+            "title": "Intake Year"
+          },
+          "priorities": {
+            "$ref": "#/components/schemas/Priorities"
+          },
+          "achievements": {
+            "items": {
+              "$ref": "#/components/schemas/Achievement"
+            },
+            "type": "array",
+            "title": "Achievements",
+            "default": []
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "grade",
+          "gpa5",
+          "majors",
+          "countries",
+          "budget_per_year_usd",
+          "needs_aid",
+          "intake_year",
+          "priorities",
+          "created_at"
+        ],
+        "title": "Profile"
+      },
+      "ProfileIn": {
+        "properties": {
+          "grade": {
+            "type": "integer",
+            "enum": [
+              10,
+              11,
+              12
+            ],
+            "title": "Grade"
+          },
+          "gpa5": {
+            "type": "number",
+            "maximum": 5.0,
+            "minimum": 2.0,
+            "title": "Gpa5"
+          },
+          "majors": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "maxItems": 3,
+            "minItems": 1,
+            "title": "Majors"
+          },
+          "countries": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "minItems": 1,
+            "title": "Countries"
+          },
+          "budget_per_year_usd": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Budget Per Year Usd"
+          },
+          "needs_aid": {
+            "type": "boolean",
+            "title": "Needs Aid"
+          },
+          "intake_year": {
+            "type": "integer",
+            "title": "Intake Year"
+          },
+          "priorities": {
+            "$ref": "#/components/schemas/Priorities"
+          },
+          "initial_achievements": {
+            "items": {
+              "$ref": "#/components/schemas/AchievementIn"
+            },
+            "type": "array",
+            "title": "Initial Achievements",
+            "default": []
+          }
+        },
+        "type": "object",
+        "required": [
+          "grade",
+          "gpa5",
+          "majors",
+          "countries",
+          "budget_per_year_usd",
+          "needs_aid",
+          "intake_year",
+          "priorities"
+        ],
+        "title": "ProfileIn",
+        "description": "Profile body for PUT /me/profile. Achievements are managed separately, but\nonboarding may send initial ones (without ids)."
+      },
+      "Reason": {
+        "properties": {
+          "kind": {
+            "type": "string",
+            "enum": [
+              "plus",
+              "risk",
+              "blocker"
+            ],
+            "title": "Kind"
+          },
+          "code": {
+            "type": "string",
+            "title": "Code"
+          },
+          "text": {
+            "type": "string",
+            "title": "Text"
+          },
+          "profile_field": {
+            "type": "string",
+            "title": "Profile Field"
+          },
+          "gap": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Gap"
+          }
+        },
+        "type": "object",
+        "required": [
+          "kind",
+          "code",
+          "text",
+          "profile_field"
+        ],
+        "title": "Reason"
+      },
+      "Recommendation": {
+        "properties": {
+          "university_id": {
+            "type": "string",
+            "title": "University Id"
+          },
+          "tier": {
+            "type": "string",
+            "enum": [
+              "dream",
+              "target",
+              "safety"
+            ],
+            "title": "Tier"
+          },
+          "chance": {
+            "type": "string",
+            "enum": [
+              "low",
+              "medium",
+              "high"
+            ],
+            "title": "Chance"
+          },
+          "score": {
+            "type": "number",
+            "title": "Score"
+          },
+          "reasons": {
+            "items": {
+              "$ref": "#/components/schemas/Reason"
+            },
+            "type": "array",
+            "title": "Reasons"
+          }
+        },
+        "type": "object",
+        "required": [
+          "university_id",
+          "tier",
+          "chance",
+          "score",
+          "reasons"
+        ],
+        "title": "Recommendation"
+      },
+      "RecommendationResult": {
+        "properties": {
+          "recs": {
+            "items": {
+              "$ref": "#/components/schemas/Recommendation"
+            },
+            "type": "array",
+            "title": "Recs"
+          },
+          "excluded": {
+            "items": {
+              "$ref": "#/components/schemas/Excluded"
+            },
+            "type": "array",
+            "title": "Excluded"
+          },
+          "suggestions": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Suggestions"
+          },
+          "computed_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Computed At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "recs",
+          "excluded",
+          "suggestions",
+          "computed_at"
+        ],
+        "title": "RecommendationResult"
+      },
+      "Roadmap": {
+        "properties": {
+          "steps": {
+            "items": {
+              "$ref": "#/components/schemas/RoadmapStep"
+            },
+            "type": "array",
+            "title": "Steps"
+          },
+          "conflicts": {
+            "items": {
+              "$ref": "#/components/schemas/Conflict"
+            },
+            "type": "array",
+            "title": "Conflicts"
+          },
+          "next_step_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Next Step Id"
+          },
+          "progress": {
+            "type": "number",
+            "title": "Progress"
+          }
+        },
+        "type": "object",
+        "required": [
+          "steps",
+          "conflicts",
+          "next_step_id",
+          "progress"
+        ],
+        "title": "Roadmap"
+      },
+      "RoadmapStep": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "exam",
+              "document",
+              "academic",
+              "activity",
+              "application"
+            ],
+            "title": "Kind"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "due_date": {
+            "type": "string",
+            "format": "date",
+            "title": "Due Date"
+          },
+          "depends_on": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Depends On"
+          },
+          "university_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "University Ids"
+          },
+          "source_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source Url"
+          },
+          "is_demo": {
+            "type": "boolean",
+            "title": "Is Demo"
+          },
+          "done": {
+            "type": "boolean",
+            "title": "Done"
+          },
+          "priority": {
+            "type": "integer",
+            "title": "Priority"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "kind",
+          "title",
+          "due_date",
+          "depends_on",
+          "university_ids",
+          "is_demo",
+          "done",
+          "priority"
+        ],
+        "title": "RoadmapStep"
+      },
+      "RoadmapTextIn": {
+        "properties": {
+          "step_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "maxItems": 40,
+            "title": "Step Ids"
+          }
+        },
+        "type": "object",
+        "required": [
+          "step_ids"
+        ],
+        "title": "RoadmapTextIn"
+      },
+      "RoadmapTextOut": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/StepText"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "generated": {
+            "type": "boolean",
+            "title": "Generated",
+            "default": false
+          }
+        },
+        "type": "object",
+        "required": [
+          "items"
+        ],
+        "title": "RoadmapTextOut"
+      },
+      "SatRange": {
+        "properties": {
+          "p25": {
+            "type": "integer",
+            "title": "P25"
+          },
+          "p50": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "P50"
+          },
+          "p75": {
+            "type": "integer",
+            "title": "P75"
+          }
+        },
+        "type": "object",
+        "required": [
+          "p25",
+          "p75"
+        ],
+        "title": "SatRange"
+      },
+      "Sourced_Deadline_": {
+        "properties": {
+          "value": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Deadline"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "source_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source Url"
+          },
+          "checked_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Checked At"
+          },
+          "evidence": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Evidence"
+          },
+          "is_demo": {
+            "type": "boolean",
+            "title": "Is Demo",
+            "default": true
+          }
+        },
+        "type": "object",
+        "required": [
+          "value"
+        ],
+        "title": "Sourced[Deadline]"
+      },
+      "Sourced_Literal__full_need____partial____merit_only____none___": {
+        "properties": {
+          "value": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "full_need",
+                  "partial",
+                  "merit_only",
+                  "none"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Value"
+          },
+          "source_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source Url"
+          },
+          "checked_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Checked At"
+          },
+          "evidence": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Evidence"
+          },
+          "is_demo": {
+            "type": "boolean",
+            "title": "Is Demo",
+            "default": true
+          }
+        },
+        "type": "object",
+        "required": [
+          "value"
+        ],
+        "title": "Sourced[Literal['full_need', 'partial', 'merit_only', 'none']]"
+      },
+      "Sourced_SatRange_": {
+        "properties": {
+          "value": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/SatRange"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "source_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source Url"
+          },
+          "checked_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Checked At"
+          },
+          "evidence": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Evidence"
+          },
+          "is_demo": {
+            "type": "boolean",
+            "title": "Is Demo",
+            "default": true
+          }
+        },
+        "type": "object",
+        "required": [
+          "value"
+        ],
+        "title": "Sourced[SatRange]"
+      },
+      "Sourced_float_": {
+        "properties": {
+          "value": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Value"
+          },
+          "source_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source Url"
+          },
+          "checked_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Checked At"
+          },
+          "evidence": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Evidence"
+          },
+          "is_demo": {
+            "type": "boolean",
+            "title": "Is Demo",
+            "default": true
+          }
+        },
+        "type": "object",
+        "required": [
+          "value"
+        ],
+        "title": "Sourced[float]"
+      },
+      "Sourced_int_": {
+        "properties": {
+          "value": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Value"
+          },
+          "source_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source Url"
+          },
+          "checked_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Checked At"
+          },
+          "evidence": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Evidence"
+          },
+          "is_demo": {
+            "type": "boolean",
+            "title": "Is Demo",
+            "default": true
+          }
+        },
+        "type": "object",
+        "required": [
+          "value"
+        ],
+        "title": "Sourced[int]"
+      },
+      "StepPatch": {
+        "properties": {
+          "done": {
+            "type": "boolean",
+            "title": "Done"
+          }
+        },
+        "type": "object",
+        "required": [
+          "done"
+        ],
+        "title": "StepPatch"
+      },
+      "StepText": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 400,
+            "title": "Description"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "description"
+        ],
+        "title": "StepText"
+      },
+      "TierChange": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "from": {
+            "type": "string",
+            "enum": [
+              "dream",
+              "target",
+              "safety"
+            ],
+            "title": "From"
+          },
+          "to": {
+            "type": "string",
+            "enum": [
+              "dream",
+              "target",
+              "safety"
+            ],
+            "title": "To"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "from",
+          "to"
+        ],
+        "title": "TierChange"
+      },
+      "University": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "country": {
+            "type": "string",
+            "title": "Country"
+          },
+          "city": {
+            "type": "string",
+            "title": "City"
+          },
+          "website": {
+            "type": "string",
+            "title": "Website"
+          },
+          "majors": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Majors"
+          },
+          "acceptance_rate": {
+            "$ref": "#/components/schemas/Sourced_float_"
+          },
+          "sat": {
+            "$ref": "#/components/schemas/Sourced_SatRange_"
+          },
+          "gpa_avg": {
+            "$ref": "#/components/schemas/Sourced_float_"
+          },
+          "ielts_min": {
+            "$ref": "#/components/schemas/Sourced_float_"
+          },
+          "cost_per_year_usd": {
+            "$ref": "#/components/schemas/Sourced_int_"
+          },
+          "intl_aid": {
+            "$ref": "#/components/schemas/Sourced_Literal__full_need____partial____merit_only____none___"
+          },
+          "deadlines": {
+            "items": {
+              "$ref": "#/components/schemas/Sourced_Deadline_"
+            },
+            "type": "array",
+            "title": "Deadlines"
+          },
+          "extra_requirements": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Extra Requirements",
+            "default": []
+          },
+          "documents": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Documents",
+            "default": []
+          },
+          "world_rank": {
+            "type": "integer",
+            "title": "World Rank"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "country",
+          "city",
+          "website",
+          "majors",
+          "acceptance_rate",
+          "sat",
+          "gpa_avg",
+          "ielts_min",
+          "cost_per_year_usd",
+          "intl_aid",
+          "deadlines",
+          "world_rank"
+        ],
+        "title": "University"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    }
+  }
+}

@@ -1,0 +1,3531 @@
+[
+  {
+    "id": "mit",
+    "name": "Massachusetts Institute of Technology",
+    "country": "US",
+    "city": "Cambridge, MA",
+    "website": "https://mitadmissions.org",
+    "majors": [
+      "cs",
+      "engineering",
+      "math",
+      "physics",
+      "economics",
+      "biology"
+    ],
+    "acceptance_rate": {
+      "value": 0.045,
+      "source_url": "https://mitadmissions.org",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "sat": {
+      "value": {
+        "p25": 1520,
+        "p50": null,
+        "p75": 1580
+      },
+      "source_url": "https://mitadmissions.org",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "gpa_avg": {
+      "value": null,
+      "source_url": "https://mitadmissions.org",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "ielts_min": {
+      "value": 7.0,
+      "source_url": "https://mitadmissions.org",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "cost_per_year_usd": {
+      "value": 86000,
+      "source_url": "https://mitadmissions.org",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "intl_aid": {
+      "value": "full_need",
+      "source_url": "https://mitadmissions.org",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "EA",
+          "date": "2026-11-01"
+        },
+        "source_url": "https://mitadmissions.org",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      },
+      {
+        "value": {
+          "type": "RD",
+          "date": "2027-01-05"
+        },
+        "source_url": "https://mitadmissions.org",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      }
+    ],
+    "extra_requirements": [],
+    "documents": [
+      "transcript",
+      "essay",
+      "recommendations",
+      "financial_docs",
+      "passport"
+    ],
+    "world_rank": 1
+  },
+  {
+    "id": "harvard",
+    "name": "Harvard University",
+    "country": "US",
+    "city": "Cambridge, MA",
+    "website": "https://college.harvard.edu/admissions",
+    "majors": [
+      "cs",
+      "economics",
+      "math",
+      "physics",
+      "biology",
+      "social_sciences"
+    ],
+    "acceptance_rate": {
+      "value": 0.035,
+      "source_url": "https://college.harvard.edu/admissions",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "sat": {
+      "value": {
+        "p25": 1500,
+        "p50": null,
+        "p75": 1580
+      },
+      "source_url": "https://college.harvard.edu/admissions",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "gpa_avg": {
+      "value": null,
+      "source_url": "https://college.harvard.edu/admissions",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "ielts_min": {
+      "value": null,
+      "source_url": "https://college.harvard.edu/admissions",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "cost_per_year_usd": {
+      "value": 87000,
+      "source_url": "https://college.harvard.edu/admissions",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "intl_aid": {
+      "value": "full_need",
+      "source_url": "https://college.harvard.edu/admissions",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "REA",
+          "date": "2026-11-01"
+        },
+        "source_url": "https://college.harvard.edu/admissions",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      },
+      {
+        "value": {
+          "type": "RD",
+          "date": "2027-01-01"
+        },
+        "source_url": "https://college.harvard.edu/admissions",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      }
+    ],
+    "extra_requirements": [
+      "Интервью с выпускником (по возможности)"
+    ],
+    "documents": [
+      "transcript",
+      "essay",
+      "recommendations",
+      "financial_docs",
+      "passport"
+    ],
+    "world_rank": 4
+  },
+  {
+    "id": "stanford",
+    "name": "Stanford University",
+    "country": "US",
+    "city": "Stanford, CA",
+    "website": "https://admission.stanford.edu",
+    "majors": [
+      "cs",
+      "engineering",
+      "economics",
+      "math",
+      "physics",
+      "biology",
+      "design"
+    ],
+    "acceptance_rate": {
+      "value": 0.037,
+      "source_url": "https://admission.stanford.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "sat": {
+      "value": {
+        "p25": 1500,
+        "p50": null,
+        "p75": 1580
+      },
+      "source_url": "https://admission.stanford.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "gpa_avg": {
+      "value": null,
+      "source_url": "https://admission.stanford.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "ielts_min": {
+      "value": null,
+      "source_url": "https://admission.stanford.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "cost_per_year_usd": {
+      "value": 89000,
+      "source_url": "https://admission.stanford.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "intl_aid": {
+      "value": "full_need",
+      "source_url": "https://admission.stanford.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "REA",
+          "date": "2026-11-01"
+        },
+        "source_url": "https://admission.stanford.edu",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      },
+      {
+        "value": {
+          "type": "RD",
+          "date": "2027-01-05"
+        },
+        "source_url": "https://admission.stanford.edu",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      }
+    ],
+    "extra_requirements": [],
+    "documents": [
+      "transcript",
+      "essay",
+      "recommendations",
+      "financial_docs",
+      "passport"
+    ],
+    "world_rank": 6
+  },
+  {
+    "id": "princeton",
+    "name": "Princeton University",
+    "country": "US",
+    "city": "Princeton, NJ",
+    "website": "https://admission.princeton.edu",
+    "majors": [
+      "cs",
+      "engineering",
+      "economics",
+      "math",
+      "physics"
+    ],
+    "acceptance_rate": {
+      "value": 0.045,
+      "source_url": "https://admission.princeton.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "sat": {
+      "value": {
+        "p25": 1510,
+        "p50": null,
+        "p75": 1580
+      },
+      "source_url": "https://admission.princeton.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "gpa_avg": {
+      "value": 3.9,
+      "source_url": "https://admission.princeton.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "ielts_min": {
+      "value": null,
+      "source_url": "https://admission.princeton.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "cost_per_year_usd": {
+      "value": 83000,
+      "source_url": "https://admission.princeton.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "intl_aid": {
+      "value": "full_need",
+      "source_url": "https://admission.princeton.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "REA",
+          "date": "2026-11-01"
+        },
+        "source_url": "https://admission.princeton.edu",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      },
+      {
+        "value": {
+          "type": "RD",
+          "date": "2027-01-01"
+        },
+        "source_url": "https://admission.princeton.edu",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      }
+    ],
+    "extra_requirements": [],
+    "documents": [
+      "transcript",
+      "essay",
+      "recommendations",
+      "financial_docs",
+      "passport"
+    ],
+    "world_rank": 22
+  },
+  {
+    "id": "yale",
+    "name": "Yale University",
+    "country": "US",
+    "city": "New Haven, CT",
+    "website": "https://admissions.yale.edu",
+    "majors": [
+      "cs",
+      "economics",
+      "math",
+      "physics",
+      "biology",
+      "social_sciences"
+    ],
+    "acceptance_rate": {
+      "value": 0.046,
+      "source_url": "https://admissions.yale.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "sat": {
+      "value": {
+        "p25": 1500,
+        "p50": null,
+        "p75": 1580
+      },
+      "source_url": "https://admissions.yale.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "gpa_avg": {
+      "value": null,
+      "source_url": "https://admissions.yale.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "ielts_min": {
+      "value": null,
+      "source_url": "https://admissions.yale.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "cost_per_year_usd": {
+      "value": 88000,
+      "source_url": "https://admissions.yale.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "intl_aid": {
+      "value": "full_need",
+      "source_url": "https://admissions.yale.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "REA",
+          "date": "2026-11-01"
+        },
+        "source_url": "https://admissions.yale.edu",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      },
+      {
+        "value": {
+          "type": "RD",
+          "date": "2027-01-02"
+        },
+        "source_url": "https://admissions.yale.edu",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      }
+    ],
+    "extra_requirements": [],
+    "documents": [
+      "transcript",
+      "essay",
+      "recommendations",
+      "financial_docs",
+      "passport"
+    ],
+    "world_rank": 23
+  },
+  {
+    "id": "upenn",
+    "name": "University of Pennsylvania",
+    "country": "US",
+    "city": "Philadelphia, PA",
+    "website": "https://admissions.upenn.edu",
+    "majors": [
+      "business",
+      "economics",
+      "cs",
+      "engineering",
+      "biology"
+    ],
+    "acceptance_rate": {
+      "value": 0.059,
+      "source_url": "https://admissions.upenn.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "sat": {
+      "value": {
+        "p25": 1500,
+        "p50": null,
+        "p75": 1570
+      },
+      "source_url": "https://admissions.upenn.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "gpa_avg": {
+      "value": 3.9,
+      "source_url": "https://admissions.upenn.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "ielts_min": {
+      "value": 7.0,
+      "source_url": "https://admissions.upenn.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "cost_per_year_usd": {
+      "value": 90000,
+      "source_url": "https://admissions.upenn.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "intl_aid": {
+      "value": "partial",
+      "source_url": "https://admissions.upenn.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "ED",
+          "date": "2026-11-01"
+        },
+        "source_url": "https://admissions.upenn.edu",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      },
+      {
+        "value": {
+          "type": "RD",
+          "date": "2027-01-05"
+        },
+        "source_url": "https://admissions.upenn.edu",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      }
+    ],
+    "extra_requirements": [],
+    "documents": [
+      "transcript",
+      "essay",
+      "recommendations",
+      "financial_docs",
+      "passport"
+    ],
+    "world_rank": 11
+  },
+  {
+    "id": "columbia",
+    "name": "Columbia University",
+    "country": "US",
+    "city": "New York, NY",
+    "website": "https://undergrad.admissions.columbia.edu",
+    "majors": [
+      "cs",
+      "engineering",
+      "economics",
+      "math",
+      "social_sciences"
+    ],
+    "acceptance_rate": {
+      "value": 0.039,
+      "source_url": "https://undergrad.admissions.columbia.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "sat": {
+      "value": {
+        "p25": 1500,
+        "p50": null,
+        "p75": 1570
+      },
+      "source_url": "https://undergrad.admissions.columbia.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "gpa_avg": {
+      "value": null,
+      "source_url": "https://undergrad.admissions.columbia.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "ielts_min": {
+      "value": null,
+      "source_url": "https://undergrad.admissions.columbia.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "cost_per_year_usd": {
+      "value": 91000,
+      "source_url": "https://undergrad.admissions.columbia.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "intl_aid": {
+      "value": "full_need",
+      "source_url": "https://undergrad.admissions.columbia.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "ED",
+          "date": "2026-11-01"
+        },
+        "source_url": "https://undergrad.admissions.columbia.edu",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      },
+      {
+        "value": {
+          "type": "RD",
+          "date": "2027-01-01"
+        },
+        "source_url": "https://undergrad.admissions.columbia.edu",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      }
+    ],
+    "extra_requirements": [],
+    "documents": [
+      "transcript",
+      "essay",
+      "recommendations",
+      "financial_docs",
+      "passport"
+    ],
+    "world_rank": 34
+  },
+  {
+    "id": "cornell",
+    "name": "Cornell University",
+    "country": "US",
+    "city": "Ithaca, NY",
+    "website": "https://admissions.cornell.edu",
+    "majors": [
+      "cs",
+      "engineering",
+      "business",
+      "economics",
+      "biology",
+      "design"
+    ],
+    "acceptance_rate": {
+      "value": 0.079,
+      "source_url": "https://admissions.cornell.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "sat": {
+      "value": {
+        "p25": 1480,
+        "p50": null,
+        "p75": 1560
+      },
+      "source_url": "https://admissions.cornell.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "gpa_avg": {
+      "value": null,
+      "source_url": "https://admissions.cornell.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "ielts_min": {
+      "value": 7.0,
+      "source_url": "https://admissions.cornell.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "cost_per_year_usd": {
+      "value": 90000,
+      "source_url": "https://admissions.cornell.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "intl_aid": {
+      "value": "partial",
+      "source_url": "https://admissions.cornell.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "ED",
+          "date": "2026-11-01"
+        },
+        "source_url": "https://admissions.cornell.edu",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      },
+      {
+        "value": {
+          "type": "RD",
+          "date": "2027-01-02"
+        },
+        "source_url": "https://admissions.cornell.edu",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      }
+    ],
+    "extra_requirements": [],
+    "documents": [
+      "transcript",
+      "essay",
+      "recommendations",
+      "financial_docs",
+      "passport"
+    ],
+    "world_rank": 16
+  },
+  {
+    "id": "uchicago",
+    "name": "University of Chicago",
+    "country": "US",
+    "city": "Chicago, IL",
+    "website": "https://collegeadmissions.uchicago.edu",
+    "majors": [
+      "economics",
+      "math",
+      "physics",
+      "cs",
+      "biology",
+      "social_sciences"
+    ],
+    "acceptance_rate": {
+      "value": 0.05,
+      "source_url": "https://collegeadmissions.uchicago.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "sat": {
+      "value": {
+        "p25": 1510,
+        "p50": null,
+        "p75": 1580
+      },
+      "source_url": "https://collegeadmissions.uchicago.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "gpa_avg": {
+      "value": null,
+      "source_url": "https://collegeadmissions.uchicago.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "ielts_min": {
+      "value": 7.0,
+      "source_url": "https://collegeadmissions.uchicago.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "cost_per_year_usd": {
+      "value": 93000,
+      "source_url": "https://collegeadmissions.uchicago.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "intl_aid": {
+      "value": "partial",
+      "source_url": "https://collegeadmissions.uchicago.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "ED",
+          "date": "2026-11-01"
+        },
+        "source_url": "https://collegeadmissions.uchicago.edu",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      },
+      {
+        "value": {
+          "type": "EA",
+          "date": "2026-11-01"
+        },
+        "source_url": "https://collegeadmissions.uchicago.edu",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      },
+      {
+        "value": {
+          "type": "RD",
+          "date": "2027-01-06"
+        },
+        "source_url": "https://collegeadmissions.uchicago.edu",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      }
+    ],
+    "extra_requirements": [],
+    "documents": [
+      "transcript",
+      "essay",
+      "recommendations",
+      "financial_docs",
+      "passport"
+    ],
+    "world_rank": 21
+  },
+  {
+    "id": "nyu",
+    "name": "New York University",
+    "country": "US",
+    "city": "New York, NY",
+    "website": "https://www.nyu.edu/admissions",
+    "majors": [
+      "business",
+      "economics",
+      "cs",
+      "design",
+      "social_sciences"
+    ],
+    "acceptance_rate": {
+      "value": 0.08,
+      "source_url": "https://www.nyu.edu/admissions",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "sat": {
+      "value": {
+        "p25": 1470,
+        "p50": null,
+        "p75": 1570
+      },
+      "source_url": "https://www.nyu.edu/admissions",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "gpa_avg": {
+      "value": null,
+      "source_url": "https://www.nyu.edu/admissions",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "ielts_min": {
+      "value": 7.5,
+      "source_url": "https://www.nyu.edu/admissions",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "cost_per_year_usd": {
+      "value": 92000,
+      "source_url": "https://www.nyu.edu/admissions",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "intl_aid": {
+      "value": "partial",
+      "source_url": "https://www.nyu.edu/admissions",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "ED",
+          "date": "2026-11-01"
+        },
+        "source_url": "https://www.nyu.edu/admissions",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      },
+      {
+        "value": {
+          "type": "RD",
+          "date": "2027-01-05"
+        },
+        "source_url": "https://www.nyu.edu/admissions",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      }
+    ],
+    "extra_requirements": [],
+    "documents": [
+      "transcript",
+      "essay",
+      "recommendations",
+      "financial_docs",
+      "passport"
+    ],
+    "world_rank": 43
+  },
+  {
+    "id": "umich",
+    "name": "University of Michigan",
+    "country": "US",
+    "city": "Ann Arbor, MI",
+    "website": "https://admissions.umich.edu",
+    "majors": [
+      "cs",
+      "engineering",
+      "business",
+      "economics",
+      "math",
+      "biology"
+    ],
+    "acceptance_rate": {
+      "value": 0.18,
+      "source_url": "https://admissions.umich.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "sat": {
+      "value": {
+        "p25": 1460,
+        "p50": null,
+        "p75": 1560
+      },
+      "source_url": "https://admissions.umich.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "gpa_avg": {
+      "value": 3.9,
+      "source_url": "https://admissions.umich.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "ielts_min": {
+      "value": 6.5,
+      "source_url": "https://admissions.umich.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "cost_per_year_usd": {
+      "value": 83000,
+      "source_url": "https://admissions.umich.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "intl_aid": {
+      "value": "merit_only",
+      "source_url": "https://admissions.umich.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "EA",
+          "date": "2026-11-01"
+        },
+        "source_url": "https://admissions.umich.edu",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      },
+      {
+        "value": {
+          "type": "RD",
+          "date": "2027-02-01"
+        },
+        "source_url": "https://admissions.umich.edu",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      }
+    ],
+    "extra_requirements": [],
+    "documents": [
+      "transcript",
+      "essay",
+      "recommendations",
+      "financial_docs",
+      "passport"
+    ],
+    "world_rank": 44
+  },
+  {
+    "id": "ucla",
+    "name": "University of California, Los Angeles",
+    "country": "US",
+    "city": "Los Angeles, CA",
+    "website": "https://admission.ucla.edu",
+    "majors": [
+      "cs",
+      "engineering",
+      "economics",
+      "biology",
+      "design",
+      "social_sciences"
+    ],
+    "acceptance_rate": {
+      "value": 0.09,
+      "source_url": "https://admission.ucla.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "sat": {
+      "value": null,
+      "source_url": "https://admission.ucla.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "gpa_avg": {
+      "value": 3.9,
+      "source_url": "https://admission.ucla.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "ielts_min": {
+      "value": 7.0,
+      "source_url": "https://admission.ucla.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "cost_per_year_usd": {
+      "value": 72000,
+      "source_url": "https://admission.ucla.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "intl_aid": {
+      "value": "none",
+      "source_url": "https://admission.ucla.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "OTHER",
+          "date": "2026-11-30"
+        },
+        "source_url": "https://admission.ucla.edu",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      }
+    ],
+    "extra_requirements": [
+      "Personal Insight Questions (4 ответа)"
+    ],
+    "documents": [
+      "transcript",
+      "essay",
+      "passport"
+    ],
+    "world_rank": 42
+  },
+  {
+    "id": "gatech",
+    "name": "Georgia Institute of Technology",
+    "country": "US",
+    "city": "Atlanta, GA",
+    "website": "https://admission.gatech.edu",
+    "majors": [
+      "cs",
+      "engineering",
+      "math",
+      "physics",
+      "business"
+    ],
+    "acceptance_rate": {
+      "value": 0.17,
+      "source_url": "https://admission.gatech.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "sat": {
+      "value": {
+        "p25": 1370,
+        "p50": null,
+        "p75": 1530
+      },
+      "source_url": "https://admission.gatech.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "gpa_avg": {
+      "value": null,
+      "source_url": "https://admission.gatech.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "ielts_min": {
+      "value": 6.5,
+      "source_url": "https://admission.gatech.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "cost_per_year_usd": {
+      "value": 55000,
+      "source_url": "https://admission.gatech.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "intl_aid": {
+      "value": "none",
+      "source_url": "https://admission.gatech.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "EA",
+          "date": "2026-10-15"
+        },
+        "source_url": "https://admission.gatech.edu",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      },
+      {
+        "value": {
+          "type": "RD",
+          "date": "2027-01-06"
+        },
+        "source_url": "https://admission.gatech.edu",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      }
+    ],
+    "extra_requirements": [],
+    "documents": [
+      "transcript",
+      "essay",
+      "recommendations",
+      "financial_docs",
+      "passport"
+    ],
+    "world_rank": 114
+  },
+  {
+    "id": "boston_u",
+    "name": "Boston University",
+    "country": "US",
+    "city": "Boston, MA",
+    "website": "https://www.bu.edu/admissions",
+    "majors": [
+      "cs",
+      "engineering",
+      "business",
+      "economics",
+      "biology",
+      "social_sciences"
+    ],
+    "acceptance_rate": {
+      "value": 0.11,
+      "source_url": "https://www.bu.edu/admissions",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "sat": {
+      "value": {
+        "p25": 1420,
+        "p50": null,
+        "p75": 1540
+      },
+      "source_url": "https://www.bu.edu/admissions",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "gpa_avg": {
+      "value": 3.9,
+      "source_url": "https://www.bu.edu/admissions",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "ielts_min": {
+      "value": 7.0,
+      "source_url": "https://www.bu.edu/admissions",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "cost_per_year_usd": {
+      "value": 88000,
+      "source_url": "https://www.bu.edu/admissions",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "intl_aid": {
+      "value": "merit_only",
+      "source_url": "https://www.bu.edu/admissions",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "ED",
+          "date": "2026-11-01"
+        },
+        "source_url": "https://www.bu.edu/admissions",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      },
+      {
+        "value": {
+          "type": "RD",
+          "date": "2027-01-04"
+        },
+        "source_url": "https://www.bu.edu/admissions",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      }
+    ],
+    "extra_requirements": [],
+    "documents": [
+      "transcript",
+      "essay",
+      "recommendations",
+      "financial_docs",
+      "passport"
+    ],
+    "world_rank": 108
+  },
+  {
+    "id": "uiuc",
+    "name": "University of Illinois Urbana-Champaign",
+    "country": "US",
+    "city": "Champaign, IL",
+    "website": "https://www.admissions.illinois.edu",
+    "majors": [
+      "cs",
+      "engineering",
+      "business",
+      "economics",
+      "math",
+      "physics"
+    ],
+    "acceptance_rate": {
+      "value": 0.44,
+      "source_url": "https://www.admissions.illinois.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "sat": {
+      "value": {
+        "p25": 1350,
+        "p50": null,
+        "p75": 1530
+      },
+      "source_url": "https://www.admissions.illinois.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "gpa_avg": {
+      "value": 3.8,
+      "source_url": "https://www.admissions.illinois.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "ielts_min": {
+      "value": 6.5,
+      "source_url": "https://www.admissions.illinois.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "cost_per_year_usd": {
+      "value": 62000,
+      "source_url": "https://www.admissions.illinois.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "intl_aid": {
+      "value": "merit_only",
+      "source_url": "https://www.admissions.illinois.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "EA",
+          "date": "2026-11-01"
+        },
+        "source_url": "https://www.admissions.illinois.edu",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      },
+      {
+        "value": {
+          "type": "RD",
+          "date": "2027-01-05"
+        },
+        "source_url": "https://www.admissions.illinois.edu",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      }
+    ],
+    "extra_requirements": [],
+    "documents": [
+      "transcript",
+      "essay",
+      "recommendations",
+      "financial_docs",
+      "passport"
+    ],
+    "world_rank": 69
+  },
+  {
+    "id": "purdue",
+    "name": "Purdue University",
+    "country": "US",
+    "city": "West Lafayette, IN",
+    "website": "https://admissions.purdue.edu",
+    "majors": [
+      "engineering",
+      "cs",
+      "business",
+      "math",
+      "physics",
+      "biology",
+      "economics"
+    ],
+    "acceptance_rate": {
+      "value": 0.53,
+      "source_url": "https://admissions.purdue.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "sat": {
+      "value": {
+        "p25": 1190,
+        "p50": null,
+        "p75": 1450
+      },
+      "source_url": "https://admissions.purdue.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "gpa_avg": {
+      "value": 3.7,
+      "source_url": "https://admissions.purdue.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "ielts_min": {
+      "value": 6.5,
+      "source_url": "https://admissions.purdue.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "cost_per_year_usd": {
+      "value": 46000,
+      "source_url": "https://admissions.purdue.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "intl_aid": {
+      "value": "none",
+      "source_url": "https://admissions.purdue.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "EA",
+          "date": "2026-11-01"
+        },
+        "source_url": "https://admissions.purdue.edu",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      },
+      {
+        "value": {
+          "type": "RD",
+          "date": "2027-01-15"
+        },
+        "source_url": "https://admissions.purdue.edu",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      }
+    ],
+    "extra_requirements": [],
+    "documents": [
+      "transcript",
+      "essay",
+      "recommendations",
+      "financial_docs",
+      "passport"
+    ],
+    "world_rank": 89
+  },
+  {
+    "id": "penn_state",
+    "name": "Pennsylvania State University",
+    "country": "US",
+    "city": "University Park, PA",
+    "website": "https://admissions.psu.edu",
+    "majors": [
+      "engineering",
+      "business",
+      "cs",
+      "economics",
+      "biology"
+    ],
+    "acceptance_rate": {
+      "value": 0.55,
+      "source_url": "https://admissions.psu.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "sat": {
+      "value": {
+        "p25": 1160,
+        "p50": null,
+        "p75": 1370
+      },
+      "source_url": "https://admissions.psu.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "gpa_avg": {
+      "value": 3.6,
+      "source_url": "https://admissions.psu.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "ielts_min": {
+      "value": 6.5,
+      "source_url": "https://admissions.psu.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "cost_per_year_usd": {
+      "value": 55000,
+      "source_url": "https://admissions.psu.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "intl_aid": {
+      "value": "none",
+      "source_url": "https://admissions.psu.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "EA",
+          "date": "2026-11-01"
+        },
+        "source_url": "https://admissions.psu.edu",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      },
+      {
+        "value": {
+          "type": "RD",
+          "date": "2026-11-30"
+        },
+        "source_url": "https://admissions.psu.edu",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      }
+    ],
+    "extra_requirements": [],
+    "documents": [
+      "transcript",
+      "essay",
+      "recommendations",
+      "financial_docs",
+      "passport"
+    ],
+    "world_rank": 83
+  },
+  {
+    "id": "umn",
+    "name": "University of Minnesota Twin Cities",
+    "country": "US",
+    "city": "Minneapolis, MN",
+    "website": "https://admissions.tc.umn.edu",
+    "majors": [
+      "engineering",
+      "cs",
+      "business",
+      "economics",
+      "biology",
+      "math"
+    ],
+    "acceptance_rate": {
+      "value": 0.75,
+      "source_url": "https://admissions.tc.umn.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "sat": {
+      "value": {
+        "p25": 1230,
+        "p50": null,
+        "p75": 1440
+      },
+      "source_url": "https://admissions.tc.umn.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "gpa_avg": {
+      "value": 3.7,
+      "source_url": "https://admissions.tc.umn.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "ielts_min": {
+      "value": 6.5,
+      "source_url": "https://admissions.tc.umn.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "cost_per_year_usd": {
+      "value": 52000,
+      "source_url": "https://admissions.tc.umn.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "intl_aid": {
+      "value": "merit_only",
+      "source_url": "https://admissions.tc.umn.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "EA",
+          "date": "2026-11-01"
+        },
+        "source_url": "https://admissions.tc.umn.edu",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      },
+      {
+        "value": {
+          "type": "RD",
+          "date": "2027-01-01"
+        },
+        "source_url": "https://admissions.tc.umn.edu",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      }
+    ],
+    "extra_requirements": [],
+    "documents": [
+      "transcript",
+      "essay",
+      "recommendations",
+      "financial_docs",
+      "passport"
+    ],
+    "world_rank": 185
+  },
+  {
+    "id": "asu",
+    "name": "Arizona State University",
+    "country": "US",
+    "city": "Tempe, AZ",
+    "website": "https://admission.asu.edu",
+    "majors": [
+      "cs",
+      "engineering",
+      "business",
+      "design",
+      "biology",
+      "social_sciences"
+    ],
+    "acceptance_rate": {
+      "value": 0.9,
+      "source_url": "https://admission.asu.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "sat": {
+      "value": {
+        "p25": 1100,
+        "p50": null,
+        "p75": 1360
+      },
+      "source_url": "https://admission.asu.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "gpa_avg": {
+      "value": 3.5,
+      "source_url": "https://admission.asu.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "ielts_min": {
+      "value": 6.0,
+      "source_url": "https://admission.asu.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "cost_per_year_usd": {
+      "value": 48000,
+      "source_url": "https://admission.asu.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "intl_aid": {
+      "value": "merit_only",
+      "source_url": "https://admission.asu.edu",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "RD",
+          "date": "2027-02-01"
+        },
+        "source_url": "https://admission.asu.edu",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      }
+    ],
+    "extra_requirements": [],
+    "documents": [
+      "transcript",
+      "passport",
+      "financial_docs"
+    ],
+    "world_rank": 179
+  },
+  {
+    "id": "oxford",
+    "name": "University of Oxford",
+    "country": "UK",
+    "city": "Oxford",
+    "website": "https://www.ox.ac.uk/admissions/undergraduate",
+    "majors": [
+      "cs",
+      "engineering",
+      "economics",
+      "math",
+      "physics",
+      "biology",
+      "medicine"
+    ],
+    "acceptance_rate": {
+      "value": 0.14,
+      "source_url": "https://www.ox.ac.uk/admissions/undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "sat": {
+      "value": null,
+      "source_url": "https://www.ox.ac.uk/admissions/undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "gpa_avg": {
+      "value": null,
+      "source_url": "https://www.ox.ac.uk/admissions/undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "ielts_min": {
+      "value": 7.5,
+      "source_url": "https://www.ox.ac.uk/admissions/undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "cost_per_year_usd": {
+      "value": 72000,
+      "source_url": "https://www.ox.ac.uk/admissions/undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "intl_aid": {
+      "value": "merit_only",
+      "source_url": "https://www.ox.ac.uk/admissions/undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "UCAS",
+          "date": "2026-10-15"
+        },
+        "source_url": "https://www.ox.ac.uk/admissions/undergraduate",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      }
+    ],
+    "extra_requirements": [
+      "A-levels / IB или Foundation year",
+      "Вступительный тест и интервью"
+    ],
+    "documents": [
+      "transcript",
+      "personal_statement",
+      "recommendations",
+      "passport"
+    ],
+    "world_rank": 3
+  },
+  {
+    "id": "cambridge",
+    "name": "University of Cambridge",
+    "country": "UK",
+    "city": "Cambridge",
+    "website": "https://www.undergraduate.study.cam.ac.uk",
+    "majors": [
+      "cs",
+      "engineering",
+      "economics",
+      "math",
+      "physics",
+      "biology",
+      "medicine",
+      "design"
+    ],
+    "acceptance_rate": {
+      "value": 0.18,
+      "source_url": "https://www.undergraduate.study.cam.ac.uk",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "sat": {
+      "value": null,
+      "source_url": "https://www.undergraduate.study.cam.ac.uk",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "gpa_avg": {
+      "value": null,
+      "source_url": "https://www.undergraduate.study.cam.ac.uk",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "ielts_min": {
+      "value": 7.5,
+      "source_url": "https://www.undergraduate.study.cam.ac.uk",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "cost_per_year_usd": {
+      "value": 75000,
+      "source_url": "https://www.undergraduate.study.cam.ac.uk",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "intl_aid": {
+      "value": "merit_only",
+      "source_url": "https://www.undergraduate.study.cam.ac.uk",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "UCAS",
+          "date": "2026-10-15"
+        },
+        "source_url": "https://www.undergraduate.study.cam.ac.uk",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      }
+    ],
+    "extra_requirements": [
+      "A-levels / IB или Foundation year",
+      "Интервью"
+    ],
+    "documents": [
+      "transcript",
+      "personal_statement",
+      "recommendations",
+      "passport"
+    ],
+    "world_rank": 5
+  },
+  {
+    "id": "imperial",
+    "name": "Imperial College London",
+    "country": "UK",
+    "city": "London",
+    "website": "https://www.imperial.ac.uk/study/apply/undergraduate",
+    "majors": [
+      "cs",
+      "engineering",
+      "math",
+      "physics",
+      "biology",
+      "medicine",
+      "economics"
+    ],
+    "acceptance_rate": {
+      "value": 0.14,
+      "source_url": "https://www.imperial.ac.uk/study/apply/undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "sat": {
+      "value": null,
+      "source_url": "https://www.imperial.ac.uk/study/apply/undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "gpa_avg": {
+      "value": null,
+      "source_url": "https://www.imperial.ac.uk/study/apply/undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "ielts_min": {
+      "value": 7.0,
+      "source_url": "https://www.imperial.ac.uk/study/apply/undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "cost_per_year_usd": {
+      "value": 70000,
+      "source_url": "https://www.imperial.ac.uk/study/apply/undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "intl_aid": {
+      "value": "merit_only",
+      "source_url": "https://www.imperial.ac.uk/study/apply/undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "UCAS",
+          "date": "2027-01-14"
+        },
+        "source_url": "https://www.imperial.ac.uk/study/apply/undergraduate",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      }
+    ],
+    "extra_requirements": [
+      "A-levels / IB или Foundation year"
+    ],
+    "documents": [
+      "transcript",
+      "personal_statement",
+      "recommendations",
+      "passport"
+    ],
+    "world_rank": 2
+  },
+  {
+    "id": "ucl",
+    "name": "University College London",
+    "country": "UK",
+    "city": "London",
+    "website": "https://www.ucl.ac.uk/prospective-students/undergraduate",
+    "majors": [
+      "cs",
+      "engineering",
+      "economics",
+      "math",
+      "physics",
+      "biology",
+      "design",
+      "social_sciences"
+    ],
+    "acceptance_rate": {
+      "value": 0.3,
+      "source_url": "https://www.ucl.ac.uk/prospective-students/undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "sat": {
+      "value": null,
+      "source_url": "https://www.ucl.ac.uk/prospective-students/undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "gpa_avg": {
+      "value": null,
+      "source_url": "https://www.ucl.ac.uk/prospective-students/undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "ielts_min": {
+      "value": 7.0,
+      "source_url": "https://www.ucl.ac.uk/prospective-students/undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "cost_per_year_usd": {
+      "value": 62000,
+      "source_url": "https://www.ucl.ac.uk/prospective-students/undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "intl_aid": {
+      "value": "merit_only",
+      "source_url": "https://www.ucl.ac.uk/prospective-students/undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "UCAS",
+          "date": "2027-01-14"
+        },
+        "source_url": "https://www.ucl.ac.uk/prospective-students/undergraduate",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      }
+    ],
+    "extra_requirements": [
+      "A-levels / IB или Foundation year"
+    ],
+    "documents": [
+      "transcript",
+      "personal_statement",
+      "recommendations",
+      "passport"
+    ],
+    "world_rank": 9
+  },
+  {
+    "id": "lse",
+    "name": "London School of Economics",
+    "country": "UK",
+    "city": "London",
+    "website": "https://www.lse.ac.uk/study-at-lse/undergraduate",
+    "majors": [
+      "economics",
+      "business",
+      "math",
+      "social_sciences"
+    ],
+    "acceptance_rate": {
+      "value": 0.09,
+      "source_url": "https://www.lse.ac.uk/study-at-lse/undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "sat": {
+      "value": null,
+      "source_url": "https://www.lse.ac.uk/study-at-lse/undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "gpa_avg": {
+      "value": null,
+      "source_url": "https://www.lse.ac.uk/study-at-lse/undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "ielts_min": {
+      "value": 7.0,
+      "source_url": "https://www.lse.ac.uk/study-at-lse/undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "cost_per_year_usd": {
+      "value": 60000,
+      "source_url": "https://www.lse.ac.uk/study-at-lse/undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "intl_aid": {
+      "value": "partial",
+      "source_url": "https://www.lse.ac.uk/study-at-lse/undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "UCAS",
+          "date": "2027-01-14"
+        },
+        "source_url": "https://www.lse.ac.uk/study-at-lse/undergraduate",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      }
+    ],
+    "extra_requirements": [
+      "A-levels / IB или Foundation year"
+    ],
+    "documents": [
+      "transcript",
+      "personal_statement",
+      "recommendations",
+      "passport"
+    ],
+    "world_rank": 50
+  },
+  {
+    "id": "edinburgh",
+    "name": "University of Edinburgh",
+    "country": "UK",
+    "city": "Edinburgh",
+    "website": "https://www.ed.ac.uk/studying/undergraduate",
+    "majors": [
+      "cs",
+      "engineering",
+      "economics",
+      "business",
+      "math",
+      "physics",
+      "biology",
+      "design",
+      "social_sciences"
+    ],
+    "acceptance_rate": {
+      "value": 0.4,
+      "source_url": "https://www.ed.ac.uk/studying/undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "sat": {
+      "value": null,
+      "source_url": "https://www.ed.ac.uk/studying/undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "gpa_avg": {
+      "value": null,
+      "source_url": "https://www.ed.ac.uk/studying/undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "ielts_min": {
+      "value": 6.5,
+      "source_url": "https://www.ed.ac.uk/studying/undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "cost_per_year_usd": {
+      "value": 50000,
+      "source_url": "https://www.ed.ac.uk/studying/undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "intl_aid": {
+      "value": "merit_only",
+      "source_url": "https://www.ed.ac.uk/studying/undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "UCAS",
+          "date": "2027-01-14"
+        },
+        "source_url": "https://www.ed.ac.uk/studying/undergraduate",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      }
+    ],
+    "extra_requirements": [],
+    "documents": [
+      "transcript",
+      "personal_statement",
+      "recommendations",
+      "passport"
+    ],
+    "world_rank": 27
+  },
+  {
+    "id": "manchester",
+    "name": "University of Manchester",
+    "country": "UK",
+    "city": "Manchester",
+    "website": "https://www.manchester.ac.uk/study/undergraduate",
+    "majors": [
+      "cs",
+      "engineering",
+      "economics",
+      "business",
+      "math",
+      "physics",
+      "biology",
+      "social_sciences"
+    ],
+    "acceptance_rate": {
+      "value": 0.55,
+      "source_url": "https://www.manchester.ac.uk/study/undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "sat": {
+      "value": null,
+      "source_url": "https://www.manchester.ac.uk/study/undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "gpa_avg": {
+      "value": null,
+      "source_url": "https://www.manchester.ac.uk/study/undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "ielts_min": {
+      "value": 6.5,
+      "source_url": "https://www.manchester.ac.uk/study/undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "cost_per_year_usd": {
+      "value": 45000,
+      "source_url": "https://www.manchester.ac.uk/study/undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "intl_aid": {
+      "value": "merit_only",
+      "source_url": "https://www.manchester.ac.uk/study/undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "UCAS",
+          "date": "2027-01-14"
+        },
+        "source_url": "https://www.manchester.ac.uk/study/undergraduate",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      }
+    ],
+    "extra_requirements": [],
+    "documents": [
+      "transcript",
+      "personal_statement",
+      "recommendations",
+      "passport"
+    ],
+    "world_rank": 34
+  },
+  {
+    "id": "kcl",
+    "name": "King's College London",
+    "country": "UK",
+    "city": "London",
+    "website": "https://www.kcl.ac.uk/study/undergraduate",
+    "majors": [
+      "economics",
+      "business",
+      "cs",
+      "biology",
+      "medicine",
+      "social_sciences"
+    ],
+    "acceptance_rate": {
+      "value": 0.38,
+      "source_url": "https://www.kcl.ac.uk/study/undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "sat": {
+      "value": null,
+      "source_url": "https://www.kcl.ac.uk/study/undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "gpa_avg": {
+      "value": null,
+      "source_url": "https://www.kcl.ac.uk/study/undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "ielts_min": {
+      "value": 7.0,
+      "source_url": "https://www.kcl.ac.uk/study/undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "cost_per_year_usd": {
+      "value": 58000,
+      "source_url": "https://www.kcl.ac.uk/study/undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "intl_aid": {
+      "value": "merit_only",
+      "source_url": "https://www.kcl.ac.uk/study/undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "UCAS",
+          "date": "2027-01-14"
+        },
+        "source_url": "https://www.kcl.ac.uk/study/undergraduate",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      }
+    ],
+    "extra_requirements": [],
+    "documents": [
+      "transcript",
+      "personal_statement",
+      "recommendations",
+      "passport"
+    ],
+    "world_rank": 40
+  },
+  {
+    "id": "warwick",
+    "name": "University of Warwick",
+    "country": "UK",
+    "city": "Coventry",
+    "website": "https://warwick.ac.uk/study/undergraduate",
+    "majors": [
+      "cs",
+      "economics",
+      "business",
+      "math",
+      "physics",
+      "engineering"
+    ],
+    "acceptance_rate": {
+      "value": 0.3,
+      "source_url": "https://warwick.ac.uk/study/undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "sat": {
+      "value": null,
+      "source_url": "https://warwick.ac.uk/study/undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "gpa_avg": {
+      "value": null,
+      "source_url": "https://warwick.ac.uk/study/undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "ielts_min": {
+      "value": 6.5,
+      "source_url": "https://warwick.ac.uk/study/undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "cost_per_year_usd": {
+      "value": 52000,
+      "source_url": "https://warwick.ac.uk/study/undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "intl_aid": {
+      "value": "merit_only",
+      "source_url": "https://warwick.ac.uk/study/undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "UCAS",
+          "date": "2027-01-14"
+        },
+        "source_url": "https://warwick.ac.uk/study/undergraduate",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      }
+    ],
+    "extra_requirements": [],
+    "documents": [
+      "transcript",
+      "personal_statement",
+      "recommendations",
+      "passport"
+    ],
+    "world_rank": 69
+  },
+  {
+    "id": "leeds",
+    "name": "University of Leeds",
+    "country": "UK",
+    "city": "Leeds",
+    "website": "https://www.leeds.ac.uk/undergraduate",
+    "majors": [
+      "cs",
+      "engineering",
+      "economics",
+      "business",
+      "biology",
+      "design",
+      "social_sciences"
+    ],
+    "acceptance_rate": {
+      "value": 0.7,
+      "source_url": "https://www.leeds.ac.uk/undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "sat": {
+      "value": null,
+      "source_url": "https://www.leeds.ac.uk/undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "gpa_avg": {
+      "value": null,
+      "source_url": "https://www.leeds.ac.uk/undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "ielts_min": {
+      "value": 6.5,
+      "source_url": "https://www.leeds.ac.uk/undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "cost_per_year_usd": {
+      "value": 42000,
+      "source_url": "https://www.leeds.ac.uk/undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "intl_aid": {
+      "value": "merit_only",
+      "source_url": "https://www.leeds.ac.uk/undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "UCAS",
+          "date": "2027-01-14"
+        },
+        "source_url": "https://www.leeds.ac.uk/undergraduate",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      }
+    ],
+    "extra_requirements": [
+      "Foundation year для аттестата РК"
+    ],
+    "documents": [
+      "transcript",
+      "personal_statement",
+      "recommendations",
+      "passport"
+    ],
+    "world_rank": 82
+  },
+  {
+    "id": "tudelft",
+    "name": "Delft University of Technology",
+    "country": "NL",
+    "city": "Delft",
+    "website": "https://www.tudelft.nl/en/education/admission-and-application",
+    "majors": [
+      "engineering",
+      "cs",
+      "math",
+      "physics",
+      "design"
+    ],
+    "acceptance_rate": {
+      "value": null,
+      "source_url": "https://www.tudelft.nl/en/education/admission-and-application",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "sat": {
+      "value": null,
+      "source_url": "https://www.tudelft.nl/en/education/admission-and-application",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "gpa_avg": {
+      "value": null,
+      "source_url": "https://www.tudelft.nl/en/education/admission-and-application",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "ielts_min": {
+      "value": 6.5,
+      "source_url": "https://www.tudelft.nl/en/education/admission-and-application",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "cost_per_year_usd": {
+      "value": 32000,
+      "source_url": "https://www.tudelft.nl/en/education/admission-and-application",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "intl_aid": {
+      "value": "merit_only",
+      "source_url": "https://www.tudelft.nl/en/education/admission-and-application",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "OTHER",
+          "date": "2027-01-15"
+        },
+        "source_url": "https://www.tudelft.nl/en/education/admission-and-application",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      }
+    ],
+    "extra_requirements": [
+      "Отбор numerus fixus на части программ"
+    ],
+    "documents": [
+      "transcript",
+      "motivation_letter",
+      "cv",
+      "passport"
+    ],
+    "world_rank": 49
+  },
+  {
+    "id": "uva",
+    "name": "University of Amsterdam",
+    "country": "NL",
+    "city": "Amsterdam",
+    "website": "https://www.uva.nl/en/education/bachelor-s",
+    "majors": [
+      "economics",
+      "business",
+      "cs",
+      "social_sciences",
+      "biology"
+    ],
+    "acceptance_rate": {
+      "value": null,
+      "source_url": "https://www.uva.nl/en/education/bachelor-s",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "sat": {
+      "value": null,
+      "source_url": "https://www.uva.nl/en/education/bachelor-s",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "gpa_avg": {
+      "value": null,
+      "source_url": "https://www.uva.nl/en/education/bachelor-s",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "ielts_min": {
+      "value": 6.5,
+      "source_url": "https://www.uva.nl/en/education/bachelor-s",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "cost_per_year_usd": {
+      "value": 30000,
+      "source_url": "https://www.uva.nl/en/education/bachelor-s",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "intl_aid": {
+      "value": "merit_only",
+      "source_url": "https://www.uva.nl/en/education/bachelor-s",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "OTHER",
+          "date": "2027-05-01"
+        },
+        "source_url": "https://www.uva.nl/en/education/bachelor-s",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      }
+    ],
+    "extra_requirements": [],
+    "documents": [
+      "transcript",
+      "motivation_letter",
+      "cv",
+      "passport"
+    ],
+    "world_rank": 53
+  },
+  {
+    "id": "erasmus",
+    "name": "Erasmus University Rotterdam",
+    "country": "NL",
+    "city": "Rotterdam",
+    "website": "https://www.eur.nl/en/education/bachelor",
+    "majors": [
+      "economics",
+      "business"
+    ],
+    "acceptance_rate": {
+      "value": null,
+      "source_url": "https://www.eur.nl/en/education/bachelor",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "sat": {
+      "value": null,
+      "source_url": "https://www.eur.nl/en/education/bachelor",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "gpa_avg": {
+      "value": null,
+      "source_url": "https://www.eur.nl/en/education/bachelor",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "ielts_min": {
+      "value": 6.5,
+      "source_url": "https://www.eur.nl/en/education/bachelor",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "cost_per_year_usd": {
+      "value": 28000,
+      "source_url": "https://www.eur.nl/en/education/bachelor",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "intl_aid": {
+      "value": "merit_only",
+      "source_url": "https://www.eur.nl/en/education/bachelor",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "OTHER",
+          "date": "2027-01-15"
+        },
+        "source_url": "https://www.eur.nl/en/education/bachelor",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      }
+    ],
+    "extra_requirements": [],
+    "documents": [
+      "transcript",
+      "motivation_letter",
+      "cv",
+      "passport"
+    ],
+    "world_rank": 176
+  },
+  {
+    "id": "maastricht",
+    "name": "Maastricht University",
+    "country": "NL",
+    "city": "Maastricht",
+    "website": "https://www.maastrichtuniversity.nl/education/bachelor",
+    "majors": [
+      "economics",
+      "business",
+      "social_sciences",
+      "medicine"
+    ],
+    "acceptance_rate": {
+      "value": null,
+      "source_url": "https://www.maastrichtuniversity.nl/education/bachelor",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "sat": {
+      "value": null,
+      "source_url": "https://www.maastrichtuniversity.nl/education/bachelor",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "gpa_avg": {
+      "value": null,
+      "source_url": "https://www.maastrichtuniversity.nl/education/bachelor",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "ielts_min": {
+      "value": 6.5,
+      "source_url": "https://www.maastrichtuniversity.nl/education/bachelor",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "cost_per_year_usd": {
+      "value": 26000,
+      "source_url": "https://www.maastrichtuniversity.nl/education/bachelor",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "intl_aid": {
+      "value": "merit_only",
+      "source_url": "https://www.maastrichtuniversity.nl/education/bachelor",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "OTHER",
+          "date": "2027-05-01"
+        },
+        "source_url": "https://www.maastrichtuniversity.nl/education/bachelor",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      }
+    ],
+    "extra_requirements": [],
+    "documents": [
+      "transcript",
+      "motivation_letter",
+      "cv",
+      "passport"
+    ],
+    "world_rank": 239
+  },
+  {
+    "id": "tum",
+    "name": "Technical University of Munich",
+    "country": "DE",
+    "city": "Munich",
+    "website": "https://www.tum.de/en/studies/application",
+    "majors": [
+      "engineering",
+      "cs",
+      "math",
+      "physics",
+      "business"
+    ],
+    "acceptance_rate": {
+      "value": null,
+      "source_url": "https://www.tum.de/en/studies/application",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "sat": {
+      "value": null,
+      "source_url": "https://www.tum.de/en/studies/application",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "gpa_avg": {
+      "value": null,
+      "source_url": "https://www.tum.de/en/studies/application",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "ielts_min": {
+      "value": 6.5,
+      "source_url": "https://www.tum.de/en/studies/application",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "cost_per_year_usd": {
+      "value": 24000,
+      "source_url": "https://www.tum.de/en/studies/application",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "intl_aid": {
+      "value": "none",
+      "source_url": "https://www.tum.de/en/studies/application",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "OTHER",
+          "date": "2027-07-15"
+        },
+        "source_url": "https://www.tum.de/en/studies/application",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      }
+    ],
+    "extra_requirements": [
+      "Studienkolleg или 1 год вуза в РК для аттестата"
+    ],
+    "documents": [
+      "transcript",
+      "motivation_letter",
+      "cv",
+      "passport"
+    ],
+    "world_rank": 28
+  },
+  {
+    "id": "kaist",
+    "name": "KAIST",
+    "country": "KR",
+    "city": "Daejeon",
+    "website": "https://admission.kaist.ac.kr/intl-undergraduate",
+    "majors": [
+      "engineering",
+      "cs",
+      "math",
+      "physics",
+      "biology",
+      "business"
+    ],
+    "acceptance_rate": {
+      "value": null,
+      "source_url": "https://admission.kaist.ac.kr/intl-undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "sat": {
+      "value": null,
+      "source_url": "https://admission.kaist.ac.kr/intl-undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "gpa_avg": {
+      "value": null,
+      "source_url": "https://admission.kaist.ac.kr/intl-undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "ielts_min": {
+      "value": 6.5,
+      "source_url": "https://admission.kaist.ac.kr/intl-undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "cost_per_year_usd": {
+      "value": 12000,
+      "source_url": "https://admission.kaist.ac.kr/intl-undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "intl_aid": {
+      "value": "merit_only",
+      "source_url": "https://admission.kaist.ac.kr/intl-undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "OTHER",
+          "date": "2026-12-04"
+        },
+        "source_url": "https://admission.kaist.ac.kr/intl-undergraduate",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      }
+    ],
+    "extra_requirements": [],
+    "documents": [
+      "transcript",
+      "motivation_letter",
+      "recommendations",
+      "passport"
+    ],
+    "world_rank": 53
+  },
+  {
+    "id": "snu",
+    "name": "Seoul National University",
+    "country": "KR",
+    "city": "Seoul",
+    "website": "https://admission.snu.ac.kr/undergraduate/international",
+    "majors": [
+      "engineering",
+      "cs",
+      "economics",
+      "business",
+      "math",
+      "physics",
+      "biology",
+      "social_sciences"
+    ],
+    "acceptance_rate": {
+      "value": null,
+      "source_url": "https://admission.snu.ac.kr/undergraduate/international",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "sat": {
+      "value": null,
+      "source_url": "https://admission.snu.ac.kr/undergraduate/international",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "gpa_avg": {
+      "value": null,
+      "source_url": "https://admission.snu.ac.kr/undergraduate/international",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "ielts_min": {
+      "value": 6.5,
+      "source_url": "https://admission.snu.ac.kr/undergraduate/international",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "cost_per_year_usd": {
+      "value": 15000,
+      "source_url": "https://admission.snu.ac.kr/undergraduate/international",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "intl_aid": {
+      "value": "merit_only",
+      "source_url": "https://admission.snu.ac.kr/undergraduate/international",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "OTHER",
+          "date": "2026-10-01"
+        },
+        "source_url": "https://admission.snu.ac.kr/undergraduate/international",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      }
+    ],
+    "extra_requirements": [],
+    "documents": [
+      "transcript",
+      "motivation_letter",
+      "recommendations",
+      "passport"
+    ],
+    "world_rank": 31
+  },
+  {
+    "id": "nus",
+    "name": "National University of Singapore",
+    "country": "SG",
+    "city": "Singapore",
+    "website": "https://www.nus.edu.sg/oam",
+    "majors": [
+      "cs",
+      "engineering",
+      "economics",
+      "business",
+      "math",
+      "physics",
+      "biology",
+      "design"
+    ],
+    "acceptance_rate": {
+      "value": null,
+      "source_url": "https://www.nus.edu.sg/oam",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "sat": {
+      "value": null,
+      "source_url": "https://www.nus.edu.sg/oam",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "gpa_avg": {
+      "value": null,
+      "source_url": "https://www.nus.edu.sg/oam",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "ielts_min": {
+      "value": 6.5,
+      "source_url": "https://www.nus.edu.sg/oam",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "cost_per_year_usd": {
+      "value": 40000,
+      "source_url": "https://www.nus.edu.sg/oam",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "intl_aid": {
+      "value": "partial",
+      "source_url": "https://www.nus.edu.sg/oam",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "OTHER",
+          "date": "2027-02-20"
+        },
+        "source_url": "https://www.nus.edu.sg/oam",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      }
+    ],
+    "extra_requirements": [
+      "Вступительные тесты/интервью на части программ"
+    ],
+    "documents": [
+      "transcript",
+      "motivation_letter",
+      "recommendations",
+      "passport"
+    ],
+    "world_rank": 8
+  },
+  {
+    "id": "ntu",
+    "name": "Nanyang Technological University",
+    "country": "SG",
+    "city": "Singapore",
+    "website": "https://www.ntu.edu.sg/admissions/undergraduate",
+    "majors": [
+      "cs",
+      "engineering",
+      "business",
+      "math",
+      "physics",
+      "biology",
+      "design"
+    ],
+    "acceptance_rate": {
+      "value": null,
+      "source_url": "https://www.ntu.edu.sg/admissions/undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "sat": {
+      "value": null,
+      "source_url": "https://www.ntu.edu.sg/admissions/undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "gpa_avg": {
+      "value": null,
+      "source_url": "https://www.ntu.edu.sg/admissions/undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "ielts_min": {
+      "value": 6.5,
+      "source_url": "https://www.ntu.edu.sg/admissions/undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "cost_per_year_usd": {
+      "value": 38000,
+      "source_url": "https://www.ntu.edu.sg/admissions/undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "intl_aid": {
+      "value": "partial",
+      "source_url": "https://www.ntu.edu.sg/admissions/undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "OTHER",
+          "date": "2027-02-15"
+        },
+        "source_url": "https://www.ntu.edu.sg/admissions/undergraduate",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      }
+    ],
+    "extra_requirements": [],
+    "documents": [
+      "transcript",
+      "motivation_letter",
+      "recommendations",
+      "passport"
+    ],
+    "world_rank": 15
+  },
+  {
+    "id": "utoronto",
+    "name": "University of Toronto",
+    "country": "CA",
+    "city": "Toronto",
+    "website": "https://future.utoronto.ca",
+    "majors": [
+      "cs",
+      "engineering",
+      "economics",
+      "business",
+      "math",
+      "physics",
+      "biology",
+      "social_sciences"
+    ],
+    "acceptance_rate": {
+      "value": 0.43,
+      "source_url": "https://future.utoronto.ca",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "sat": {
+      "value": null,
+      "source_url": "https://future.utoronto.ca",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "gpa_avg": {
+      "value": null,
+      "source_url": "https://future.utoronto.ca",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "ielts_min": {
+      "value": 6.5,
+      "source_url": "https://future.utoronto.ca",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "cost_per_year_usd": {
+      "value": 58000,
+      "source_url": "https://future.utoronto.ca",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "intl_aid": {
+      "value": "merit_only",
+      "source_url": "https://future.utoronto.ca",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "OTHER",
+          "date": "2027-01-15"
+        },
+        "source_url": "https://future.utoronto.ca",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      }
+    ],
+    "extra_requirements": [],
+    "documents": [
+      "transcript",
+      "cv",
+      "passport"
+    ],
+    "world_rank": 25
+  },
+  {
+    "id": "ubc",
+    "name": "University of British Columbia",
+    "country": "CA",
+    "city": "Vancouver",
+    "website": "https://you.ubc.ca",
+    "majors": [
+      "cs",
+      "engineering",
+      "economics",
+      "business",
+      "math",
+      "physics",
+      "biology",
+      "design"
+    ],
+    "acceptance_rate": {
+      "value": 0.52,
+      "source_url": "https://you.ubc.ca",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "sat": {
+      "value": null,
+      "source_url": "https://you.ubc.ca",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "gpa_avg": {
+      "value": null,
+      "source_url": "https://you.ubc.ca",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "ielts_min": {
+      "value": 6.5,
+      "source_url": "https://you.ubc.ca",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "cost_per_year_usd": {
+      "value": 55000,
+      "source_url": "https://you.ubc.ca",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "intl_aid": {
+      "value": "merit_only",
+      "source_url": "https://you.ubc.ca",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "OTHER",
+          "date": "2027-01-15"
+        },
+        "source_url": "https://you.ubc.ca",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      }
+    ],
+    "extra_requirements": [],
+    "documents": [
+      "transcript",
+      "essay",
+      "passport"
+    ],
+    "world_rank": 38
+  },
+  {
+    "id": "mcgill",
+    "name": "McGill University",
+    "country": "CA",
+    "city": "Montreal",
+    "website": "https://www.mcgill.ca/undergraduate-admissions",
+    "majors": [
+      "cs",
+      "engineering",
+      "economics",
+      "business",
+      "math",
+      "physics",
+      "biology",
+      "social_sciences"
+    ],
+    "acceptance_rate": {
+      "value": 0.4,
+      "source_url": "https://www.mcgill.ca/undergraduate-admissions",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "sat": {
+      "value": null,
+      "source_url": "https://www.mcgill.ca/undergraduate-admissions",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "gpa_avg": {
+      "value": null,
+      "source_url": "https://www.mcgill.ca/undergraduate-admissions",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "ielts_min": {
+      "value": 6.5,
+      "source_url": "https://www.mcgill.ca/undergraduate-admissions",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "cost_per_year_usd": {
+      "value": 50000,
+      "source_url": "https://www.mcgill.ca/undergraduate-admissions",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "intl_aid": {
+      "value": "merit_only",
+      "source_url": "https://www.mcgill.ca/undergraduate-admissions",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "OTHER",
+          "date": "2027-01-15"
+        },
+        "source_url": "https://www.mcgill.ca/undergraduate-admissions",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      }
+    ],
+    "extra_requirements": [],
+    "documents": [
+      "transcript",
+      "passport"
+    ],
+    "world_rank": 29
+  },
+  {
+    "id": "waterloo",
+    "name": "University of Waterloo",
+    "country": "CA",
+    "city": "Waterloo",
+    "website": "https://uwaterloo.ca/future-students",
+    "majors": [
+      "cs",
+      "engineering",
+      "math",
+      "physics",
+      "business"
+    ],
+    "acceptance_rate": {
+      "value": 0.53,
+      "source_url": "https://uwaterloo.ca/future-students",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "sat": {
+      "value": null,
+      "source_url": "https://uwaterloo.ca/future-students",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "gpa_avg": {
+      "value": null,
+      "source_url": "https://uwaterloo.ca/future-students",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "ielts_min": {
+      "value": 6.5,
+      "source_url": "https://uwaterloo.ca/future-students",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "cost_per_year_usd": {
+      "value": 50000,
+      "source_url": "https://uwaterloo.ca/future-students",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "intl_aid": {
+      "value": "merit_only",
+      "source_url": "https://uwaterloo.ca/future-students",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "OTHER",
+          "date": "2027-02-01"
+        },
+        "source_url": "https://uwaterloo.ca/future-students",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      }
+    ],
+    "extra_requirements": [
+      "Admission Information Form"
+    ],
+    "documents": [
+      "transcript",
+      "cv",
+      "passport"
+    ],
+    "world_rank": 115
+  }
+]

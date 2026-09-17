@@ -1,0 +1,16 @@
+{
+  "grade": 11,
+  "gpa5": 4.6,
+  "majors": ["cs", "economics"],
+  "countries": ["US", "UK", "NL"],
+  "budget_per_year_usd": 50000,
+  "needs_aid": true,
+  "intake_year": 2028,
+  "priorities": {"cost": 0.7, "prestige": 0.6, "location": 0.3, "aid": 0.8},
+  "achievements": [
+    {"type": "IELTS", "score": 6.5, "title": "IELTS Academic", "level": null, "date": "2026-04-18", "status": "done"},
+    {"type": "OLYMPIAD", "score": null, "title": "Республиканская олимпиада по информатике — призёр", "level": "national", "date": "2026-03-20", "status": "done"},
+    {"type": "SAT", "score": 1380, "title": "SAT (август)", "level": null, "date": "2026-08-23", "status": "done"},
+    {"type": "IELTS", "score": null, "title": "Пересдача IELTS", "level": null, "date": "2027-03-13", "status": "planned"}
+  ]
+}

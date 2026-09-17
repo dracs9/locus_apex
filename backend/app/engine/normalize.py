@@ -58,8 +58,8 @@ def with_priorities(profile: Profile, priorities: Priorities | None) -> Profile:
 
 def project_deadline(d: Deadline, intake_year: int) -> date:
     """Seed deadlines are for one admission cycle. Shift them to the student's cycle:
-    deadlines in Jul–Dec belong to intake next year, Jan–Jun to the same year."""
-    data_intake = d.date.year + 1 if d.date.month >= 7 else d.date.year
+    deadlines in Aug–Dec belong to intake next year, Jan–Jul to the same year."""
+    data_intake = d.date.year + 1 if d.date.month >= 8 else d.date.year
     shift = intake_year - data_intake
     try:
         return d.date.replace(year=d.date.year + shift)

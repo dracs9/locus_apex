@@ -44,8 +44,13 @@ def _targets(favorite_ids: list[str], recs: list[Recommendation], by_id: dict[st
     favs = [by_id[i] for i in sorted(set(favorite_ids)) if i in by_id]
     if favs:
         return favs
-    top = sorted(recs, key=lambda r: (-r.score, r.university_id))[: config.TOP_RECS_FOR_ROADMAP]
-    return [by_id[r.university_id] for r in top if r.university_id in by_id]
+    # fallback: the best university of each tier, then the best remaining ones
+    ranked = sorted(recs, key=lambda r: (-r.score, r.university_id))
+    top: list[Recommendation] = []
+    for tier in ("dream", "target", "safety"):
+        top += [r for r in ranked if r.tier == tier][:1]
+    top += [r for r in ranked if r not in top]
+    return [by_id[r.university_id] for r in top[: config.TOP_RECS_FOR_ROADMAP] if r.university_id in by_id]
 
 
 def build_roadmap(profile: Profile, favorite_ids: list[str], recs: list[Recommendation],
