@@ -1,0 +1,23 @@
+{
+  "SAT": {
+    "name": "SAT",
+    "result_days": 14,
+    "registration_days": 30,
+    "source_url": "https://satsuite.collegeboard.org/sat/scores/when-to-expect-scores",
+    "is_demo": true
+  },
+  "IELTS": {
+    "name": "IELTS",
+    "result_days": 13,
+    "registration_days": 14,
+    "source_url": "https://ielts.org/take-a-test/your-results",
+    "is_demo": true
+  },
+  "TOEFL": {
+    "name": "TOEFL iBT",
+    "result_days": 6,
+    "registration_days": 7,
+    "source_url": "https://www.ets.org/toefl/test-takers/ibt/scores/get-scores.html",
+    "is_demo": true
+  }
+}
