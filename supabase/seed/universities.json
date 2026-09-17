@@ -1438,12 +1438,12 @@
       {
         "value": {
           "type": "EA",
-          "date": "2026-11-01"
+          "date": "2025-11-01"
         },
-        "source_url": "https://admissions.purdue.edu",
-        "checked_at": null,
-        "evidence": null,
-        "is_demo": true
+        "source_url": "https://www.purdue.edu/idata/wp-content/uploads/2026/04/CDS-2025-2026.xlsx",
+        "checked_at": "2026-09-17",
+        "evidence": "Early action closing date | 45962",
+        "is_demo": false
       },
       {
         "value": {

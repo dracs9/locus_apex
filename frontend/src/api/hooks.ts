@@ -48,7 +48,7 @@ export function useUniversities() {
   return useQuery({
     queryKey: keys.universities,
     queryFn: () => api<University[]>("/catalog/universities", { auth: false }),
-    staleTime: 60 * 60 * 1000,
+    staleTime: 5 * 60 * 1000, // catalog changes only on re-seed; keep it short so new data shows up quickly
   });
 }
 
@@ -62,7 +62,7 @@ export function useMajors() {
   return useQuery({
     queryKey: keys.majors,
     queryFn: () => api<Major[]>("/catalog/majors", { auth: false }),
-    staleTime: 60 * 60 * 1000,
+    staleTime: 5 * 60 * 1000, // catalog changes only on re-seed; keep it short so new data shows up quickly
   });
 }
 

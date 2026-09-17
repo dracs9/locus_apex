@@ -99,24 +99,27 @@ def build_roadmap(profile: Profile, favorite_ids: list[str], recs: list[Recommen
             verb = "Пересдать" if have is not None else "Сдать"
             add(f"{exam_id}:register", "exam", f"Зарегистрироваться на {info['name']}",
                 exam_due - timedelta(days=info["registration_days"]), uni.id,
-                source_url=info["source_url"], is_demo=info["is_demo"])
+                source_url=info["source_url"], is_demo=info["is_demo"] or dl_demo)
             exam_goals[exam] = max(exam_goals.get(exam, 0), need)
             add(exam_id, "exam", f"{verb} {info['name']}", exam_due, uni.id,
-                depends_on=[f"{exam_id}:register"], source_url=info["source_url"], is_demo=info["is_demo"])
+                depends_on=[f"{exam_id}:register"], source_url=info["source_url"], is_demo=info["is_demo"] or dl_demo)
             apply_deps.append(exam_id)
 
         for doc in uni.documents:
             if doc not in DOCUMENTS:
                 continue
             title, lead = DOCUMENTS[doc]
-            add(f"doc:{doc}", "document", title, deadline - timedelta(days=lead), uni.id)
+            # preparation steps are dated from the deadline, so they are exactly as reliable as the deadline
+            add(f"doc:{doc}", "document", title, deadline - timedelta(days=lead), uni.id,
+                source_url=dl_source, is_demo=dl_demo)
             apply_deps.append(f"doc:{doc}")
 
         if uni.gpa_avg.value is not None and gpa4 < uni.gpa_avg.value - config.GPA_WITHIN_MARGIN:
-            add("academic:gpa", "academic", "Подтянуть оценки в текущем семестре", deadline - timedelta(days=ACADEMIC_LEAD_DAYS), uni.id)
+            add("academic:gpa", "academic", "Подтянуть оценки в текущем семестре", deadline - timedelta(days=ACADEMIC_LEAD_DAYS), uni.id,
+                source_url=dl_source, is_demo=dl_demo)
         if not strong_activity:
             add("activity:highlight", "activity", "Олимпиада или проект республиканского уровня",
-                deadline - timedelta(days=ACTIVITY_LEAD_DAYS), uni.id)
+                deadline - timedelta(days=ACTIVITY_LEAD_DAYS), uni.id, source_url=dl_source, is_demo=dl_demo)
 
         add(apply_id, "application", f"Подать заявку: {uni.name} ({text.DEADLINE_RU[d.type]})", deadline, uni.id,
             depends_on=apply_deps, source_url=dl_source, is_demo=dl_demo)

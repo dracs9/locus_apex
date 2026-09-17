@@ -68,13 +68,14 @@ def project_deadline(d: Deadline, intake_year: int) -> date:
 
 
 def projected_deadlines(uni: University, intake_year: int) -> list[tuple[date, Deadline, bool, str | None]]:
-    """[(date, deadline, is_demo, source_url)] sorted by date."""
+    """[(date, deadline, is_demo, source_url)] sorted by date.
+    A verified deadline stays verified after the shift: the day and month come from the source,
+    only the year moves to the student's cycle (README documents this)."""
     out = []
     for s in uni.deadlines:
         if s.value is None:
             continue
-        projected = project_deadline(s.value, intake_year)
-        out.append((projected, s.value, s.is_demo or projected != s.value.date, s.source_url))
+        out.append((project_deadline(s.value, intake_year), s.value, s.is_demo, s.source_url))
     return sorted(out, key=lambda t: (t[0], t[1].type))
 
 

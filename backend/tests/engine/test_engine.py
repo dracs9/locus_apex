@@ -225,3 +225,16 @@ def test_chance_history_follows_achievements():
     assert [h.date for h in hist] == [date(2026, 1, 1), date(2026, 3, 1), date(2026, 8, 1)]
     assert hist[1].chance_by_uni["u"] == "low" and hist[2].chance_by_uni["u"] == "medium"
     assert hist[2].achievement_id is not None
+
+
+def test_roadmap_demo_flags_follow_deadline_source():
+    verified = make_uni("real", deadlines=[{"value": {"type": "RD", "date": "2025-01-05"}, "is_demo": False,
+                                            "source_url": "https://example.edu/cds.pdf"}])
+    demo = make_uni("demo")
+    p = make_profile(intake_year=2028)
+    for uni, expected in ((verified, False), (demo, True)):
+        rm = build_roadmap(p, [uni.id], recommend(p, [uni], TODAY).recs, [uni], {}, TODAY)
+        apply = next(s for s in rm.steps if s.kind == "application")
+        doc = next(s for s in rm.steps if s.id == "doc:essay")
+        assert apply.due_date == (date(2028, 1, 5) if uni.id == "real" else date(2028, 1, 15))
+        assert apply.is_demo is expected and doc.is_demo is expected

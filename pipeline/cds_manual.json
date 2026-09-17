@@ -1,50 +1,158 @@
 {
-  "_note": "Hand extraction from the official CDS text in pipeline/out/pages/<id>/cds-*.json (run cds.py first). Every evidence string must appear verbatim (whitespace-insensitive) in that text or verify.py drops the field. Dates are for the CDS entering class (CDS 2025-2026 = fall 2025 entry); the engine shifts them to the student's intake year. Early-plan types: REA when the CDS answers yes to the restrictive early action question.",
+  "_note": "Hand extraction from the official CDS text in pipeline/out/pages/<id>/cds-*.json (run cds.py first). Every evidence string must appear verbatim (whitespace-insensitive) in that text or verify.py drops the field. Dates are for the CDS entering class (CDS 2025-2026 = fall 2025 entry); the engine shifts them to the student's intake year. Early-plan types: REA when the CDS answers yes to the restrictive early action question. XLSX dates are Excel serial numbers (45962 = 2025-11-01).",
   "harvard": {
     "deadlines": [
-      {"value": {"type": "RD", "date": "2025-01-01"}, "evidence": "Application closing date (fall) 1/1", "source_url": "https://oira.harvard.edu/files/2026/07/CDS_2025-2026.pdf"},
-      {"value": {"type": "REA", "date": "2024-11-01"}, "evidence": "C22 Early action\nYes or No\nYes\n11/1\n12/16\nYes or No\nYes", "source_url": "https://oira.harvard.edu/files/2026/07/CDS_2025-2026.pdf"}
+      {
+        "value": {
+          "type": "RD",
+          "date": "2025-01-01"
+        },
+        "evidence": "Application closing date (fall) 1/1",
+        "source_url": "https://oira.harvard.edu/files/2026/07/CDS_2025-2026.pdf"
+      },
+      {
+        "value": {
+          "type": "REA",
+          "date": "2024-11-01"
+        },
+        "evidence": "C22 Early action\nYes or No\nYes\n11/1\n12/16\nYes or No\nYes",
+        "source_url": "https://oira.harvard.edu/files/2026/07/CDS_2025-2026.pdf"
+      }
     ]
   },
   "princeton": {
     "deadlines": [
-      {"value": {"type": "RD", "date": "2025-01-01"}, "evidence": "Application closing date (fall) 1/1", "source_url": "https://ir.princeton.edu/sites/g/files/toruqf2041/files/documents/CDS_2526_Princeton_v2.pdf"},
-      {"value": {"type": "REA", "date": "2024-11-01"}, "evidence": "C22 Early action\nYes or No\nYes\n11/1\nMid-December\nYes or No\nYes", "source_url": "https://ir.princeton.edu/sites/g/files/toruqf2041/files/documents/CDS_2526_Princeton_v2.pdf"}
+      {
+        "value": {
+          "type": "RD",
+          "date": "2025-01-01"
+        },
+        "evidence": "Application closing date (fall) 1/1",
+        "source_url": "https://ir.princeton.edu/sites/g/files/toruqf2041/files/documents/CDS_2526_Princeton_v2.pdf"
+      },
+      {
+        "value": {
+          "type": "REA",
+          "date": "2024-11-01"
+        },
+        "evidence": "C22 Early action\nYes or No\nYes\n11/1\nMid-December\nYes or No\nYes",
+        "source_url": "https://ir.princeton.edu/sites/g/files/toruqf2041/files/documents/CDS_2526_Princeton_v2.pdf"
+      }
     ]
   },
   "gatech": {
     "deadlines": [
-      {"value": {"type": "RD", "date": "2025-01-05"}, "evidence": "closing date (fall) 1/5", "source_url": "https://irp.gatech.edu/sites/default/files/CDS/CDS_2025-2026_FINAL_R4_03JUN2026.pdf"},
-      {"value": {"type": "EA", "date": "2024-11-01"}, "evidence": "C22 Early action\nYes or No\nYes \n11/1\n1/31\nYes or No\nNo", "source_url": "https://irp.gatech.edu/sites/default/files/CDS/CDS_2025-2026_FINAL_R4_03JUN2026.pdf"}
+      {
+        "value": {
+          "type": "RD",
+          "date": "2025-01-05"
+        },
+        "evidence": "closing date (fall) 1/5",
+        "source_url": "https://irp.gatech.edu/sites/default/files/CDS/CDS_2025-2026_FINAL_R4_03JUN2026.pdf"
+      },
+      {
+        "value": {
+          "type": "EA",
+          "date": "2024-11-01"
+        },
+        "evidence": "C22 Early action\nYes or No\nYes \n11/1\n1/31\nYes or No\nNo",
+        "source_url": "https://irp.gatech.edu/sites/default/files/CDS/CDS_2025-2026_FINAL_R4_03JUN2026.pdf"
+      }
     ]
   },
   "boston_u": {
-    "gpa_avg": {"value": 3.86, "evidence": "C12. Average high school GPA of all degree-seeking, first-time, first-year students who submitted GPA\n3.86", "source_url": "https://www.bu.edu/asir/files/2026/05/CDS-2025-2026-C.pdf"},
-    "intl_aid": {"value": "merit_only", "evidence": "Institutional need-based scholarship or grant aid is available\nX Institutional non-need-based scholarship or grant aid is available", "source_url": "https://www.bu.edu/asir/files/2026/05/CDS-2025-2026-H.pdf"},
+    "gpa_avg": {
+      "value": 3.86,
+      "evidence": "C12. Average high school GPA of all degree-seeking, first-time, first-year students who submitted GPA\n3.86",
+      "source_url": "https://www.bu.edu/asir/files/2026/05/CDS-2025-2026-C.pdf"
+    },
+    "intl_aid": {
+      "value": "merit_only",
+      "evidence": "Institutional need-based scholarship or grant aid is available\nX Institutional non-need-based scholarship or grant aid is available",
+      "source_url": "https://www.bu.edu/asir/files/2026/05/CDS-2025-2026-H.pdf"
+    },
     "deadlines": [
-      {"value": {"type": "ED", "date": "2024-11-01"}, "evidence": "C21. Early Decision\nYes\nNovember 1", "source_url": "https://www.bu.edu/asir/files/2026/05/CDS-2025-2026-C.pdf"}
+      {
+        "value": {
+          "type": "ED",
+          "date": "2024-11-01"
+        },
+        "evidence": "C21. Early Decision\nYes\nNovember 1",
+        "source_url": "https://www.bu.edu/asir/files/2026/05/CDS-2025-2026-C.pdf"
+      }
     ]
   },
   "nyu": {
-    "gpa_avg": {"value": 3.81, "evidence": "students who submitted GPA: 3.81", "source_url": "https://www.nyu.edu/content/dam/nyu/institutionalResearch/documents/cds-2025-2026/CDS%202025-2026%20FINAL%20(no%20G).pdf"},
+    "gpa_avg": {
+      "value": 3.81,
+      "evidence": "students who submitted GPA: 3.81",
+      "source_url": "https://www.nyu.edu/content/dam/nyu/institutionalResearch/documents/cds-2025-2026/CDS%202025-2026%20FINAL%20(no%20G).pdf"
+    },
     "deadlines": [
-      {"value": {"type": "RD", "date": "2025-01-05"}, "evidence": "closing date (fall) 1/5", "source_url": "https://www.nyu.edu/content/dam/nyu/institutionalResearch/documents/cds-2025-2026/CDS%202025-2026%20FINAL%20(no%20G).pdf"}
+      {
+        "value": {
+          "type": "RD",
+          "date": "2025-01-05"
+        },
+        "evidence": "closing date (fall) 1/5",
+        "source_url": "https://www.nyu.edu/content/dam/nyu/institutionalResearch/documents/cds-2025-2026/CDS%202025-2026%20FINAL%20(no%20G).pdf"
+      }
     ]
   },
   "umich": {
-    "gpa_avg": {"value": 3.9, "evidence": "Average high school GPA: 3.9", "source_url": "https://obp.umich.edu/wp-content/uploads/pubdata/cds/cds_2025-26_umaa.pdf"},
-    "intl_aid": {"value": "none", "evidence": "☒ Institutional scholarship and grant aid is not available", "source_url": "https://obp.umich.edu/wp-content/uploads/pubdata/cds/cds_2025-26_umaa.pdf"},
+    "gpa_avg": {
+      "value": 3.9,
+      "evidence": "Average high school GPA: 3.9",
+      "source_url": "https://obp.umich.edu/wp-content/uploads/pubdata/cds/cds_2025-26_umaa.pdf"
+    },
+    "intl_aid": {
+      "value": "none",
+      "evidence": "☒ Institutional scholarship and grant aid is not available",
+      "source_url": "https://obp.umich.edu/wp-content/uploads/pubdata/cds/cds_2025-26_umaa.pdf"
+    },
     "deadlines": [
-      {"value": {"type": "RD", "date": "2025-02-01"}, "evidence": "closing date (fall) 2 1", "source_url": "https://obp.umich.edu/wp-content/uploads/pubdata/cds/cds_2025-26_umaa.pdf"}
+      {
+        "value": {
+          "type": "RD",
+          "date": "2025-02-01"
+        },
+        "evidence": "closing date (fall) 2 1",
+        "source_url": "https://obp.umich.edu/wp-content/uploads/pubdata/cds/cds_2025-26_umaa.pdf"
+      }
     ]
   },
   "purdue": {
-    "gpa_avg": {"value": 3.81, "evidence": "students who submitted GPA: | 3.81", "source_url": "https://www.purdue.edu/idata/wp-content/uploads/2026/04/CDS-2025-2026.xlsx"}
+    "gpa_avg": {
+      "value": 3.81,
+      "evidence": "students who submitted GPA: | 3.81",
+      "source_url": "https://www.purdue.edu/idata/wp-content/uploads/2026/04/CDS-2025-2026.xlsx"
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "EA",
+          "date": "2025-11-01"
+        },
+        "evidence": "Early action closing date | 45962",
+        "source_url": "https://www.purdue.edu/idata/wp-content/uploads/2026/04/CDS-2025-2026.xlsx"
+      }
+    ]
   },
   "columbia": {
-    "intl_aid": {"value": "partial", "evidence": "☑ Institutional need-based scholarship or grant aid is available", "source_url": "https://opir.columbia.edu/sites/opir.columbia.edu/files/content/Common%20Data%20Set/2024-25_Columbia_College_and_Columbia_Engineering_CDS.pdf"},
+    "intl_aid": {
+      "value": "partial",
+      "evidence": "☑ Institutional need-based scholarship or grant aid is available",
+      "source_url": "https://opir.columbia.edu/sites/opir.columbia.edu/files/content/Common%20Data%20Set/2024-25_Columbia_College_and_Columbia_Engineering_CDS.pdf"
+    },
     "deadlines": [
-      {"value": {"type": "RD", "date": "2024-01-01"}, "evidence": "closing date (fall) January 1", "source_url": "https://opir.columbia.edu/sites/opir.columbia.edu/files/content/Common%20Data%20Set/2024-25_Columbia_College_and_Columbia_Engineering_CDS.pdf"}
+      {
+        "value": {
+          "type": "RD",
+          "date": "2024-01-01"
+        },
+        "evidence": "closing date (fall) January 1",
+        "source_url": "https://opir.columbia.edu/sites/opir.columbia.edu/files/content/Common%20Data%20Set/2024-25_Columbia_College_and_Columbia_Engineering_CDS.pdf"
+      }
     ]
   }
 }

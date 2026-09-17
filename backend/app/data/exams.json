@@ -1,23 +1,29 @@
 {
   "SAT": {
     "name": "SAT",
-    "result_days": 14,
+    "result_days": 28,
     "registration_days": 30,
-    "source_url": "https://satsuite.collegeboard.org/sat/scores/when-to-expect-scores",
-    "is_demo": true
+    "source_url": "https://satsuite.collegeboard.org/scores/sat",
+    "evidence": "Scores are typically available online 2–4 weeks after the test administration.",
+    "checked_at": "2026-09-17",
+    "is_demo": false
   },
   "IELTS": {
     "name": "IELTS",
     "result_days": 13,
     "registration_days": 14,
-    "source_url": "https://ielts.org/take-a-test/your-results",
-    "is_demo": true
+    "source_url": "https://ielts.org/take-a-test/your-results/fast-test-results-and-sharing",
+    "evidence": "IELTS on Paper: results within 13 days (or 7 days in India)",
+    "checked_at": "2026-09-17",
+    "is_demo": false
   },
   "TOEFL": {
     "name": "TOEFL iBT",
-    "result_days": 6,
+    "result_days": 3,
     "registration_days": 7,
     "source_url": "https://www.ets.org/toefl/test-takers/ibt/scores/get-scores.html",
-    "is_demo": true
+    "evidence": "Your scores will be available in your ETS account 3 days after your test date.",
+    "checked_at": "2026-09-17",
+    "is_demo": false
   }
 }
