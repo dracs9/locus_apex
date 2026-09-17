@@ -1,11 +1,14 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Award, BookOpenCheck, FolderGit2, Globe2, HandHeart, Languages, Loader2, MoreHorizontal, Trophy } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
 import { create } from "zustand";
 
-import { useAddAchievement, usePatchAchievement } from "@/api/hooks";
+import { useAddAchievement, useAddLink, useDeleteAttachment, usePatchAchievement, useProfile, useUploadPhoto } from "@/api/hooks";
 import type { Achievement, AchievementType } from "@/api/types";
+import { AttachmentsEditor, type AttachmentItem } from "@/components/achievements/AttachmentsEditor";
 import { Pill } from "@/components/ds/badges";
 import { Button } from "@/components/ui/button";
 import { Input, Label } from "@/components/ui/misc";
@@ -76,6 +79,70 @@ function schemaFor(type: AchievementType) {
 
 type FormValues = z.infer<ReturnType<typeof schemaFor>>;
 
+type Draft = AttachmentItem & { blob?: Blob };
+
+/**
+ * Attachments for the sheet: a saved achievement changes them immediately,
+ * a new one keeps drafts locally and uploads them after the achievement is created.
+ */
+function useAttachments(editing: Achievement | null) {
+  const profile = useProfile();
+  const addLink = useAddLink();
+  const uploadPhoto = useUploadPhoto();
+  const remove = useDeleteAttachment();
+  const [drafts, setDrafts] = useState<Draft[]>([]);
+  const draftsRef = useRef(drafts);
+  draftsRef.current = drafts;
+
+  // free preview object URLs when the sheet closes
+  useEffect(() => () => draftsRef.current.forEach((d) => d.blob && d.url && URL.revokeObjectURL(d.url)), []);
+
+  const live = editing
+    ? (profile.data?.achievements.find((a) => a.id === editing.id)?.attachments ?? editing.attachments ?? [])
+    : [];
+  const busy = addLink.isPending || uploadPhoto.isPending || remove.isPending;
+
+  const items: AttachmentItem[] = editing
+    ? [
+        ...live.map((a) => ({ id: a.id, kind: a.kind, url: a.url, title: a.title })),
+        ...(uploadPhoto.isPending ? [{ id: "uploading", kind: "photo" as const, url: null, pending: true }] : []),
+      ]
+    : drafts;
+
+  const onAddPhoto = async (blob: Blob) => {
+    if (editing) await uploadPhoto.mutateAsync({ achievementId: editing.id, file: blob }).catch(() => undefined);
+    else setDrafts((d) => [...d, { id: crypto.randomUUID(), kind: "photo", url: URL.createObjectURL(blob), blob }]);
+  };
+  const onAddLink = async (url: string, title: string) => {
+    if (editing) await addLink.mutateAsync({ achievementId: editing.id, url, title }).catch(() => undefined);
+    else setDrafts((d) => [...d, { id: crypto.randomUUID(), kind: "link", url, title }]);
+  };
+  const onRemove = async (id: string) => {
+    if (editing) return void (await remove.mutateAsync({ achievementId: editing.id, attachmentId: id }).catch(() => undefined));
+    setDrafts((d) => {
+      const gone = d.find((x) => x.id === id);
+      if (gone?.blob && gone.url) URL.revokeObjectURL(gone.url);
+      return d.filter((x) => x.id !== id);
+    });
+  };
+
+  /** Uploads drafts to a freshly created achievement; returns how many failed. */
+  const flushDrafts = async (achievementId: string): Promise<number> => {
+    let failed = 0;
+    for (const d of drafts) {
+      try {
+        if (d.kind === "photo" && d.blob) await uploadPhoto.mutateAsync({ achievementId, file: d.blob });
+        else if (d.kind === "link" && d.url) await addLink.mutateAsync({ achievementId, url: d.url, title: d.title ?? "" });
+      } catch {
+        failed++;
+      }
+    }
+    return failed;
+  };
+
+  return { items, busy, onAddPhoto, onAddLink, onRemove, flushDrafts };
+}
+
 function AchievementForm({ type, editing, onDone }: { type: AchievementType; editing: Achievement | null; onDone: () => void }) {
   const add = useAddAchievement();
   const patch = usePatchAchievement();
@@ -92,7 +159,9 @@ function AchievementForm({ type, editing, onDone }: { type: AchievementType; edi
     },
   });
   const status = form.watch("status");
-  const pending = add.isPending || patch.isPending;
+  const attachments = useAttachments(editing);
+  const [flushing, setFlushing] = useState(false);
+  const pending = add.isPending || patch.isPending || flushing;
 
   const submit = form.handleSubmit(async (v) => {
     const body = {
@@ -103,8 +172,16 @@ function AchievementForm({ type, editing, onDone }: { type: AchievementType; edi
       date: v.date,
       status: v.status,
     };
-    if (editing) await patch.mutateAsync({ id: editing.id, body });
-    else await add.mutateAsync(body);
+    if (editing) {
+      await patch.mutateAsync({ id: editing.id, body });
+    } else {
+      const created = await add.mutateAsync(body);
+      if (attachments.items.length) {
+        setFlushing(true);
+        const failed = await attachments.flushDrafts(created.achievement_id).finally(() => setFlushing(false));
+        if (failed) toast.warning(t.attachments.savedWithErrors);
+      }
+    }
     onDone();
   });
 
@@ -163,9 +240,17 @@ function AchievementForm({ type, editing, onDone }: { type: AchievementType; edi
         {form.formState.errors.date && <p className="text-xs text-blocker">{form.formState.errors.date.message}</p>}
       </div>
 
+      <AttachmentsEditor
+        items={attachments.items}
+        onAddPhoto={attachments.onAddPhoto}
+        onAddLink={attachments.onAddLink}
+        onRemove={attachments.onRemove}
+        disabled={offline || attachments.busy || pending}
+      />
+
       <Button type="submit" size="lg" className="w-full" disabled={pending || offline}>
         {pending && <Loader2 className="animate-spin" />}
-        {offline ? t.common.offlineEditsDisabled : t.common.save}
+        {offline ? t.common.offlineEditsDisabled : flushing ? t.attachments.uploading : t.common.save}
       </Button>
     </form>
   );

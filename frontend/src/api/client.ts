@@ -64,7 +64,8 @@ async function send(path: string, { method = "GET", body, auth = true }: Request
   }, SLOW_MS);
   try {
     const headers: Record<string, string> = {};
-    if (body !== undefined) headers["Content-Type"] = "application/json";
+    const isForm = body instanceof FormData;
+    if (body !== undefined && !isForm) headers["Content-Type"] = "application/json"; // the browser sets the multipart boundary
     if (auth) {
       const token = await getAccessToken();
       if (token) headers.Authorization = `Bearer ${token}`;
@@ -72,7 +73,7 @@ async function send(path: string, { method = "GET", body, auth = true }: Request
     const res = await fetch(`${API_URL}${path}`, {
       method,
       headers,
-      body: body === undefined ? undefined : JSON.stringify(body),
+      body: body === undefined ? undefined : isForm ? body : JSON.stringify(body),
     });
     markOnline();
     return res;
@@ -101,6 +102,7 @@ async function toError(res: Response): Promise<ApiError> {
 export async function api<T>(path: string, options: RequestOptions = {}): Promise<T> {
   const res = await send(path, options);
   if (!res.ok) throw await toError(res);
+  if (res.status === 204) return undefined as T;
   return (await res.json()) as T;
 }
 

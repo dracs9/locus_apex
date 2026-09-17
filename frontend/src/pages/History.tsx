@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useDeleteAchievement, useProfile } from "@/api/hooks";
 import type { AchievementType } from "@/api/types";
 import { useAchievementSheet } from "@/components/achievements/AddAchievementSheet";
+import { AttachmentStrip } from "@/components/achievements/AttachmentStrip";
 import { Pill } from "@/components/ds/badges";
 import { PageHeader } from "@/components/ds/Card";
 import { EmptyState } from "@/components/ds/states";
@@ -70,6 +71,7 @@ export function History() {
                         {a.status === "planned" ? t.achievements.planned : t.achievements.done}
                       </span>
                     </p>
+                    <AttachmentStrip attachments={a.attachments} />
                   </div>
                   <Button size="icon" variant="ghost" onClick={() => openEdit(a)} disabled={offline} aria-label={t.common.edit}>
                     <Pencil />

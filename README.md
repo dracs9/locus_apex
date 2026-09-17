@@ -64,6 +64,7 @@ pipeline/  crawl → extract → verify (offline data collection)
    - Project URL and anon key go to the frontend.
    - Database connection string goes to the backend. Use the **Session pooler** URI and prefix it with `postgresql+asyncpg://`.
    - JWT secret goes to the backend. Leave it empty if the project uses the new asymmetric signing keys; the backend then verifies tokens through JWKS.
+   - Service key (`service_role` or `sb_secret_…`) goes to the backend as `SUPABASE_SERVICE_KEY`. It is used only to store achievement photos in the private `achievement-files` bucket, which migration `0002` creates. Without it, links still work and photo upload answers "загрузка фото не настроена".
 
 ### 2. Backend (Python 3.11+)
 
@@ -75,7 +76,7 @@ cp .env.example .env                         # fill DATABASE_URL, SUPABASE_URL, 
 .venv/Scripts/python ../supabase/migrate.py  # applies supabase/migrations/*.sql (or paste them into the SQL editor)
 .venv/Scripts/python ../supabase/seed.py     # validates seed JSON with Pydantic and upserts it
 .venv/Scripts/uvicorn app.main:app --reload --port 8000
-.venv/Scripts/pytest                         # 29 tests
+.venv/Scripts/pytest                         # 40 tests
 ```
 
 Without a Postgres URL (`DATABASE_URL=sqlite+aiosqlite:///./local.db`), the backend creates tables and loads the seed on startup. Supabase is still needed for anonymous auth.
@@ -116,6 +117,16 @@ cd ../frontend && npm run gen:api
 8. Open **Сегодня** to see one next step, a progress ring and the chance-history chart with achievement markers.
 9. Reload the page and the state is kept. **Настройки → Сбросить профиль** clears everything.
 10. Stop the backend. The app keeps the cached data, shows an offline banner and disables edits.
+11. Open **Достижения**, edit an achievement and attach a photo of a diploma and a link to a project (up to 5 per achievement). Thumbnails and links appear under the achievement, and tapping a photo opens it. Attachments don't change recommendations.
+
+## Achievement attachments
+
+- Photos (JPG, PNG, WebP, HEIC, up to 5 MB) and http(s) links, **up to 5 per achievement**.
+- Photos are downscaled in the browser to about 1600 px before upload.
+- The backend checks each file's real type by its magic bytes and stores it in a **private** Supabase Storage bucket at `{user_id}/{achievement_id}/…`. The frontend never talks to Storage directly: `GET /me/profile` returns signed URLs that live 1 hour.
+- Deleting an achievement, resetting the profile or loading the demo profile removes the stored files.
+- Attachments are only evidence for the student. They don't affect scoring and never trigger a route recomputation.
+- API: `POST /me/achievements/{id}/attachments/photo` (multipart), `POST /me/achievements/{id}/attachments/link`, `DELETE /me/achievements/{id}/attachments/{attachment_id}`.
 
 ## Scoring (backend/app/engine/config.py)
 
@@ -202,7 +213,7 @@ The spec only names the closable-gap case. Unclosable gaps are also classified a
 ## Ready-made components and libraries
 
 shadcn/ui (Button, Sheet, Slider, Switch, Collapsible patterns), Radix UI primitives, Tailwind CSS, tailwindcss-animate, class-variance-authority, clsx, tailwind-merge, lucide-react icons, Framer Motion, Recharts, TanStack Query (+ persist client, sync storage persister), Zustand, React Hook Form, Zod, @hookform/resolvers, sonner (toasts), React Router, @supabase/supabase-js, openapi-typescript. Fonts: Manrope and Unbounded (Google Fonts).
-Backend: FastAPI, Pydantic, pydantic-settings, SQLAlchemy, asyncpg, aiosqlite, PyJWT, httpx, google-genai, pytest. Pipeline: trafilatura, httpx, pypdf.
+Backend: FastAPI, Pydantic, pydantic-settings, SQLAlchemy, asyncpg, aiosqlite, PyJWT, httpx, google-genai, python-multipart, pytest. Storage: Supabase Storage REST API. Pipeline: trafilatura, httpx, pypdf.
 
 ## Limitations
 

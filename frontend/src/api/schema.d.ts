@@ -125,6 +125,57 @@ export interface paths {
         patch: operations["patch_achievement_me_achievements__achievement_id__patch"];
         trace?: never;
     };
+    "/me/achievements/{achievement_id}/attachments/link": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Add Link */
+        post: operations["add_link_me_achievements__achievement_id__attachments_link_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/me/achievements/{achievement_id}/attachments/photo": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Add Photo */
+        post: operations["add_photo_me_achievements__achievement_id__attachments_photo_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/me/achievements/{achievement_id}/attachments/{attachment_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /** Delete Attachment */
+        delete: operations["delete_attachment_me_achievements__achievement_id__attachments__attachment_id__delete"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/me/recommendations": {
         parameters: {
             query?: never;
@@ -399,6 +450,22 @@ export interface components {
              * @enum {string}
              */
             status: "done" | "planned";
+            /**
+             * Attachments
+             * @default []
+             */
+            attachments: components["schemas"]["Attachment"][];
+        };
+        /** AchievementCreated */
+        AchievementCreated: {
+            result: components["schemas"]["RecommendationResult"];
+            roadmap: components["schemas"]["Roadmap"];
+            diff: components["schemas"]["Diff"] | null;
+            /**
+             * Achievement Id
+             * Format: uuid
+             */
+            achievement_id: string;
         };
         /** AchievementIn */
         AchievementIn: {
@@ -439,6 +506,37 @@ export interface components {
             date?: string | null;
             /** Status */
             status?: ("done" | "planned") | null;
+        };
+        /** Attachment */
+        Attachment: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /**
+             * Kind
+             * @enum {string}
+             */
+            kind: "photo" | "link";
+            /** Url */
+            url?: string | null;
+            /** Title */
+            title?: string | null;
+            /** Content Type */
+            content_type?: string | null;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+        };
+        /** Body_add_photo_me_achievements__achievement_id__attachments_photo_post */
+        Body_add_photo_me_achievements__achievement_id__attachments_photo_post: {
+            /** File */
+            file: string;
+            /** Title */
+            title?: string | null;
         };
         /** ChanceChange */
         ChanceChange: {
@@ -557,6 +655,16 @@ export interface components {
             cause: string | null;
             /** At */
             at: string | null;
+        };
+        /** LinkIn */
+        LinkIn: {
+            /**
+             * Url
+             * Format: uri
+             */
+            url: string;
+            /** Title */
+            title?: string | null;
         };
         /** Major */
         Major: {
@@ -1135,7 +1243,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["ComputeResponse"];
+                    "application/json": components["schemas"]["AchievementCreated"];
                 };
             };
             /** @description Validation Error */
@@ -1207,6 +1315,112 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["ComputeResponse"];
                 };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    add_link_me_achievements__achievement_id__attachments_link_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                authorization?: string | null;
+            };
+            path: {
+                achievement_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["LinkIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Attachment"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    add_photo_me_achievements__achievement_id__attachments_photo_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                authorization?: string | null;
+            };
+            path: {
+                achievement_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "multipart/form-data": components["schemas"]["Body_add_photo_me_achievements__achievement_id__attachments_photo_post"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Attachment"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    delete_attachment_me_achievements__achievement_id__attachments__attachment_id__delete: {
+        parameters: {
+            query?: never;
+            header?: {
+                authorization?: string | null;
+            };
+            path: {
+                achievement_id: string;
+                attachment_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
             /** @description Validation Error */
             422: {

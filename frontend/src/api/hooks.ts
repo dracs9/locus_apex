@@ -8,7 +8,9 @@ import { useNetwork } from "@/store/ui";
 
 import { api, apiBlob, ApiError } from "./client";
 import type {
+  AchievementCreated,
   AchievementIn,
+  Attachment,
   AchievementPatch,
   ChancePoint,
   ComputeResponse,
@@ -172,7 +174,7 @@ function onMutationError(e: unknown) {
   toast.error(e instanceof ApiError ? e.message : t.errors.generic);
 }
 
-function useComputeMutation<V>(fn: (v: V) => Promise<ComputeResponse>, opts: { silent?: boolean } = {}) {
+function useComputeMutation<V, R extends ComputeResponse = ComputeResponse>(fn: (v: V) => Promise<R>, opts: { silent?: boolean } = {}) {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: (v: V) => {
@@ -189,7 +191,41 @@ export function useSaveProfile(opts: { silent?: boolean } = {}) {
 }
 
 export function useAddAchievement() {
-  return useComputeMutation((body: AchievementIn) => api<ComputeResponse>("/me/achievements", { method: "POST", body }));
+  return useComputeMutation((body: AchievementIn) => api<AchievementCreated>("/me/achievements", { method: "POST", body }));
+}
+
+// --- attachments (photos / links): they don't affect scoring, so only the profile is refreshed ---
+
+function useAttachmentMutation<V, R>(fn: (v: V) => Promise<R>) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (v: V) => {
+      if (useNetwork.getState().offline) return Promise.reject(new ApiError(0, "NETWORK", t.common.offlineEditsDisabled));
+      return fn(v);
+    },
+    onSuccess: () => void qc.invalidateQueries({ queryKey: keys.profile }),
+    onError: onMutationError,
+  });
+}
+
+export function useAddLink() {
+  return useAttachmentMutation(({ achievementId, url, title }: { achievementId: string; url: string; title?: string }) =>
+    api<Attachment>(`/me/achievements/${achievementId}/attachments/link`, { method: "POST", body: { url, title: title || null } }),
+  );
+}
+
+export function useUploadPhoto() {
+  return useAttachmentMutation(({ achievementId, file }: { achievementId: string; file: Blob }) => {
+    const form = new FormData();
+    form.append("file", file, file instanceof File ? file.name : "photo.jpg");
+    return api<Attachment>(`/me/achievements/${achievementId}/attachments/photo`, { method: "POST", body: form });
+  });
+}
+
+export function useDeleteAttachment() {
+  return useAttachmentMutation(({ achievementId, attachmentId }: { achievementId: string; attachmentId: string }) =>
+    api<void>(`/me/achievements/${achievementId}/attachments/${attachmentId}`, { method: "DELETE" }),
+  );
 }
 
 export function usePatchAchievement() {
