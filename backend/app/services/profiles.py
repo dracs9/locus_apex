@@ -52,6 +52,8 @@ async def update_achievement(session: AsyncSession, user_id: UUID, achievement_i
 
 
 async def delete_achievement(session: AsyncSession, user_id: UUID, achievement_id: UUID) -> bool:
+    await session.execute(delete(db.achievement_attachments).where(
+        db.achievement_attachments.c.achievement_id == achievement_id, db.achievement_attachments.c.user_id == user_id))
     res = await session.execute(delete(db.achievements)
                                 .where(db.achievements.c.id == achievement_id, db.achievements.c.user_id == user_id))
     return res.rowcount > 0
@@ -83,5 +85,5 @@ async def set_progress(session: AsyncSession, user_id: UUID, step_id: str, done:
 
 
 async def wipe_user(session: AsyncSession, user_id: UUID) -> None:
-    for table in (db.achievements, db.favorites, db.roadmap_progress, db.snapshots, db.profiles):
+    for table in (db.achievement_attachments, db.achievements, db.favorites, db.roadmap_progress, db.snapshots, db.profiles):
         await session.execute(delete(table).where(table.c.user_id == user_id))

@@ -3,11 +3,28 @@ from datetime import datetime
 from typing import Literal
 from uuid import UUID
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, HttpUrl
 
 AchievementType = Literal["SAT", "IELTS", "TOEFL", "OLYMPIAD", "PROJECT", "VOLUNTEER", "COMPETITION", "OTHER"]
 AchievementLevel = Literal["school", "city", "national", "international"]
 AchievementStatus = Literal["done", "planned"]
+AttachmentKind = Literal["photo", "link"]
+MAX_ATTACHMENTS = 5
+MAX_PHOTO_BYTES = 5 * 1024 * 1024
+
+
+class Attachment(BaseModel):
+    id: UUID
+    kind: AttachmentKind
+    url: str | None = None  # link target, or a short-lived signed URL for photos
+    title: str | None = None
+    content_type: str | None = None
+    created_at: datetime
+
+
+class LinkIn(BaseModel):
+    url: HttpUrl = Field(max_length=2048)
+    title: str | None = Field(default=None, max_length=120)
 
 
 class Achievement(BaseModel):
@@ -18,6 +35,7 @@ class Achievement(BaseModel):
     level: AchievementLevel | None = None
     date: dt.date
     status: AchievementStatus
+    attachments: list[Attachment] = []
 
 
 class AchievementIn(BaseModel):

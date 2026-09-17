@@ -65,6 +65,20 @@ roadmap_progress = Table(
     Column("done_at", DateTime(timezone=True)),
 )
 
+achievement_attachments = Table(
+    "achievement_attachments", metadata,
+    Column("id", Uuid, primary_key=True),
+    Column("achievement_id", Uuid, nullable=False, index=True),
+    Column("user_id", Uuid, nullable=False, index=True),
+    Column("kind", Text, nullable=False),
+    Column("url", Text),
+    Column("storage_path", Text),
+    Column("title", Text),
+    Column("content_type", Text),
+    Column("size_bytes", Integer),
+    Column("created_at", DateTime(timezone=True), nullable=False),
+)
+
 snapshots = Table(
     "snapshots", metadata,
     Column("id", Uuid, primary_key=True),

@@ -80,6 +80,10 @@ class ComputeResponse(BaseModel):
     diff: Diff | None
 
 
+class AchievementCreated(ComputeResponse):
+    achievement_id: UUID
+
+
 class ChancePoint(BaseModel):
     date: dt.date
     chance_by_uni: dict[str, Chance | None]

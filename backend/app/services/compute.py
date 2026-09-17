@@ -20,7 +20,9 @@ def today() -> date:
 
 
 def profile_hash(profile: Profile, favorite_ids: list[str]) -> str:
-    payload = json.dumps({"p": profile.model_dump(mode="json", exclude={"created_at"}), "f": favorite_ids}, sort_keys=True)
+    # attachments never affect scoring, and signed photo URLs change on every load
+    data = profile.model_dump(mode="json", exclude={"created_at": True, "achievements": {"__all__": {"attachments"}}})
+    payload = json.dumps({"p": data, "f": favorite_ids}, sort_keys=True)
     return hashlib.sha256(payload.encode()).hexdigest()[:16]
 
 
