@@ -10,7 +10,7 @@
   "achievements": [
     {"type": "IELTS", "score": 6.5, "title": "IELTS Academic", "level": null, "date": "2026-04-18", "status": "done"},
     {"type": "OLYMPIAD", "score": null, "title": "Республиканская олимпиада по информатике — призёр", "level": "national", "date": "2026-03-20", "status": "done"},
-    {"type": "SAT", "score": 1380, "title": "SAT (август)", "level": null, "date": "2026-08-23", "status": "done"},
+    {"type": "SAT", "score": 1150, "title": "SAT — первая попытка", "level": null, "date": "2026-08-23", "status": "done"},
     {"type": "IELTS", "score": null, "title": "Пересдача IELTS", "level": null, "date": "2027-03-13", "status": "planned"}
   ]
 }

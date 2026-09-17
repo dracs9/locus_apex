@@ -1,4 +1,4 @@
-import { ArrowRight, ChevronDown, Flag, ListChecks, Pencil, Settings, ShieldAlert, Sparkles, Target } from "lucide-react";
+import { ArrowRight, ChevronDown, Flag, History, ListChecks, Pencil, Settings, ShieldAlert, Sparkles, Target } from "lucide-react";
 import { useState, type ReactNode } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -130,6 +130,11 @@ export function Passport() {
         <Button variant="outline" asChild>
           <Link to="/settings">
             <Settings /> {t.nav.settings}
+          </Link>
+        </Button>
+        <Button variant="outline" asChild className="col-span-2">
+          <Link to="/changes">
+            <History /> {t.nav.changes}
           </Link>
         </Button>
       </div>
