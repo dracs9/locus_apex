@@ -1,0 +1,13 @@
+{
+  "asu": {"year": "2025-2026", "urls": ["https://uoia.asu.edu/sites/g/files/litvpz1436/files/2026-06/CDS%202025-26%20-%20ASU%20Campus%20Immersion.pdf"]},
+  "boston_u": {"year": "2025-2026", "urls": ["https://www.bu.edu/asir/files/2026/05/CDS-2025-2026-C.pdf", "https://www.bu.edu/asir/files/2026/05/CDS-2025-2026-H.pdf"]},
+  "columbia": {"year": "2024-2025", "urls": ["https://opir.columbia.edu/sites/opir.columbia.edu/files/content/Common%20Data%20Set/2024-25_Columbia_College_and_Columbia_Engineering_CDS.pdf"]},
+  "cornell": {"year": "2025-2026", "urls": ["http://irp.cornell.edu/wp-content/uploads/2026/09/Cornell-Common-Data-Set-2025-26.pdf"]},
+  "gatech": {"year": "2025-2026", "urls": ["https://irp.gatech.edu/sites/default/files/CDS/CDS_2025-2026_FINAL_R4_03JUN2026.pdf"]},
+  "harvard": {"year": "2025-2026", "urls": ["https://oira.harvard.edu/files/2026/07/CDS_2025-2026.pdf"]},
+  "nyu": {"year": "2025-2026", "urls": ["https://www.nyu.edu/content/dam/nyu/institutionalResearch/documents/cds-2025-2026/CDS%202025-2026%20FINAL%20(no%20G).pdf"]},
+  "princeton": {"year": "2025-2026", "urls": ["https://ir.princeton.edu/sites/g/files/toruqf2041/files/documents/CDS_2526_Princeton_v2.pdf"]},
+  "purdue": {"year": "2025-2026", "urls": ["https://www.purdue.edu/idata/wp-content/uploads/2026/04/CDS-2025-2026.xlsx"]},
+  "uchicago": {"year": "2025-2026", "urls": ["https://data.uchicago.edu/files/2026/08/CDS_2025-2026_to_publish-1.pdf"]},
+  "umich": {"year": "2025-2026", "urls": ["https://obp.umich.edu/wp-content/uploads/pubdata/cds/cds_2025-26_umaa.pdf"]}
+}
