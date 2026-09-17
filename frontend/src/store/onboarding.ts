@@ -1,11 +1,17 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
+import type { Academic, Scale } from "@/lib/academic";
+import type { Answers } from "@/lib/interests";
+
 import type { Priorities } from "@/api/types";
 
 export interface OnboardingDraft {
   step: number;
-  grade: 10 | 11 | 12 | null;
+  grade: 9 | 10 | 11 | 12 | null;
+  academic: Academic | null;
+  scale: Scale;
+  hollandAnswers: Answers;
   gpa5: number | null;
   majors: string[];
   countries: string[];
@@ -20,6 +26,9 @@ export interface OnboardingDraft {
 const initial: OnboardingDraft = {
   step: 0,
   grade: null,
+  academic: null,
+  scale: "5",
+  hollandAnswers: {},
   gpa5: null,
   majors: [],
   countries: [],
@@ -44,6 +53,14 @@ export const useOnboarding = create<OnboardingState>()(
       patch: (p) => set(p),
       reset: () => set(initial),
     }),
-    { name: "onboarding-draft" },
+    {
+      name: "onboarding-draft",
+      version: 2,
+      migrate: (old) => ({
+        ...initial,
+        ...(old as Partial<OnboardingDraft>),
+        step: 0,
+      }),
+    },
   ),
 );

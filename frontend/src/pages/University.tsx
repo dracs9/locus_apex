@@ -11,7 +11,8 @@ import { DOCUMENT_TITLES } from "@/components/ds/documents";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/misc";
 import { t } from "@/i18n/ru";
-import { countryName, gpa5to4, money, oneIn, projectDeadline, shortDate } from "@/lib/format";
+import { academicGpa4, academicLabel } from "@/lib/academic";
+import { countryName, money, oneIn, projectDeadline, shortDate } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import { useNetwork } from "@/store/ui";
 
@@ -42,7 +43,7 @@ function Requirements({ uni, profile }: { uni: Uni; profile: Profile }) {
   const sat = best(profile, "SAT");
   const ielts = best(profile, "IELTS");
   const toefl = best(profile, "TOEFL");
-  const gpa4 = gpa5to4(profile.gpa5);
+  const gpa4 = academicGpa4(profile);
   const satRange = uni.sat.value;
   const cost = uni.cost_per_year_usd.value;
   return (
@@ -68,8 +69,8 @@ function Requirements({ uni, profile }: { uni: Uni; profile: Profile }) {
             label={t.university.gpa}
             value={uni.gpa_avg.value?.toFixed(2)}
             fact={uni.gpa_avg}
-            yours={<span title={t.common.approxGpa}>≈{gpa4.toFixed(1)}</span>}
-            ok={uni.gpa_avg.value != null ? gpa4 >= uni.gpa_avg.value - 0.2 : null}
+            yours={<span title={t.common.approxGpa}>{gpa4 !== null ? "≈" : ""}{(gpa4 === null ? academicLabel(profile) + " · без перевода" : gpa4.toFixed(1))}</span>}
+            ok={uni.gpa_avg.value != null && gpa4 !== null ? gpa4 >= uni.gpa_avg.value - 0.2 : null}
           />
           <Row
             label={t.university.ielts}

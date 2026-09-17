@@ -1,9 +1,11 @@
 import datetime as dt
 from datetime import datetime
-from typing import Literal
+from typing import Annotated, Literal
+import json
+from pathlib import Path
 from uuid import UUID
 
-from pydantic import BaseModel, Field, HttpUrl
+from pydantic import BaseModel, Field, HttpUrl, model_validator
 
 AchievementType = Literal["SAT", "IELTS", "TOEFL", "OLYMPIAD", "PROJECT", "VOLUNTEER", "COMPETITION", "OTHER"]
 AchievementLevel = Literal["school", "city", "national", "international"]
@@ -63,9 +65,35 @@ class Priorities(BaseModel):
     aid: float = Field(0.5, ge=0, le=1)
 
 
+class AcademicRecord(BaseModel):
+    scale: Literal["5", "4", "100", "ib8"]
+    value: float = Field(ge=0, allow_inf_nan=False)
+
+    @model_validator(mode="after")
+    def validate_range(self):
+        maximum = {"5": 5, "4": 4, "100": 100, "ib8": 8}[self.scale]
+        if self.value > maximum:
+            raise ValueError("Средний балл превышает выбранную шкалу")
+        return self
+
+
+class HollandAssessment(BaseModel):
+    version: Literal["applyra-riasec-v1"] = "applyra-riasec-v1"
+    answers: dict[str, Annotated[int, Field(strict=True, ge=0, le=4)]]
+
+    @model_validator(mode="after")
+    def complete_questionnaire(self):
+        data = json.loads((Path(__file__).parents[1] / "data/holland.json").read_text())
+        if set(self.answers) != {q["id"] for q in data["questions"]}:
+            raise ValueError("Ответьте на все 30 вопросов RIASEC")
+        return self
+
+
 class Profile(BaseModel):
-    grade: Literal[10, 11, 12]
-    gpa5: float = Field(ge=2.0, le=5.0)
+    grade: Literal[9, 10, 11, 12]
+    gpa5: float | None = Field(default=None, ge=0, le=5.0)
+    academic_record: AcademicRecord | None = None
+    holland: HollandAssessment | None = None
     majors: list[str] = Field(min_length=1, max_length=3)
     countries: list[str] = Field(min_length=1)
     budget_per_year_usd: int = Field(ge=0)
@@ -80,8 +108,10 @@ class ProfileIn(BaseModel):
     """Profile body for PUT /me/profile. Achievements are managed separately, but
     onboarding may send initial ones (without ids)."""
 
-    grade: Literal[10, 11, 12]
-    gpa5: float = Field(ge=2.0, le=5.0)
+    grade: Literal[9, 10, 11, 12]
+    gpa5: float | None = Field(default=None, ge=0, le=5.0)
+    academic_record: AcademicRecord | None = None
+    holland: HollandAssessment | None = None
     majors: list[str] = Field(min_length=1, max_length=3)
     countries: list[str] = Field(min_length=1)
     budget_per_year_usd: int = Field(ge=0)

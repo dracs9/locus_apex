@@ -5,6 +5,7 @@ from datetime import date, datetime, time
 from app.schemas import Excluded, Profile, Reason, Recommendation, RecommendationResult, University
 
 from . import config, text
+from .interests import interest_fit
 from .filters import check_budget, check_major, hard_filters
 from .fit import compute_fits
 from .score import achievements_factor, score
@@ -16,6 +17,11 @@ KIND_ORDER = {"blocker": 0, "plus": 1, "risk": 2}
 
 def _extra_pluses(profile: Profile, uni: University) -> list[Reason]:
     out = []
+    fit = interest_fit(profile, uni)
+    if fit is not None and fit >= 0.6:
+        out.append(Reason(kind="plus", code="HOLLAND_MATCH",
+            text="Выбранные направления вуза пересекаются с интересами по RIASEC",
+            profile_field="holland"))
     if profile.needs_aid and uni.intl_aid.value == "full_need":
         out.append(Reason(kind="plus", code="AID_FULL_NEED", text="Даёт иностранцам полную финпомощь по потребности",
                           profile_field="needs_aid"))

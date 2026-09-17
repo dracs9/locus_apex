@@ -15,6 +15,18 @@ def gpa5_to_gpa4(gpa5: float) -> float:
     return table[-1][1]
 
 
+def profile_gpa4(profile: Profile) -> float | None:
+    record = profile.academic_record
+    if record is not None:
+        if record.scale == "4":
+            return record.value
+        if record.scale == "5":
+            return gpa5_to_gpa4(record.value) if record.value >= 2 else None
+        # A criterion score /8 or a percentage is not an official US GPA conversion.
+        return None
+    return gpa5_to_gpa4(profile.gpa5) if profile.gpa5 is not None and profile.gpa5 >= 2 else None
+
+
 def toefl_to_ielts(toefl: float) -> float:
     for lower, band in config.TOEFL_TO_IELTS:
         if toefl >= lower:

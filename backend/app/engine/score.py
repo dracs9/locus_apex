@@ -4,6 +4,7 @@ from app.schemas import Profile, University
 from . import config
 from .fit import Fits
 from .normalize import done_achievements
+from .interests import interest_fit
 
 
 def academic_factor(fits: Fits) -> float:
@@ -16,6 +17,10 @@ def language_factor(fits: Fits) -> float:
 
 
 def major_factor(profile: Profile, uni: University) -> float:
+    fit = interest_fit(profile, uni)
+    if fit is not None:
+        return fit
+
     if profile.majors[0] in uni.majors:  # the first major is the main one
         return 1.0
     return 0.7 if any(m in uni.majors for m in profile.majors) else 0.0

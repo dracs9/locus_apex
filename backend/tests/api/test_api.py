@@ -112,3 +112,20 @@ async def test_demo_reset_and_ai_fallbacks(client, user):
     assert [i["id"] for i in t["items"]] == steps
     assert (await client.post("/me/reset", headers=user["headers"])).json() == {"ok": True}
     assert (await client.get("/me/profile", headers=user["headers"])).status_code == 404
+
+
+async def test_grade_nine_ib_interests_and_zero_budget_persist(client, user):
+    from app.engine.interests import questionnaire
+    answers = {q['id']: 3 for q in questionnaire()['questions']}
+    payload = {**PROFILE, 'grade': 9, 'gpa5': None, 'academic_record': {'scale': 'ib8', 'value': 7.5},
+               'holland': {'version': 'applyra-riasec-v1', 'answers': answers}, 'budget_per_year_usd': 0}
+    response = await client.put('/me/profile', json=payload, headers=user['headers'])
+    assert response.status_code == 200, response.text
+    saved = (await client.get('/me/profile', headers=user['headers'])).json()
+    assert saved['grade'] == 9 and saved['budget_per_year_usd'] == 0
+    assert saved['academic_record'] == payload['academic_record']
+    assert saved['holland']['answers'] == answers
+    assert (await client.get('/me/recommendations', headers=user['headers'])).status_code == 200
+    invalid = {**payload, 'holland': {'answers': {}}}
+    assert (await client.put('/me/profile', json=invalid, headers=user['headers'])).status_code == 422
+    assert (await client.get('/me/profile', headers=user['headers'])).json()['holland'] == saved['holland']

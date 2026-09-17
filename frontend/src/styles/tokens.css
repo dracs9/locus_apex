@@ -2,22 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Design tokens. Palette: ink indigo + tangerine accent on warm paper. Tier and reason colors are semantic. */
+/* Design tokens. Palette: Applyra cobalt blue, navy ink and cool white. Tier and reason colors are semantic. */
 @layer base {
   :root {
-    --background: 40 33% 98%;
-    --foreground: 243 40% 12%;
+    --background: 220 33% 98%;
+    --foreground: 220 47% 16%;
     --card: 0 0% 100%;
-    --card-foreground: 243 40% 12%;
-    --muted: 240 20% 95%;
-    --muted-foreground: 240 10% 40%;
-    --primary: 245 70% 45%;
+    --card-foreground: 220 47% 16%;
+    --muted: 224 38% 96%;
+    --muted-foreground: 221 14% 43%;
+    --primary: 228 81% 52%;
     --primary-foreground: 0 0% 100%;
-    --accent: 24 95% 53%;
-    --accent-foreground: 20 40% 10%;
+    --accent: 228 81% 52%;
+    --accent-foreground: 0 0% 100%;
     --border: 240 15% 88%;
     --input: 240 15% 85%;
-    --ring: 245 70% 45%;
+    --ring: 228 81% 52%;
 
     --dream: 282 62% 50%;
     --dream-soft: 282 70% 95%;
@@ -61,13 +61,13 @@
     --card-foreground: 40 20% 94%;
     --muted: 240 18% 16%;
     --muted-foreground: 240 10% 70%;
-    --primary: 245 90% 74%;
+    --primary: 228 90% 74%;
     --primary-foreground: 240 30% 8%;
-    --accent: 26 95% 60%;
-    --accent-foreground: 20 40% 8%;
+    --accent: 228 90% 74%;
+    --accent-foreground: 220 47% 12%;
     --border: 240 15% 21%;
     --input: 240 15% 26%;
-    --ring: 245 90% 74%;
+    --ring: 228 90% 74%;
 
     --dream: 282 80% 74%;
     --dream-soft: 282 35% 18%;

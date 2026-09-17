@@ -2,7 +2,7 @@
 from collections import Counter
 
 from app.engine import text
-from app.engine.normalize import best_ielts, best_score, done_achievements, gpa5_to_gpa4
+from app.engine.normalize import best_ielts, best_score, done_achievements, profile_gpa4
 from app.engine.roadmap import DOCUMENTS
 from app.schemas import Profile, RecommendationResult, RoadmapStep, University
 from app.schemas.ai import PassportItem, PassportOut
@@ -29,9 +29,9 @@ def passport(profile: Profile, result: RecommendationResult, major_names: dict[s
                         profile_field="majors")
 
     strengths: list[PassportItem] = []
-    gpa4 = gpa5_to_gpa4(profile.gpa5)
-    if profile.gpa5 >= 4.5:
-        strengths.append(PassportItem(text=f"Высокий средний балл {profile.gpa5:g} (≈{gpa4:.1f} GPA)", profile_field="gpa5"))
+    gpa4 = profile_gpa4(profile)
+    if gpa4 is not None and gpa4 >= 3.5:
+        strengths.append(PassportItem(text=f"Средний балл в сравнительной шкале ≈{gpa4:.1f} GPA", profile_field="gpa5"))
     sat = best_score(profile, "SAT")
     if sat is not None and sat >= 1300:
         strengths.append(PassportItem(text=f"SAT уже сдан: {int(sat)}", profile_field="achievement:SAT"))

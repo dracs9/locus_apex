@@ -1,7 +1,9 @@
+import { academicLabel } from "./academic";
+import { hollandCode } from "./interests";
 import type { Profile } from "@/api/types";
 import { t } from "@/i18n/ru";
 
-import { countryName, gpa5to4, money } from "./format";
+import { countryName, money } from "./format";
 
 function best(profile: Profile, type: string): number | null {
   const scores = profile.achievements.filter((a) => a.type === type && a.status === "done" && a.score != null).map((a) => a.score as number);
@@ -12,7 +14,9 @@ function best(profile: Profile, type: string): number | null {
 export function profileFieldAnswer(profile: Profile, field: string, majorNames: Map<string, string>): { label: string; value: string } {
   switch (field) {
     case "gpa5":
-      return { label: "Средний балл", value: `${profile.gpa5.toFixed(1)} из 5 (≈${gpa5to4(profile.gpa5).toFixed(1)} GPA)` };
+      return { label: "Средний балл", value: academicLabel(profile) };
+    case "holland":
+      return { label: "Интересы RIASEC", value: profile.holland ? hollandCode(profile.holland.answers) ?? "Равные интересы" : "Тест ещё не пройден" };
     case "majors":
       return { label: "Направления", value: profile.majors.map((m) => majorNames.get(m) ?? m).join(", ") };
     case "countries":

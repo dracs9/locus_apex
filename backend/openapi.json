@@ -1415,6 +1415,31 @@
   },
   "components": {
     "schemas": {
+      "AcademicRecord": {
+        "properties": {
+          "scale": {
+            "type": "string",
+            "enum": [
+              "5",
+              "4",
+              "100",
+              "ib8"
+            ],
+            "title": "Scale"
+          },
+          "value": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Value"
+          }
+        },
+        "type": "object",
+        "required": [
+          "scale",
+          "value"
+        ],
+        "title": "AcademicRecord"
+      },
       "Achievement": {
         "properties": {
           "id": {
@@ -2105,6 +2130,30 @@
         "type": "object",
         "title": "HTTPValidationError"
       },
+      "HollandAssessment": {
+        "properties": {
+          "version": {
+            "type": "string",
+            "const": "applyra-riasec-v1",
+            "title": "Version",
+            "default": "applyra-riasec-v1"
+          },
+          "answers": {
+            "additionalProperties": {
+              "type": "integer",
+              "maximum": 4.0,
+              "minimum": 0.0
+            },
+            "type": "object",
+            "title": "Answers"
+          }
+        },
+        "type": "object",
+        "required": [
+          "answers"
+        ],
+        "title": "HollandAssessment"
+      },
       "LatestChanges": {
         "properties": {
           "diff": {
@@ -2328,6 +2377,7 @@
           "grade": {
             "type": "integer",
             "enum": [
+              9,
               10,
               11,
               12
@@ -2335,10 +2385,37 @@
             "title": "Grade"
           },
           "gpa5": {
-            "type": "number",
-            "maximum": 5.0,
-            "minimum": 2.0,
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 5.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Gpa5"
+          },
+          "academic_record": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AcademicRecord"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "holland": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/HollandAssessment"
+              },
+              {
+                "type": "null"
+              }
+            ]
           },
           "majors": {
             "items": {
@@ -2390,7 +2467,6 @@
         "type": "object",
         "required": [
           "grade",
-          "gpa5",
           "majors",
           "countries",
           "budget_per_year_usd",
@@ -2406,6 +2482,7 @@
           "grade": {
             "type": "integer",
             "enum": [
+              9,
               10,
               11,
               12
@@ -2413,10 +2490,37 @@
             "title": "Grade"
           },
           "gpa5": {
-            "type": "number",
-            "maximum": 5.0,
-            "minimum": 2.0,
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 5.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Gpa5"
+          },
+          "academic_record": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AcademicRecord"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "holland": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/HollandAssessment"
+              },
+              {
+                "type": "null"
+              }
+            ]
           },
           "majors": {
             "items": {
@@ -2463,7 +2567,6 @@
         "type": "object",
         "required": [
           "grade",
-          "gpa5",
           "majors",
           "countries",
           "budget_per_year_usd",

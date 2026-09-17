@@ -57,8 +57,10 @@ def describe_changes(prev: Profile | None, new: Profile, major_names: dict[str, 
         parts.append("направления: " + ", ".join(names.get(m, m) for m in new.majors))
     if prev.countries != new.countries:
         parts.append("страны: " + ", ".join(text.country(c) for c in new.countries))
-    if prev.gpa5 != new.gpa5:
-        parts.append(f"средний балл {prev.gpa5:g} → {new.gpa5:g}")
+    if prev.gpa5 != new.gpa5 or prev.academic_record != new.academic_record:
+        parts.append("обновлена оценка или шкала оценивания")
+    if prev.holland != new.holland:
+        parts.append("обновлены интересы RIASEC")
     if prev.grade != new.grade:
         parts.append(f"класс {prev.grade} → {new.grade}")
     if prev.intake_year != new.intake_year:

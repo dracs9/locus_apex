@@ -2,9 +2,13 @@
 
 LOCUS Hackathon 2026, Case 02. Full specification: [SPEC.md](SPEC.md).
 
+## Team handoff
+
+Current development branch: **dev**. [Russian team guide: UI, country navigation, RIASEC, grading scales, deployment limitations](docs/TEAM_GUIDE.md).
+
 ## Task
 
-High-school students in Kazakhstan (grades 10–12) who want to study at top universities abroad don't need another list of universities. They need a route: where to apply, why each option fits, and what to do next.
+High-school students in Kazakhstan (grades 9–12) who want to study at top universities abroad don't need another list of universities. They need a route: where to apply, why each option fits, and what to do next.
 
 ## Solution
 

@@ -6,7 +6,7 @@ from typing import Literal
 from app.schemas import Profile, Reason, University
 
 from . import config
-from .normalize import best_ielts, best_score, final_deadline, gpa5_to_gpa4, planned_exam_before
+from .normalize import best_ielts, best_score, final_deadline, profile_gpa4, planned_exam_before
 
 AcademicFit = Literal["above", "within", "below", "missing", "skipped"]
 LanguageFit = Literal["ok", "missing", "below", "below_planned", "skipped"]
@@ -60,7 +60,11 @@ def gpa_fit(profile: Profile, uni: University) -> tuple[AcademicFit, float | Non
     avg = uni.gpa_avg.value
     if avg is None:
         return "skipped", None, ([_not_published("Средний GPA", "gpa5")] if uni.country == "US" else [])
-    gpa4 = gpa5_to_gpa4(profile.gpa5)
+    gpa4 = profile_gpa4(profile)
+    if gpa4 is None:
+        return "missing", None, [Reason(kind="risk", code="GPA_NOT_COMPARABLE",
+            text="Оценка сохранена в исходной шкале; для сравнения GPA нужен подтверждённый перевод",
+            profile_field="gpa5")]
     if gpa4 >= avg:
         return "above", None, [Reason(kind="plus", code="GPA_ABOVE_AVG",
                                       text=f"Ваш GPA ≈{gpa4:.1f} не ниже среднего у поступивших ({avg:.2f})",

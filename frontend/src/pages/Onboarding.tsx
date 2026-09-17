@@ -3,20 +3,37 @@ import type { ReactNode } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { z } from "zod";
 
-import { useMajors, useProfile, useSaveProfile, useUniversities } from "@/api/hooks";
+import {
+  useMajors,
+  useProfile,
+  useSaveProfile,
+  useUniversities,
+} from "@/api/hooks";
 import type { AchievementIn, ProfileIn } from "@/api/types";
 import { Pill } from "@/components/ds/badges";
 import { NetworkBanners, ErrorState } from "@/components/ds/states";
 import { Button } from "@/components/ui/button";
 import { Input, Label, Progress, Skeleton } from "@/components/ui/misc";
+import { Logo } from "@/components/brand/Logo";
+import { AcademicField } from "@/components/profile/AcademicField";
+import { HollandQuiz } from "@/components/interests/HollandQuiz";
+import { complete, suggestedMajors } from "@/lib/interests";
 import { Slider } from "@/components/ui/slider";
 import { t } from "@/i18n/ru";
-import { countryName, gpa5to4, intakeYearFor, money, todayIso } from "@/lib/format";
+import { countryName, intakeYearFor, todayIso } from "@/lib/format";
 import { useOnboarding } from "@/store/onboarding";
 import { useNetwork } from "@/store/ui";
 
-const STEPS = ["grade", "gpa", "majors", "countries", "budget", "aid", "exams", "priorities"] as const;
-const BUDGET_PRESETS = [10000, 20000, 35000, 50000, 90000];
+const STEPS = [
+  "grade",
+  "gpa",
+  "interests",
+  "majors",
+  "countries",
+  "budget",
+  "exams",
+  "priorities",
+] as const;
 const PRIORITY_KEYS = ["cost", "prestige", "aid", "location"] as const;
 
 const examSchema = z.object({
@@ -25,11 +42,21 @@ const examSchema = z.object({
   toefl: z.union([z.literal(""), z.coerce.number().int().min(0).max(120)]),
 });
 
-function Question({ title, hint, children }: { title: string; hint: string; children: ReactNode }) {
+function Question({
+  title,
+  hint,
+  children,
+}: {
+  title: string;
+  hint: string;
+  children: ReactNode;
+}) {
   return (
     <div className="animate-fade-up space-y-6">
       <div className="space-y-2">
-        <h1 className="text-2xl font-bold leading-tight md:text-3xl">{title}</h1>
+        <h1 className="text-2xl font-bold leading-tight md:text-3xl">
+          {title}
+        </h1>
         <p className="text-muted-foreground">{hint}</p>
       </div>
       {children}
@@ -46,85 +73,163 @@ export function Onboarding() {
   const save = useSaveProfile({ silent: true });
   const offline = useNetwork((s) => s.offline);
 
-  if (profile.data && !save.isPending && !save.isSuccess) return <Navigate to="/passport" replace />;
+  if (profile.data && !save.isPending && !save.isSuccess)
+    return <Navigate to="/passport" replace />;
 
   const step = STEPS[draft.step];
-  const countries = [...new Set((universities.data ?? []).map((u) => u.country))];
-  const countByCountry = (c: string) => (universities.data ?? []).filter((u) => u.country === c).length;
-  const exams = examSchema.safeParse({ sat: draft.sat.trim(), ielts: draft.ielts.trim().replace(",", "."), toefl: draft.toefl.trim() });
+  const countries = [
+    ...new Set([
+      "US",
+      "HK",
+      "CN",
+      "IT",
+      ...(universities.data ?? []).map((u) => u.country),
+    ]),
+  ];
+  const countByCountry = (c: string) =>
+    (universities.data ?? []).filter((u) => u.country === c).length;
+  const exams = examSchema.safeParse({
+    sat: draft.sat.trim(),
+    ielts: draft.ielts.trim().replace(",", "."),
+    toefl: draft.toefl.trim(),
+  });
 
   const valid: Record<(typeof STEPS)[number], boolean> = {
     grade: draft.grade !== null,
-    gpa: draft.gpa5 !== null,
+    gpa: draft.academic !== null,
+    interests: complete(draft.hollandAnswers),
     majors: draft.majors.length > 0,
     countries: draft.countries.length > 0,
-    budget: draft.budget !== null,
-    aid: draft.needsAid !== null,
+    budget:
+      draft.budget !== null &&
+      Number.isSafeInteger(draft.budget) &&
+      draft.budget >= 0 &&
+      draft.budget <= 500000,
     exams: exams.success,
     priorities: true,
   };
 
-  const next = () => draft.patch({ step: Math.min(STEPS.length - 1, draft.step + 1) });
-  const back = () => (draft.step === 0 ? navigate("/") : draft.patch({ step: draft.step - 1 }));
+  const next = () => {
+    const suggestions =
+      step === "interests" && draft.majors.length === 0
+        ? suggestedMajors(
+            draft.hollandAnswers,
+            (majors.data ?? []).map((m) => m.id),
+          )
+        : draft.majors;
+    draft.patch({
+      step: Math.min(STEPS.length - 1, draft.step + 1),
+      majors: suggestions,
+    });
+  };
+  const back = () =>
+    draft.step === 0 ? navigate("/") : draft.patch({ step: draft.step - 1 });
 
   const dontKnow: Partial<Record<(typeof STEPS)[number], () => void>> = {
-    gpa: () => draft.patch({ gpa5: 4.0, step: draft.step + 1 }),
-    budget: () => draft.patch({ budget: 30000, step: draft.step + 1 }),
-    aid: () => draft.patch({ needsAid: true, step: draft.step + 1 }),
-    exams: () => draft.patch({ sat: "", ielts: "", toefl: "", step: draft.step + 1 }),
-    priorities: () => draft.patch({ priorities: { cost: 0.5, prestige: 0.5, location: 0.5, aid: 0.5 } }),
+    exams: () =>
+      draft.patch({ sat: "", ielts: "", toefl: "", step: draft.step + 1 }),
+    priorities: () =>
+      draft.patch({
+        priorities: { cost: 0.5, prestige: 0.5, location: 0.5, aid: 0.5 },
+      }),
   };
 
   const submit = async () => {
-    if (!exams.success || draft.grade === null) return;
+    if (
+      !exams.success ||
+      draft.grade === null ||
+      Object.values(valid).some((v) => !v)
+    )
+      return;
     const achievements: AchievementIn[] = [];
     const add = (type: AchievementIn["type"], score: number | "") => {
-      if (score !== "") achievements.push({ type, score, date: todayIso(), status: "done", title: null, level: null });
+      if (score !== "")
+        achievements.push({
+          type,
+          score,
+          date: todayIso(),
+          status: "done",
+          title: null,
+          level: null,
+        });
     };
     add("SAT", exams.data.sat);
     add("IELTS", exams.data.ielts);
     add("TOEFL", exams.data.toefl);
     const body: ProfileIn = {
       grade: draft.grade,
-      gpa5: draft.gpa5 ?? 4.0,
+      gpa5: null,
+      academic_record: draft.academic,
+      holland: { version: "applyra-riasec-v1", answers: draft.hollandAnswers },
       majors: draft.majors,
       countries: draft.countries,
-      budget_per_year_usd: draft.budget ?? 30000,
-      needs_aid: draft.needsAid ?? true,
+      budget_per_year_usd: draft.budget!,
+      needs_aid: true,
       intake_year: intakeYearFor(draft.grade),
       priorities: draft.priorities,
       initial_achievements: achievements,
     };
-    await save.mutateAsync(body);
-    draft.reset();
-    navigate("/passport", { replace: true });
+    try {
+      await save.mutateAsync(body);
+      draft.reset();
+      navigate("/passport", { replace: true });
+    } catch {
+      /* The mutation displays the error; preserve the draft for retry. */
+    }
   };
 
   const toggle = (list: string[], id: string, max: number) =>
-    list.includes(id) ? list.filter((x) => x !== id) : list.length < max ? [...list, id] : list;
+    list.includes(id)
+      ? list.filter((x) => x !== id)
+      : list.length < max
+        ? [...list, id]
+        : list;
 
   const catalogError = majors.isError || universities.isError;
 
   return (
     <div className="flex min-h-dvh flex-col">
       <NetworkBanners />
-      <div className="mx-auto flex w-full max-w-xl flex-1 flex-col px-4 pb-8 pt-5">
+      <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col px-4 pb-8 pt-5">
+        <div className="mb-8 flex items-center justify-between">
+          <Logo />
+          <span className="text-xs font-semibold text-muted-foreground">
+            Твой первый шаг
+          </span>
+        </div>
         <div className="mb-8 space-y-2">
           <div className="flex items-center justify-between text-xs font-semibold text-muted-foreground">
             <span>{t.onboarding.stepOf(draft.step + 1, STEPS.length)}</span>
-            {draft.grade && <span>{t.onboarding.intakeYear(intakeYearFor(draft.grade))}</span>}
+            {draft.grade && (
+              <span>{t.onboarding.intakeYear(intakeYearFor(draft.grade))}</span>
+            )}
           </div>
           <Progress value={(draft.step + 1) / STEPS.length} />
         </div>
 
         <div className="flex-1">
-          {catalogError && <ErrorState onRetry={() => { void majors.refetch(); void universities.refetch(); }} />}
+          {catalogError && (
+            <ErrorState
+              onRetry={() => {
+                void majors.refetch();
+                void universities.refetch();
+              }}
+            />
+          )}
 
           {!catalogError && step === "grade" && (
-            <Question title={t.onboarding.grade.q} hint={t.onboarding.grade.hint}>
-              <div className="grid grid-cols-3 gap-3">
-                {([10, 11, 12] as const).map((g) => (
-                  <Pill key={g} active={draft.grade === g} onClick={() => draft.patch({ grade: g, step: 1 })} className="h-16 justify-center text-lg">
+            <Question
+              title={t.onboarding.grade.q}
+              hint={t.onboarding.grade.hint}
+            >
+              <div className="grid grid-cols-4 gap-3">
+                {([9, 10, 11, 12] as const).map((g) => (
+                  <Pill
+                    key={g}
+                    active={draft.grade === g}
+                    onClick={() => draft.patch({ grade: g, step: 1 })}
+                    className="h-16 justify-center text-lg"
+                  >
                     {g}
                   </Pill>
                 ))}
@@ -134,26 +239,33 @@ export function Onboarding() {
 
           {!catalogError && step === "gpa" && (
             <Question title={t.onboarding.gpa.q} hint={t.onboarding.gpa.hint}>
-              <div className="space-y-4">
-                <div className="flex items-baseline gap-3">
-                  <span className="font-display text-5xl font-bold">{(draft.gpa5 ?? 4.5).toFixed(1)}</span>
-                  <span className="text-muted-foreground">≈ {gpa5to4(draft.gpa5 ?? 4.5).toFixed(1)} GPA</span>
-                </div>
-                <Slider
-                  aria-label={t.onboarding.gpa.q}
-                  min={2}
-                  max={5}
-                  step={0.1}
-                  value={[draft.gpa5 ?? 4.5]}
-                  onValueChange={([v]) => draft.patch({ gpa5: Math.round(v * 10) / 10 })}
-                />
-                <p className="text-xs text-muted-foreground">{t.common.approxGpa}</p>
-              </div>
+              <AcademicField
+                value={draft.academic?.value ?? null}
+                scale={draft.scale}
+                onChange={(academic) =>
+                  draft.patch({ academic, scale: academic.scale })
+                }
+              />
+            </Question>
+          )}
+
+          {step === "interests" && (
+            <Question
+              title="Что тебе интересно делать?"
+              hint="Модель Холланда · 30 вопросов · около 5 минут"
+            >
+              <HollandQuiz
+                answers={draft.hollandAnswers}
+                onChange={(hollandAnswers) => draft.patch({ hollandAnswers })}
+              />
             </Question>
           )}
 
           {!catalogError && step === "majors" && (
-            <Question title={t.onboarding.majors.q} hint={t.onboarding.majors.hint}>
+            <Question
+              title={t.onboarding.majors.q}
+              hint="Первые варианты предложены по RIASEC. Оставьте до трёх направлений или измените выбор; первое — главное."
+            >
               {majors.isPending ? (
                 <Skeleton className="h-40" />
               ) : (
@@ -161,8 +273,18 @@ export function Onboarding() {
                   {(majors.data ?? []).map((m) => {
                     const idx = draft.majors.indexOf(m.id);
                     return (
-                      <Pill key={m.id} active={idx >= 0} onClick={() => draft.patch({ majors: toggle(draft.majors, m.id, 3) })}>
-                        {idx >= 0 && <span className="flex h-5 w-5 items-center justify-center rounded-full bg-primary-foreground/20 text-[11px]">{idx + 1}</span>}
+                      <Pill
+                        key={m.id}
+                        active={idx >= 0}
+                        onClick={() =>
+                          draft.patch({ majors: toggle(draft.majors, m.id, 3) })
+                        }
+                      >
+                        {idx >= 0 && (
+                          <span className="flex h-5 w-5 items-center justify-center rounded-full bg-primary-foreground/20 text-[11px]">
+                            {idx + 1}
+                          </span>
+                        )}
                         {m.name_ru}
                       </Pill>
                     );
@@ -173,15 +295,28 @@ export function Onboarding() {
           )}
 
           {!catalogError && step === "countries" && (
-            <Question title={t.onboarding.countries.q} hint={t.onboarding.countries.hint}>
+            <Question
+              title={t.onboarding.countries.q}
+              hint="Выберите страны. США уже есть в каталоге; «скоро» означает, что проверенной подборки по стране ещё нет."
+            >
               {universities.isPending ? (
                 <Skeleton className="h-32" />
               ) : (
                 <div className="flex flex-wrap gap-2">
                   {countries.map((c) => (
-                    <Pill key={c} active={draft.countries.includes(c)} onClick={() => draft.patch({ countries: toggle(draft.countries, c, 10) })}>
+                    <Pill
+                      key={c}
+                      active={draft.countries.includes(c)}
+                      onClick={() =>
+                        draft.patch({
+                          countries: toggle(draft.countries, c, 10),
+                        })
+                      }
+                    >
                       {countryName(c)}
-                      <span className="text-xs opacity-70">{countByCountry(c)}</span>
+                      <span className="text-xs opacity-70">
+                        {countByCountry(c) || "скоро"}
+                      </span>
                     </Pill>
                   ))}
                 </div>
@@ -190,43 +325,46 @@ export function Onboarding() {
           )}
 
           {!catalogError && step === "budget" && (
-            <Question title={t.onboarding.budget.q} hint={t.onboarding.budget.hint}>
+            <Question
+              title={t.onboarding.budget.q}
+              hint={t.onboarding.budget.hint}
+            >
               <div className="space-y-4">
-                <span className="block font-display text-4xl font-bold">{money(draft.budget ?? 30000)}</span>
-                <Slider
-                  aria-label={t.onboarding.budget.q}
-                  min={0}
-                  max={100000}
-                  step={1000}
-                  value={[draft.budget ?? 30000]}
-                  onValueChange={([v]) => draft.patch({ budget: v })}
+                <Label htmlFor="self-budget">Мой вклад за год, USD</Label>
+                <Input
+                  id="self-budget"
+                  inputMode="numeric"
+                  placeholder="Например, 5000"
+                  value={draft.budget ?? ""}
+                  onChange={(e) => {
+                    if (/^\d*$/.test(e.target.value))
+                      draft.patch({
+                        budget:
+                          e.target.value === "" ? null : Number(e.target.value),
+                      });
+                  }}
+                  className="h-16 text-2xl font-bold"
+                  aria-describedby="budget-help"
                 />
-                <div className="flex flex-wrap gap-2">
-                  {BUDGET_PRESETS.map((b) => (
-                    <Pill key={b} active={draft.budget === b} onClick={() => draft.patch({ budget: b })} className="min-h-9 px-3 py-1.5 text-xs">
-                      {money(b)}
-                    </Pill>
-                  ))}
-                </div>
-              </div>
-            </Question>
-          )}
-
-          {!catalogError && step === "aid" && (
-            <Question title={t.onboarding.aid.q} hint={t.onboarding.aid.hint}>
-              <div className="grid gap-3">
-                <Pill active={draft.needsAid === true} onClick={() => draft.patch({ needsAid: true, step: draft.step + 1 })} className="h-14 justify-center">
-                  {t.onboarding.aid.yes}
-                </Pill>
-                <Pill active={draft.needsAid === false} onClick={() => draft.patch({ needsAid: false, step: draft.step + 1 })} className="h-14 justify-center">
-                  {t.onboarding.aid.no}
-                </Pill>
+                <p id="budget-help" className="text-sm text-muted-foreground">
+                  Обучение и проживание вместе. Укажите 0, если необходимо
+                  полное покрытие. Если стоимость выше вашего вклада, проверим
+                  варианты финансовой помощи — её получение не гарантировано.
+                </p>
+                {draft.budget !== null && !valid.budget && (
+                  <p role="alert" className="text-sm text-blocker">
+                    Введите целую сумму от 0 до 500 000 USD в год.
+                  </p>
+                )}
               </div>
             </Question>
           )}
 
           {!catalogError && step === "exams" && (
-            <Question title={t.onboarding.exams.q} hint={t.onboarding.exams.hint}>
+            <Question
+              title={t.onboarding.exams.q}
+              hint={t.onboarding.exams.hint}
+            >
               <div className="space-y-4">
                 {(
                   [
@@ -243,11 +381,25 @@ export function Onboarding() {
                       placeholder={placeholder}
                       value={draft[key]}
                       onChange={(e) => draft.patch({ [key]: e.target.value })}
-                      aria-invalid={!exams.success && exams.error.issues.some((i) => i.path[0] === key)}
+                      aria-invalid={
+                        !exams.success &&
+                        exams.error.issues.some((i) => i.path[0] === key)
+                      }
                     />
-                    {!exams.success && exams.error.issues.some((i) => i.path[0] === key) && (
-                      <p className="text-xs text-blocker">Проверьте значение</p>
-                    )}
+                    <Slider
+                      aria-label={`${label} — ползунок`}
+                      min={key === "sat" ? 400 : 0}
+                      max={key === "sat" ? 1600 : key === "ielts" ? 9 : 120}
+                      step={key === "sat" ? 10 : key === "ielts" ? 0.5 : 1}
+                      value={[Number(draft[key]) || (key === "sat" ? 400 : 0)]}
+                      onValueChange={([v]) => draft.patch({ [key]: String(v) })}
+                    />
+                    {!exams.success &&
+                      exams.error.issues.some((i) => i.path[0] === key) && (
+                        <p className="text-xs text-blocker">
+                          Проверьте значение
+                        </p>
+                      )}
                   </div>
                 ))}
               </div>
@@ -255,13 +407,18 @@ export function Onboarding() {
           )}
 
           {!catalogError && step === "priorities" && (
-            <Question title={t.onboarding.priorities.q} hint={t.onboarding.priorities.hint}>
+            <Question
+              title={t.onboarding.priorities.q}
+              hint={t.onboarding.priorities.hint}
+            >
               <div className="space-y-5">
                 {PRIORITY_KEYS.map((k) => (
                   <div key={k} className="space-y-1">
                     <div className="flex justify-between text-sm font-semibold">
                       <span>{t.priorities[k]}</span>
-                      <span className="text-muted-foreground">{Math.round(draft.priorities[k] * 10)}/10</span>
+                      <span className="text-muted-foreground">
+                        {Math.round(draft.priorities[k] * 10)}/10
+                      </span>
                     </div>
                     <Slider
                       aria-label={t.priorities[k]}
@@ -269,7 +426,11 @@ export function Onboarding() {
                       max={1}
                       step={0.1}
                       value={[draft.priorities[k]]}
-                      onValueChange={([v]) => draft.patch({ priorities: { ...draft.priorities, [k]: v } })}
+                      onValueChange={([v]) =>
+                        draft.patch({
+                          priorities: { ...draft.priorities, [k]: v },
+                        })
+                      }
                     />
                   </div>
                 ))}
@@ -280,7 +441,8 @@ export function Onboarding() {
 
         <div className="sticky bottom-0 mt-8 flex flex-wrap items-center gap-2 bg-background/95 py-3 backdrop-blur">
           <Button variant="ghost" onClick={back} aria-label={t.common.back}>
-            <ArrowLeft /> <span className="hidden sm:inline">{t.common.back}</span>
+            <ArrowLeft />{" "}
+            <span className="hidden sm:inline">{t.common.back}</span>
           </Button>
           {dontKnow[step] && (
             <Button variant="secondary" onClick={dontKnow[step]}>
@@ -293,7 +455,15 @@ export function Onboarding() {
               {t.common.next} <ArrowRight />
             </Button>
           ) : (
-            <Button variant="accent" onClick={submit} disabled={save.isPending || offline || !exams.success}>
+            <Button
+              variant="accent"
+              onClick={submit}
+              disabled={
+                save.isPending ||
+                offline ||
+                Object.values(valid).some((v) => !v)
+              }
+            >
               {save.isPending ? <Loader2 className="animate-spin" /> : null}
               {save.isPending ? t.onboarding.building : t.onboarding.finish}
             </Button>

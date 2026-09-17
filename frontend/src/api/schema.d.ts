@@ -422,6 +422,16 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        /** AcademicRecord */
+        AcademicRecord: {
+            /**
+             * Scale
+             * @enum {string}
+             */
+            scale: "5" | "4" | "100" | "ib8";
+            /** Value */
+            value: number;
+        };
         /** Achievement */
         Achievement: {
             /**
@@ -648,6 +658,19 @@ export interface components {
             /** Detail */
             detail?: components["schemas"]["ValidationError"][];
         };
+        /** HollandAssessment */
+        HollandAssessment: {
+            /**
+             * Version
+             * @default applyra-riasec-v1
+             * @constant
+             */
+            version: "applyra-riasec-v1";
+            /** Answers */
+            answers: {
+                [key: string]: number;
+            };
+        };
         /** LatestChanges */
         LatestChanges: {
             diff: components["schemas"]["Diff"] | null;
@@ -735,9 +758,11 @@ export interface components {
              * Grade
              * @enum {integer}
              */
-            grade: 10 | 11 | 12;
+            grade: 9 | 10 | 11 | 12;
             /** Gpa5 */
-            gpa5: number;
+            gpa5?: number | null;
+            academic_record?: components["schemas"]["AcademicRecord"] | null;
+            holland?: components["schemas"]["HollandAssessment"] | null;
             /** Majors */
             majors: string[];
             /** Countries */
@@ -770,9 +795,11 @@ export interface components {
              * Grade
              * @enum {integer}
              */
-            grade: 10 | 11 | 12;
+            grade: 9 | 10 | 11 | 12;
             /** Gpa5 */
-            gpa5: number;
+            gpa5?: number | null;
+            academic_record?: components["schemas"]["AcademicRecord"] | null;
+            holland?: components["schemas"]["HollandAssessment"] | null;
             /** Majors */
             majors: string[];
             /** Countries */

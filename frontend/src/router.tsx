@@ -4,6 +4,7 @@ import { AppShell } from "./components/layout/AppShell";
 import { Changes } from "./pages/Changes";
 import { Compare } from "./pages/Compare";
 import { History } from "./pages/History";
+import { Interests } from "./pages/Interests";
 import { Landing } from "./pages/Landing";
 import { Onboarding } from "./pages/Onboarding";
 import { Passport } from "./pages/Passport";
@@ -20,6 +21,7 @@ export const router = createBrowserRouter([
     element: <AppShell />,
     children: [
       { path: "/passport", element: <Passport /> },
+      { path: "/interests", element: <Interests /> },
       { path: "/recommendations", element: <Recommendations /> },
       { path: "/university/:id", element: <University /> },
       { path: "/compare", element: <Compare /> },

@@ -1,4 +1,5 @@
-import { ArrowRight, Loader2, Sparkles } from "lucide-react";
+import { Logo } from "@/components/brand/Logo";
+import { ArrowRight, Loader2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 import { useLoadDemo, useProfile } from "@/api/hooks";
@@ -26,10 +27,7 @@ export function Landing() {
       <div className="mx-auto flex max-w-5xl flex-col gap-12 px-4 pb-16 pt-6 md:px-8 md:pt-10">
         <header className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-              <Sparkles className="h-5 w-5" />
-            </span>
-            <span className="font-display text-lg font-bold">{t.app.name}</span>
+        <Logo />
           </div>
           {hasProfile && (
             <Button variant="ghost" onClick={() => navigate("/today")}>

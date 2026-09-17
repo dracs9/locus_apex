@@ -1,3 +1,4 @@
+import { HollandResult } from "@/components/interests/HollandQuiz";
 import { ArrowRight, ChevronDown, Flag, History, ListChecks, Pencil, Settings, ShieldAlert, Sparkles, Target } from "lucide-react";
 import { useState, type ReactNode } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -116,6 +117,9 @@ export function Passport() {
           </Block>
         </>
       )}
+
+      {profile.data.holland ? <HollandResult answers={profile.data.holland.answers} /> : <Card className="p-5"><h2 className="font-bold">Начните с ваших интересов</h2><p className="mt-2 text-sm text-muted-foreground">Тест Холланда поможет исследовать направления и уточнит подборку вузов.</p></Card>}
+      <Button variant="outline" asChild><Link to="/interests">{profile.data.holland ? "Пересмотреть интересы" : "Пройти тест Холланда"}</Link></Button>
 
       <Button size="lg" className="w-full md:w-auto" onClick={() => navigate("/recommendations")}>
         {t.passport.showOptions} <ArrowRight />

@@ -7,7 +7,7 @@ from pathlib import Path
 from app.schemas import Conflict, Profile, Recommendation, Roadmap, RoadmapStep, University
 
 from . import config, text
-from .normalize import application_deadline, best_ielts, best_score, done_achievements, gpa5_to_gpa4
+from .normalize import application_deadline, best_ielts, best_score, done_achievements, profile_gpa4
 
 EXAM_BUFFER_DAYS = 3  # safety margin between exam result and deadline
 
@@ -76,7 +76,7 @@ def build_roadmap(profile: Profile, favorite_ids: list[str], recs: list[Recommen
 
     sat = best_score(profile, "SAT")
     ielts = best_ielts(profile)
-    gpa4 = gpa5_to_gpa4(profile.gpa5)
+    gpa4 = profile_gpa4(profile)
     exam_goals: dict[str, float] = {}
     strong_activity = any(a.type in config.ACTIVITY_TYPES and a.level in ("national", "international")
                           for a in done_achievements(profile))
@@ -114,7 +114,7 @@ def build_roadmap(profile: Profile, favorite_ids: list[str], recs: list[Recommen
                 source_url=dl_source, is_demo=dl_demo)
             apply_deps.append(f"doc:{doc}")
 
-        if uni.gpa_avg.value is not None and gpa4 < uni.gpa_avg.value - config.GPA_WITHIN_MARGIN:
+        if uni.gpa_avg.value is not None and gpa4 is not None and gpa4 < uni.gpa_avg.value - config.GPA_WITHIN_MARGIN:
             add("academic:gpa", "academic", "Подтянуть оценки в текущем семестре", deadline - timedelta(days=ACADEMIC_LEAD_DAYS), uni.id,
                 source_url=dl_source, is_demo=dl_demo)
         if not strong_activity:
