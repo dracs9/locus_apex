@@ -1,7 +1,7 @@
 """Builds universities.json / majors.json from a compact table.
 
-All values are approximate figures from public Common Data Sets and official admissions pages
-and are marked is_demo=true until a human verifies them against the source (see pipeline/).
+The table holds approximate demo figures (is_demo=true). US rows are then overwritten with real data by
+pipeline/scorecard.py + cds.py + verify.py --merge; this script keeps any row that already has verified facts.
 Unknown values are None. world_rank: QS World University Rankings 2025 (approximate).
 Run: python supabase/seed/build_seed.py
 """
@@ -187,6 +187,15 @@ def build():
             "documents": docs,
             "world_rank": rank,
         })
+    # Rows that already contain pipeline-verified facts (is_demo=false) are owned by pipeline/verify.py: keep them.
+    existing_path = HERE / "universities.json"
+    if existing_path.exists():
+        existing = {u["id"]: u for u in json.loads(existing_path.read_text(encoding="utf-8"))}
+        def has_real(u: dict) -> bool:
+            facts = [u[f] for f in ("acceptance_rate", "sat", "gpa_avg", "ielts_min", "cost_per_year_usd", "intl_aid")]
+            return any(not f.get("is_demo", True) for f in facts + u["deadlines"])
+        universities = [existing[u["id"]] if u["id"] in existing and has_real(existing[u["id"]]) else u
+                        for u in universities]
     majors = [{"id": i, "name_ru": ru, "name_en": en, "cip_codes": cip} for i, ru, en, cip in MAJORS]
     (HERE / "universities.json").write_text(json.dumps(universities, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     (HERE / "majors.json").write_text(json.dumps(majors, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")

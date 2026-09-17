@@ -14,11 +14,11 @@
       "biology"
     ],
     "acceptance_rate": {
-      "value": 0.045,
-      "source_url": "https://mitadmissions.org",
-      "checked_at": null,
-      "evidence": null,
-      "is_demo": true
+      "value": 0.0455,
+      "source_url": "https://collegescorecard.ed.gov/school/?166683",
+      "checked_at": "2026-09-17",
+      "evidence": "College Scorecard API (latest): latest.admissions.admission_rate.overall=0.0455",
+      "is_demo": false
     },
     "sat": {
       "value": {
@@ -26,10 +26,10 @@
         "p50": null,
         "p75": 1580
       },
-      "source_url": "https://mitadmissions.org",
-      "checked_at": null,
-      "evidence": null,
-      "is_demo": true
+      "source_url": "https://collegescorecard.ed.gov/school/?166683",
+      "checked_at": "2026-09-17",
+      "evidence": "College Scorecard API (latest): 25th_percentile.critical_reading=740; 25th_percentile.math=780; 75th_percentile.critical_reading=780; 75th_percentile.math=800 (reading + math)",
+      "is_demo": false
     },
     "gpa_avg": {
       "value": null,
@@ -46,11 +46,11 @@
       "is_demo": true
     },
     "cost_per_year_usd": {
-      "value": 86000,
-      "source_url": "https://mitadmissions.org",
-      "checked_at": null,
-      "evidence": null,
-      "is_demo": true
+      "value": 82730,
+      "source_url": "https://collegescorecard.ed.gov/school/?166683",
+      "checked_at": "2026-09-17",
+      "evidence": "College Scorecard API (latest): latest.cost.attendance.academic_year=82730; latest.cost.tuition.in_state=62396; latest.cost.tuition.out_of_state=62396 (attendance − in-state tuition + out-of-state tuition)",
+      "is_demo": false
     },
     "intl_aid": {
       "value": "full_need",
@@ -106,22 +106,22 @@
       "social_sciences"
     ],
     "acceptance_rate": {
-      "value": 0.035,
-      "source_url": "https://college.harvard.edu/admissions",
-      "checked_at": null,
-      "evidence": null,
-      "is_demo": true
+      "value": 0.0365,
+      "source_url": "https://collegescorecard.ed.gov/school/?166027",
+      "checked_at": "2026-09-17",
+      "evidence": "College Scorecard API (latest): latest.admissions.admission_rate.overall=0.0365",
+      "is_demo": false
     },
     "sat": {
       "value": {
-        "p25": 1500,
+        "p25": 1510,
         "p50": null,
         "p75": 1580
       },
-      "source_url": "https://college.harvard.edu/admissions",
-      "checked_at": null,
-      "evidence": null,
-      "is_demo": true
+      "source_url": "https://collegescorecard.ed.gov/school/?166027",
+      "checked_at": "2026-09-17",
+      "evidence": "College Scorecard API (latest): 25th_percentile.critical_reading=740; 25th_percentile.math=770; 75th_percentile.critical_reading=780; 75th_percentile.math=800 (reading + math)",
+      "is_demo": false
     },
     "gpa_avg": {
       "value": null,
@@ -138,11 +138,11 @@
       "is_demo": true
     },
     "cost_per_year_usd": {
-      "value": 87000,
-      "source_url": "https://college.harvard.edu/admissions",
-      "checked_at": null,
-      "evidence": null,
-      "is_demo": true
+      "value": 85540,
+      "source_url": "https://collegescorecard.ed.gov/school/?166027",
+      "checked_at": "2026-09-17",
+      "evidence": "College Scorecard API (latest): latest.cost.attendance.academic_year=85540; latest.cost.tuition.in_state=61676; latest.cost.tuition.out_of_state=61676 (attendance − in-state tuition + out-of-state tuition)",
+      "is_demo": false
     },
     "intl_aid": {
       "value": "full_need",
@@ -155,22 +155,22 @@
       {
         "value": {
           "type": "REA",
-          "date": "2026-11-01"
+          "date": "2024-11-01"
         },
-        "source_url": "https://college.harvard.edu/admissions",
-        "checked_at": null,
-        "evidence": null,
-        "is_demo": true
+        "source_url": "https://oira.harvard.edu/files/2026/07/CDS_2025-2026.pdf",
+        "checked_at": "2026-09-17",
+        "evidence": "C22 Early action Yes or No Yes 11/1 12/16 Yes or No Yes",
+        "is_demo": false
       },
       {
         "value": {
           "type": "RD",
-          "date": "2027-01-01"
+          "date": "2025-01-01"
         },
-        "source_url": "https://college.harvard.edu/admissions",
-        "checked_at": null,
-        "evidence": null,
-        "is_demo": true
+        "source_url": "https://oira.harvard.edu/files/2026/07/CDS_2025-2026.pdf",
+        "checked_at": "2026-09-17",
+        "evidence": "Application closing date (fall) 1/1",
+        "is_demo": false
       }
     ],
     "extra_requirements": [
@@ -201,22 +201,22 @@
       "design"
     ],
     "acceptance_rate": {
-      "value": 0.037,
-      "source_url": "https://admission.stanford.edu",
-      "checked_at": null,
-      "evidence": null,
-      "is_demo": true
+      "value": 0.0361,
+      "source_url": "https://collegescorecard.ed.gov/school/?243744",
+      "checked_at": "2026-09-17",
+      "evidence": "College Scorecard API (latest): latest.admissions.admission_rate.overall=0.0361",
+      "is_demo": false
     },
     "sat": {
       "value": {
-        "p25": 1500,
+        "p25": 1510,
         "p50": null,
         "p75": 1580
       },
-      "source_url": "https://admission.stanford.edu",
-      "checked_at": null,
-      "evidence": null,
-      "is_demo": true
+      "source_url": "https://collegescorecard.ed.gov/school/?243744",
+      "checked_at": "2026-09-17",
+      "evidence": "College Scorecard API (latest): 25th_percentile.critical_reading=740; 25th_percentile.math=770; 75th_percentile.critical_reading=780; 75th_percentile.math=800 (reading + math)",
+      "is_demo": false
     },
     "gpa_avg": {
       "value": null,
@@ -233,11 +233,11 @@
       "is_demo": true
     },
     "cost_per_year_usd": {
-      "value": 89000,
-      "source_url": "https://admission.stanford.edu",
-      "checked_at": null,
-      "evidence": null,
-      "is_demo": true
+      "value": 87833,
+      "source_url": "https://collegescorecard.ed.gov/school/?243744",
+      "checked_at": "2026-09-17",
+      "evidence": "College Scorecard API (latest): latest.cost.attendance.academic_year=87833; latest.cost.tuition.in_state=65910; latest.cost.tuition.out_of_state=65910 (attendance − in-state tuition + out-of-state tuition)",
+      "is_demo": false
     },
     "intl_aid": {
       "value": "full_need",
@@ -292,11 +292,11 @@
       "physics"
     ],
     "acceptance_rate": {
-      "value": 0.045,
-      "source_url": "https://admission.princeton.edu",
-      "checked_at": null,
-      "evidence": null,
-      "is_demo": true
+      "value": 0.0462,
+      "source_url": "https://collegescorecard.ed.gov/school/?186131",
+      "checked_at": "2026-09-17",
+      "evidence": "College Scorecard API (latest): latest.admissions.admission_rate.overall=0.0462",
+      "is_demo": false
     },
     "sat": {
       "value": {
@@ -304,10 +304,10 @@
         "p50": null,
         "p75": 1580
       },
-      "source_url": "https://admission.princeton.edu",
-      "checked_at": null,
-      "evidence": null,
-      "is_demo": true
+      "source_url": "https://collegescorecard.ed.gov/school/?186131",
+      "checked_at": "2026-09-17",
+      "evidence": "College Scorecard API (latest): 25th_percentile.critical_reading=740; 25th_percentile.math=770; 75th_percentile.critical_reading=780; 75th_percentile.math=800 (reading + math)",
+      "is_demo": false
     },
     "gpa_avg": {
       "value": 3.9,
@@ -324,11 +324,11 @@
       "is_demo": true
     },
     "cost_per_year_usd": {
-      "value": 83000,
-      "source_url": "https://admission.princeton.edu",
-      "checked_at": null,
-      "evidence": null,
-      "is_demo": true
+      "value": 84040,
+      "source_url": "https://collegescorecard.ed.gov/school/?186131",
+      "checked_at": "2026-09-17",
+      "evidence": "College Scorecard API (latest): latest.cost.attendance.academic_year=84040; latest.cost.tuition.in_state=62688; latest.cost.tuition.out_of_state=62688 (attendance − in-state tuition + out-of-state tuition)",
+      "is_demo": false
     },
     "intl_aid": {
       "value": "full_need",
@@ -341,22 +341,22 @@
       {
         "value": {
           "type": "REA",
-          "date": "2026-11-01"
+          "date": "2024-11-01"
         },
-        "source_url": "https://admission.princeton.edu",
-        "checked_at": null,
-        "evidence": null,
-        "is_demo": true
+        "source_url": "https://ir.princeton.edu/sites/g/files/toruqf2041/files/documents/CDS_2526_Princeton_v2.pdf",
+        "checked_at": "2026-09-17",
+        "evidence": "C22 Early action Yes or No Yes 11/1 Mid-December Yes or No Yes",
+        "is_demo": false
       },
       {
         "value": {
           "type": "RD",
-          "date": "2027-01-01"
+          "date": "2025-01-01"
         },
-        "source_url": "https://admission.princeton.edu",
-        "checked_at": null,
-        "evidence": null,
-        "is_demo": true
+        "source_url": "https://ir.princeton.edu/sites/g/files/toruqf2041/files/documents/CDS_2526_Princeton_v2.pdf",
+        "checked_at": "2026-09-17",
+        "evidence": "Application closing date (fall) 1/1",
+        "is_demo": false
       }
     ],
     "extra_requirements": [],
@@ -384,22 +384,22 @@
       "social_sciences"
     ],
     "acceptance_rate": {
-      "value": 0.046,
-      "source_url": "https://admissions.yale.edu",
-      "checked_at": null,
-      "evidence": null,
-      "is_demo": true
+      "value": 0.0387,
+      "source_url": "https://collegescorecard.ed.gov/school/?130794",
+      "checked_at": "2026-09-17",
+      "evidence": "College Scorecard API (latest): latest.admissions.admission_rate.overall=0.0387",
+      "is_demo": false
     },
     "sat": {
       "value": {
-        "p25": 1500,
+        "p25": 1470,
         "p50": null,
-        "p75": 1580
+        "p75": 1570
       },
-      "source_url": "https://admissions.yale.edu",
-      "checked_at": null,
-      "evidence": null,
-      "is_demo": true
+      "source_url": "https://collegescorecard.ed.gov/school/?130794",
+      "checked_at": "2026-09-17",
+      "evidence": "College Scorecard API (latest): 25th_percentile.critical_reading=730; 25th_percentile.math=740; 75th_percentile.critical_reading=780; 75th_percentile.math=790 (reading + math)",
+      "is_demo": false
     },
     "gpa_avg": {
       "value": null,
@@ -416,11 +416,11 @@
       "is_demo": true
     },
     "cost_per_year_usd": {
-      "value": 88000,
-      "source_url": "https://admissions.yale.edu",
-      "checked_at": null,
-      "evidence": null,
-      "is_demo": true
+      "value": 88300,
+      "source_url": "https://collegescorecard.ed.gov/school/?130794",
+      "checked_at": "2026-09-17",
+      "evidence": "College Scorecard API (latest): latest.cost.attendance.academic_year=88300; latest.cost.tuition.in_state=67250; latest.cost.tuition.out_of_state=67250 (attendance − in-state tuition + out-of-state tuition)",
+      "is_demo": false
     },
     "intl_aid": {
       "value": "full_need",
@@ -475,22 +475,22 @@
       "biology"
     ],
     "acceptance_rate": {
-      "value": 0.059,
-      "source_url": "https://admissions.upenn.edu",
-      "checked_at": null,
-      "evidence": null,
-      "is_demo": true
+      "value": 0.054,
+      "source_url": "https://collegescorecard.ed.gov/school/?215062",
+      "checked_at": "2026-09-17",
+      "evidence": "College Scorecard API (latest): latest.admissions.admission_rate.overall=0.054",
+      "is_demo": false
     },
     "sat": {
       "value": {
-        "p25": 1500,
+        "p25": 1510,
         "p50": null,
         "p75": 1570
       },
-      "source_url": "https://admissions.upenn.edu",
-      "checked_at": null,
-      "evidence": null,
-      "is_demo": true
+      "source_url": "https://collegescorecard.ed.gov/school/?215062",
+      "checked_at": "2026-09-17",
+      "evidence": "College Scorecard API (latest): 25th_percentile.critical_reading=740; 25th_percentile.math=770; 75th_percentile.critical_reading=770; 75th_percentile.math=800 (reading + math)",
+      "is_demo": false
     },
     "gpa_avg": {
       "value": 3.9,
@@ -507,11 +507,11 @@
       "is_demo": true
     },
     "cost_per_year_usd": {
-      "value": 90000,
-      "source_url": "https://admissions.upenn.edu",
-      "checked_at": null,
-      "evidence": null,
-      "is_demo": true
+      "value": 89028,
+      "source_url": "https://collegescorecard.ed.gov/school/?215062",
+      "checked_at": "2026-09-17",
+      "evidence": "College Scorecard API (latest): latest.cost.attendance.academic_year=89028; latest.cost.tuition.in_state=68686; latest.cost.tuition.out_of_state=68686 (attendance − in-state tuition + out-of-state tuition)",
+      "is_demo": false
     },
     "intl_aid": {
       "value": "partial",
@@ -566,22 +566,22 @@
       "social_sciences"
     ],
     "acceptance_rate": {
-      "value": 0.039,
-      "source_url": "https://undergrad.admissions.columbia.edu",
-      "checked_at": null,
-      "evidence": null,
-      "is_demo": true
+      "value": 0.0399,
+      "source_url": "https://collegescorecard.ed.gov/school/?190150",
+      "checked_at": "2026-09-17",
+      "evidence": "College Scorecard API (latest): latest.admissions.admission_rate.overall=0.0399",
+      "is_demo": false
     },
     "sat": {
       "value": {
-        "p25": 1500,
+        "p25": 1510,
         "p50": null,
-        "p75": 1570
+        "p75": 1580
       },
-      "source_url": "https://undergrad.admissions.columbia.edu",
-      "checked_at": null,
-      "evidence": null,
-      "is_demo": true
+      "source_url": "https://collegescorecard.ed.gov/school/?190150",
+      "checked_at": "2026-09-17",
+      "evidence": "College Scorecard API (latest): 25th_percentile.critical_reading=740; 25th_percentile.math=770; 75th_percentile.critical_reading=780; 75th_percentile.math=800 (reading + math)",
+      "is_demo": false
     },
     "gpa_avg": {
       "value": null,
@@ -598,34 +598,34 @@
       "is_demo": true
     },
     "cost_per_year_usd": {
-      "value": 91000,
-      "source_url": "https://undergrad.admissions.columbia.edu",
-      "checked_at": null,
-      "evidence": null,
-      "is_demo": true
+      "value": 89472,
+      "source_url": "https://collegescorecard.ed.gov/school/?190150",
+      "checked_at": "2026-09-17",
+      "evidence": "College Scorecard API (latest): latest.cost.attendance.academic_year=89472; latest.cost.tuition.in_state=71845; latest.cost.tuition.out_of_state=71845 (attendance − in-state tuition + out-of-state tuition)",
+      "is_demo": false
     },
     "intl_aid": {
-      "value": "full_need",
-      "source_url": "https://undergrad.admissions.columbia.edu",
-      "checked_at": null,
-      "evidence": null,
-      "is_demo": true
+      "value": "partial",
+      "source_url": "https://opir.columbia.edu/sites/opir.columbia.edu/files/content/Common%20Data%20Set/2024-25_Columbia_College_and_Columbia_Engineering_CDS.pdf",
+      "checked_at": "2026-09-17",
+      "evidence": "☑ Institutional need-based scholarship or grant aid is available",
+      "is_demo": false
     },
     "deadlines": [
       {
         "value": {
-          "type": "ED",
-          "date": "2026-11-01"
+          "type": "RD",
+          "date": "2024-01-01"
         },
-        "source_url": "https://undergrad.admissions.columbia.edu",
-        "checked_at": null,
-        "evidence": null,
-        "is_demo": true
+        "source_url": "https://opir.columbia.edu/sites/opir.columbia.edu/files/content/Common%20Data%20Set/2024-25_Columbia_College_and_Columbia_Engineering_CDS.pdf",
+        "checked_at": "2026-09-17",
+        "evidence": "closing date (fall) January 1",
+        "is_demo": false
       },
       {
         "value": {
-          "type": "RD",
-          "date": "2027-01-01"
+          "type": "ED",
+          "date": "2026-11-01"
         },
         "source_url": "https://undergrad.admissions.columbia.edu",
         "checked_at": null,
@@ -658,22 +658,22 @@
       "design"
     ],
     "acceptance_rate": {
-      "value": 0.079,
-      "source_url": "https://admissions.cornell.edu",
-      "checked_at": null,
-      "evidence": null,
-      "is_demo": true
+      "value": 0.0876,
+      "source_url": "https://collegescorecard.ed.gov/school/?190415",
+      "checked_at": "2026-09-17",
+      "evidence": "College Scorecard API (latest): latest.admissions.admission_rate.overall=0.0876",
+      "is_demo": false
     },
     "sat": {
       "value": {
-        "p25": 1480,
+        "p25": 1500,
         "p50": null,
-        "p75": 1560
+        "p75": 1570
       },
-      "source_url": "https://admissions.cornell.edu",
-      "checked_at": null,
-      "evidence": null,
-      "is_demo": true
+      "source_url": "https://collegescorecard.ed.gov/school/?190415",
+      "checked_at": "2026-09-17",
+      "evidence": "College Scorecard API (latest): 25th_percentile.critical_reading=730; 25th_percentile.math=770; 75th_percentile.critical_reading=770; 75th_percentile.math=800 (reading + math)",
+      "is_demo": false
     },
     "gpa_avg": {
       "value": null,
@@ -690,11 +690,11 @@
       "is_demo": true
     },
     "cost_per_year_usd": {
-      "value": 90000,
-      "source_url": "https://admissions.cornell.edu",
-      "checked_at": null,
-      "evidence": null,
-      "is_demo": true
+      "value": 88140,
+      "source_url": "https://collegescorecard.ed.gov/school/?190415",
+      "checked_at": "2026-09-17",
+      "evidence": "College Scorecard API (latest): latest.cost.attendance.academic_year=88140; latest.cost.tuition.in_state=69314; latest.cost.tuition.out_of_state=69314 (attendance − in-state tuition + out-of-state tuition)",
+      "is_demo": false
     },
     "intl_aid": {
       "value": "partial",
@@ -750,11 +750,11 @@
       "social_sciences"
     ],
     "acceptance_rate": {
-      "value": 0.05,
-      "source_url": "https://collegeadmissions.uchicago.edu",
-      "checked_at": null,
-      "evidence": null,
-      "is_demo": true
+      "value": 0.0448,
+      "source_url": "https://collegescorecard.ed.gov/school/?144050",
+      "checked_at": "2026-09-17",
+      "evidence": "College Scorecard API (latest): latest.admissions.admission_rate.overall=0.0448",
+      "is_demo": false
     },
     "sat": {
       "value": {
@@ -762,10 +762,10 @@
         "p50": null,
         "p75": 1580
       },
-      "source_url": "https://collegeadmissions.uchicago.edu",
-      "checked_at": null,
-      "evidence": null,
-      "is_demo": true
+      "source_url": "https://collegescorecard.ed.gov/school/?144050",
+      "checked_at": "2026-09-17",
+      "evidence": "College Scorecard API (latest): 25th_percentile.critical_reading=740; 25th_percentile.math=770; 75th_percentile.critical_reading=780; 75th_percentile.math=800 (reading + math)",
+      "is_demo": false
     },
     "gpa_avg": {
       "value": null,
@@ -782,11 +782,11 @@
       "is_demo": true
     },
     "cost_per_year_usd": {
-      "value": 93000,
-      "source_url": "https://collegeadmissions.uchicago.edu",
-      "checked_at": null,
-      "evidence": null,
-      "is_demo": true
+      "value": 90360,
+      "source_url": "https://collegescorecard.ed.gov/school/?144050",
+      "checked_at": "2026-09-17",
+      "evidence": "College Scorecard API (latest): latest.cost.attendance.academic_year=90360; latest.cost.tuition.in_state=70662; latest.cost.tuition.out_of_state=70662 (attendance − in-state tuition + out-of-state tuition)",
+      "is_demo": false
     },
     "intl_aid": {
       "value": "partial",
@@ -851,29 +851,29 @@
       "social_sciences"
     ],
     "acceptance_rate": {
-      "value": 0.08,
-      "source_url": "https://www.nyu.edu/admissions",
-      "checked_at": null,
-      "evidence": null,
-      "is_demo": true
+      "value": 0.0923,
+      "source_url": "https://collegescorecard.ed.gov/school/?193900",
+      "checked_at": "2026-09-17",
+      "evidence": "College Scorecard API (latest): latest.admissions.admission_rate.overall=0.0923",
+      "is_demo": false
     },
     "sat": {
       "value": {
-        "p25": 1470,
+        "p25": 1480,
         "p50": null,
-        "p75": 1570
+        "p75": 1560
       },
-      "source_url": "https://www.nyu.edu/admissions",
-      "checked_at": null,
-      "evidence": null,
-      "is_demo": true
+      "source_url": "https://collegescorecard.ed.gov/school/?193900",
+      "checked_at": "2026-09-17",
+      "evidence": "College Scorecard API (latest): 25th_percentile.critical_reading=720; 25th_percentile.math=760; 75th_percentile.critical_reading=760; 75th_percentile.math=800 (reading + math)",
+      "is_demo": false
     },
     "gpa_avg": {
-      "value": null,
-      "source_url": "https://www.nyu.edu/admissions",
-      "checked_at": null,
-      "evidence": null,
-      "is_demo": true
+      "value": 3.81,
+      "source_url": "https://www.nyu.edu/content/dam/nyu/institutionalResearch/documents/cds-2025-2026/CDS%202025-2026%20FINAL%20(no%20G).pdf",
+      "checked_at": "2026-09-17",
+      "evidence": "students who submitted GPA: 3.81",
+      "is_demo": false
     },
     "ielts_min": {
       "value": 7.5,
@@ -883,11 +883,11 @@
       "is_demo": true
     },
     "cost_per_year_usd": {
-      "value": 92000,
-      "source_url": "https://www.nyu.edu/admissions",
-      "checked_at": null,
-      "evidence": null,
-      "is_demo": true
+      "value": 84374,
+      "source_url": "https://collegescorecard.ed.gov/school/?193900",
+      "checked_at": "2026-09-17",
+      "evidence": "College Scorecard API (latest): latest.cost.attendance.academic_year=84374; latest.cost.tuition.in_state=62796; latest.cost.tuition.out_of_state=62796 (attendance − in-state tuition + out-of-state tuition)",
+      "is_demo": false
     },
     "intl_aid": {
       "value": "partial",
@@ -899,18 +899,18 @@
     "deadlines": [
       {
         "value": {
-          "type": "ED",
-          "date": "2026-11-01"
+          "type": "RD",
+          "date": "2025-01-05"
         },
-        "source_url": "https://www.nyu.edu/admissions",
-        "checked_at": null,
-        "evidence": null,
-        "is_demo": true
+        "source_url": "https://www.nyu.edu/content/dam/nyu/institutionalResearch/documents/cds-2025-2026/CDS%202025-2026%20FINAL%20(no%20G).pdf",
+        "checked_at": "2026-09-17",
+        "evidence": "closing date (fall) 1/5",
+        "is_demo": false
       },
       {
         "value": {
-          "type": "RD",
-          "date": "2027-01-05"
+          "type": "ED",
+          "date": "2026-11-01"
         },
         "source_url": "https://www.nyu.edu/admissions",
         "checked_at": null,
@@ -943,29 +943,29 @@
       "biology"
     ],
     "acceptance_rate": {
-      "value": 0.18,
-      "source_url": "https://admissions.umich.edu",
-      "checked_at": null,
-      "evidence": null,
-      "is_demo": true
+      "value": 0.1564,
+      "source_url": "https://collegescorecard.ed.gov/school/?170976",
+      "checked_at": "2026-09-17",
+      "evidence": "College Scorecard API (latest): latest.admissions.admission_rate.overall=0.1564",
+      "is_demo": false
     },
     "sat": {
       "value": {
-        "p25": 1460,
+        "p25": 1360,
         "p50": null,
-        "p75": 1560
+        "p75": 1530
       },
-      "source_url": "https://admissions.umich.edu",
-      "checked_at": null,
-      "evidence": null,
-      "is_demo": true
+      "source_url": "https://collegescorecard.ed.gov/school/?170976",
+      "checked_at": "2026-09-17",
+      "evidence": "College Scorecard API (latest): 25th_percentile.critical_reading=680; 25th_percentile.math=680; 75th_percentile.critical_reading=750; 75th_percentile.math=780 (reading + math)",
+      "is_demo": false
     },
     "gpa_avg": {
       "value": 3.9,
-      "source_url": "https://admissions.umich.edu",
-      "checked_at": null,
-      "evidence": null,
-      "is_demo": true
+      "source_url": "https://obp.umich.edu/wp-content/uploads/pubdata/cds/cds_2025-26_umaa.pdf",
+      "checked_at": "2026-09-17",
+      "evidence": "Average high school GPA: 3.9",
+      "is_demo": false
     },
     "ielts_min": {
       "value": 6.5,
@@ -975,34 +975,34 @@
       "is_demo": true
     },
     "cost_per_year_usd": {
-      "value": 83000,
-      "source_url": "https://admissions.umich.edu",
-      "checked_at": null,
-      "evidence": null,
-      "is_demo": true
+      "value": 77864,
+      "source_url": "https://collegescorecard.ed.gov/school/?170976",
+      "checked_at": "2026-09-17",
+      "evidence": "College Scorecard API (latest): latest.cost.attendance.academic_year=34654; latest.cost.tuition.in_state=17736; latest.cost.tuition.out_of_state=60946 (attendance − in-state tuition + out-of-state tuition)",
+      "is_demo": false
     },
     "intl_aid": {
-      "value": "merit_only",
-      "source_url": "https://admissions.umich.edu",
-      "checked_at": null,
-      "evidence": null,
-      "is_demo": true
+      "value": "none",
+      "source_url": "https://obp.umich.edu/wp-content/uploads/pubdata/cds/cds_2025-26_umaa.pdf",
+      "checked_at": "2026-09-17",
+      "evidence": "☒ Institutional scholarship and grant aid is not available",
+      "is_demo": false
     },
     "deadlines": [
       {
         "value": {
-          "type": "EA",
-          "date": "2026-11-01"
+          "type": "RD",
+          "date": "2025-02-01"
         },
-        "source_url": "https://admissions.umich.edu",
-        "checked_at": null,
-        "evidence": null,
-        "is_demo": true
+        "source_url": "https://obp.umich.edu/wp-content/uploads/pubdata/cds/cds_2025-26_umaa.pdf",
+        "checked_at": "2026-09-17",
+        "evidence": "closing date (fall) 2 1",
+        "is_demo": false
       },
       {
         "value": {
-          "type": "RD",
-          "date": "2027-02-01"
+          "type": "EA",
+          "date": "2026-11-01"
         },
         "source_url": "https://admissions.umich.edu",
         "checked_at": null,
@@ -1035,11 +1035,11 @@
       "social_sciences"
     ],
     "acceptance_rate": {
-      "value": 0.09,
-      "source_url": "https://admission.ucla.edu",
-      "checked_at": null,
-      "evidence": null,
-      "is_demo": true
+      "value": 0.0897,
+      "source_url": "https://collegescorecard.ed.gov/school/?110662",
+      "checked_at": "2026-09-17",
+      "evidence": "College Scorecard API (latest): latest.admissions.admission_rate.overall=0.0897",
+      "is_demo": false
     },
     "sat": {
       "value": null,
@@ -1063,11 +1063,11 @@
       "is_demo": true
     },
     "cost_per_year_usd": {
-      "value": 72000,
-      "source_url": "https://admission.ucla.edu",
-      "checked_at": null,
-      "evidence": null,
-      "is_demo": true
+      "value": 72814,
+      "source_url": "https://collegescorecard.ed.gov/school/?110662",
+      "checked_at": "2026-09-17",
+      "evidence": "College Scorecard API (latest): latest.cost.attendance.academic_year=38614; latest.cost.tuition.in_state=15203; latest.cost.tuition.out_of_state=49403 (attendance − in-state tuition + out-of-state tuition)",
+      "is_demo": false
     },
     "intl_aid": {
       "value": "none",
@@ -1112,22 +1112,22 @@
       "business"
     ],
     "acceptance_rate": {
-      "value": 0.17,
-      "source_url": "https://admission.gatech.edu",
-      "checked_at": null,
-      "evidence": null,
-      "is_demo": true
+      "value": 0.1407,
+      "source_url": "https://collegescorecard.ed.gov/school/?139755",
+      "checked_at": "2026-09-17",
+      "evidence": "College Scorecard API (latest): latest.admissions.admission_rate.overall=0.1407",
+      "is_demo": false
     },
     "sat": {
       "value": {
         "p25": 1370,
         "p50": null,
-        "p75": 1530
+        "p75": 1540
       },
-      "source_url": "https://admission.gatech.edu",
-      "checked_at": null,
-      "evidence": null,
-      "is_demo": true
+      "source_url": "https://collegescorecard.ed.gov/school/?139755",
+      "checked_at": "2026-09-17",
+      "evidence": "College Scorecard API (latest): 25th_percentile.critical_reading=680; 25th_percentile.math=690; 75th_percentile.critical_reading=750; 75th_percentile.math=790 (reading + math)",
+      "is_demo": false
     },
     "gpa_avg": {
       "value": null,
@@ -1144,11 +1144,11 @@
       "is_demo": true
     },
     "cost_per_year_usd": {
-      "value": 55000,
-      "source_url": "https://admission.gatech.edu",
-      "checked_at": null,
-      "evidence": null,
-      "is_demo": true
+      "value": 50593,
+      "source_url": "https://collegescorecard.ed.gov/school/?139755",
+      "checked_at": "2026-09-17",
+      "evidence": "College Scorecard API (latest): latest.cost.attendance.academic_year=28167; latest.cost.tuition.in_state=12058; latest.cost.tuition.out_of_state=34484 (attendance − in-state tuition + out-of-state tuition)",
+      "is_demo": false
     },
     "intl_aid": {
       "value": "none",
@@ -1161,22 +1161,22 @@
       {
         "value": {
           "type": "EA",
-          "date": "2026-10-15"
+          "date": "2024-11-01"
         },
-        "source_url": "https://admission.gatech.edu",
-        "checked_at": null,
-        "evidence": null,
-        "is_demo": true
+        "source_url": "https://irp.gatech.edu/sites/default/files/CDS/CDS_2025-2026_FINAL_R4_03JUN2026.pdf",
+        "checked_at": "2026-09-17",
+        "evidence": "C22 Early action Yes or No Yes 11/1 1/31 Yes or No No",
+        "is_demo": false
       },
       {
         "value": {
           "type": "RD",
-          "date": "2027-01-06"
+          "date": "2025-01-05"
         },
-        "source_url": "https://admission.gatech.edu",
-        "checked_at": null,
-        "evidence": null,
-        "is_demo": true
+        "source_url": "https://irp.gatech.edu/sites/default/files/CDS/CDS_2025-2026_FINAL_R4_03JUN2026.pdf",
+        "checked_at": "2026-09-17",
+        "evidence": "closing date (fall) 1/5",
+        "is_demo": false
       }
     ],
     "extra_requirements": [],
@@ -1204,29 +1204,29 @@
       "social_sciences"
     ],
     "acceptance_rate": {
-      "value": 0.11,
-      "source_url": "https://www.bu.edu/admissions",
-      "checked_at": null,
-      "evidence": null,
-      "is_demo": true
+      "value": 0.1111,
+      "source_url": "https://collegescorecard.ed.gov/school/?164988",
+      "checked_at": "2026-09-17",
+      "evidence": "College Scorecard API (latest): latest.admissions.admission_rate.overall=0.1111",
+      "is_demo": false
     },
     "sat": {
       "value": {
         "p25": 1420,
         "p50": null,
-        "p75": 1540
+        "p75": 1530
       },
-      "source_url": "https://www.bu.edu/admissions",
-      "checked_at": null,
-      "evidence": null,
-      "is_demo": true
+      "source_url": "https://collegescorecard.ed.gov/school/?164988",
+      "checked_at": "2026-09-17",
+      "evidence": "College Scorecard API (latest): 25th_percentile.critical_reading=690; 25th_percentile.math=730; 75th_percentile.critical_reading=750; 75th_percentile.math=780 (reading + math)",
+      "is_demo": false
     },
     "gpa_avg": {
-      "value": 3.9,
-      "source_url": "https://www.bu.edu/admissions",
-      "checked_at": null,
-      "evidence": null,
-      "is_demo": true
+      "value": 3.86,
+      "source_url": "https://www.bu.edu/asir/files/2026/05/CDS-2025-2026-C.pdf",
+      "checked_at": "2026-09-17",
+      "evidence": "C12. Average high school GPA of all degree-seeking, first-time, first-year students who submitted GPA 3.86",
+      "is_demo": false
     },
     "ielts_min": {
       "value": 7.0,
@@ -1236,29 +1236,29 @@
       "is_demo": true
     },
     "cost_per_year_usd": {
-      "value": 88000,
-      "source_url": "https://www.bu.edu/admissions",
-      "checked_at": null,
-      "evidence": null,
-      "is_demo": true
+      "value": 86285,
+      "source_url": "https://collegescorecard.ed.gov/school/?164988",
+      "checked_at": "2026-09-17",
+      "evidence": "College Scorecard API (latest): latest.cost.attendance.academic_year=86285; latest.cost.tuition.in_state=68102; latest.cost.tuition.out_of_state=68102 (attendance − in-state tuition + out-of-state tuition)",
+      "is_demo": false
     },
     "intl_aid": {
       "value": "merit_only",
-      "source_url": "https://www.bu.edu/admissions",
-      "checked_at": null,
-      "evidence": null,
-      "is_demo": true
+      "source_url": "https://www.bu.edu/asir/files/2026/05/CDS-2025-2026-H.pdf",
+      "checked_at": "2026-09-17",
+      "evidence": "Institutional need-based scholarship or grant aid is available X Institutional non-need-based scholarship or grant aid is available",
+      "is_demo": false
     },
     "deadlines": [
       {
         "value": {
           "type": "ED",
-          "date": "2026-11-01"
+          "date": "2024-11-01"
         },
-        "source_url": "https://www.bu.edu/admissions",
-        "checked_at": null,
-        "evidence": null,
-        "is_demo": true
+        "source_url": "https://www.bu.edu/asir/files/2026/05/CDS-2025-2026-C.pdf",
+        "checked_at": "2026-09-17",
+        "evidence": "C21. Early Decision Yes November 1",
+        "is_demo": false
       },
       {
         "value": {
@@ -1296,22 +1296,22 @@
       "physics"
     ],
     "acceptance_rate": {
-      "value": 0.44,
-      "source_url": "https://www.admissions.illinois.edu",
-      "checked_at": null,
-      "evidence": null,
-      "is_demo": true
+      "value": 0.4237,
+      "source_url": "https://collegescorecard.ed.gov/school/?145637",
+      "checked_at": "2026-09-17",
+      "evidence": "College Scorecard API (latest): latest.admissions.admission_rate.overall=0.4237",
+      "is_demo": false
     },
     "sat": {
       "value": {
-        "p25": 1350,
+        "p25": 1310,
         "p50": null,
-        "p75": 1530
+        "p75": 1520
       },
-      "source_url": "https://www.admissions.illinois.edu",
-      "checked_at": null,
-      "evidence": null,
-      "is_demo": true
+      "source_url": "https://collegescorecard.ed.gov/school/?145637",
+      "checked_at": "2026-09-17",
+      "evidence": "College Scorecard API (latest): 25th_percentile.critical_reading=650; 25th_percentile.math=660; 75th_percentile.critical_reading=740; 75th_percentile.math=780 (reading + math)",
+      "is_demo": false
     },
     "gpa_avg": {
       "value": 3.8,
@@ -1328,11 +1328,11 @@
       "is_demo": true
     },
     "cost_per_year_usd": {
-      "value": 62000,
-      "source_url": "https://www.admissions.illinois.edu",
-      "checked_at": null,
-      "evidence": null,
-      "is_demo": true
+      "value": 52762,
+      "source_url": "https://collegescorecard.ed.gov/school/?145637",
+      "checked_at": "2026-09-17",
+      "evidence": "College Scorecard API (latest): latest.cost.attendance.academic_year=33642; latest.cost.tuition.in_state=16004; latest.cost.tuition.out_of_state=35124 (attendance − in-state tuition + out-of-state tuition)",
+      "is_demo": false
     },
     "intl_aid": {
       "value": "merit_only",
@@ -1389,29 +1389,29 @@
       "economics"
     ],
     "acceptance_rate": {
-      "value": 0.53,
-      "source_url": "https://admissions.purdue.edu",
-      "checked_at": null,
-      "evidence": null,
-      "is_demo": true
+      "value": 0.4987,
+      "source_url": "https://collegescorecard.ed.gov/school/?243780",
+      "checked_at": "2026-09-17",
+      "evidence": "College Scorecard API (latest): latest.admissions.admission_rate.overall=0.4987",
+      "is_demo": false
     },
     "sat": {
       "value": {
-        "p25": 1190,
+        "p25": 1200,
         "p50": null,
-        "p75": 1450
+        "p75": 1480
       },
-      "source_url": "https://admissions.purdue.edu",
-      "checked_at": null,
-      "evidence": null,
-      "is_demo": true
+      "source_url": "https://collegescorecard.ed.gov/school/?243780",
+      "checked_at": "2026-09-17",
+      "evidence": "College Scorecard API (latest): 25th_percentile.critical_reading=600; 25th_percentile.math=600; 75th_percentile.critical_reading=720; 75th_percentile.math=760 (reading + math)",
+      "is_demo": false
     },
     "gpa_avg": {
-      "value": 3.7,
-      "source_url": "https://admissions.purdue.edu",
-      "checked_at": null,
-      "evidence": null,
-      "is_demo": true
+      "value": 3.81,
+      "source_url": "https://www.purdue.edu/idata/wp-content/uploads/2026/04/CDS-2025-2026.xlsx",
+      "checked_at": "2026-09-17",
+      "evidence": "students who submitted GPA: | 3.81",
+      "is_demo": false
     },
     "ielts_min": {
       "value": 6.5,
@@ -1421,11 +1421,11 @@
       "is_demo": true
     },
     "cost_per_year_usd": {
-      "value": 46000,
-      "source_url": "https://admissions.purdue.edu",
-      "checked_at": null,
-      "evidence": null,
-      "is_demo": true
+      "value": 43393,
+      "source_url": "https://collegescorecard.ed.gov/school/?243780",
+      "checked_at": "2026-09-17",
+      "evidence": "College Scorecard API (latest): latest.cost.attendance.academic_year=24591; latest.cost.tuition.in_state=9992; latest.cost.tuition.out_of_state=28794 (attendance − in-state tuition + out-of-state tuition)",
+      "is_demo": false
     },
     "intl_aid": {
       "value": "none",
@@ -1480,22 +1480,22 @@
       "biology"
     ],
     "acceptance_rate": {
-      "value": 0.55,
-      "source_url": "https://admissions.psu.edu",
-      "checked_at": null,
-      "evidence": null,
-      "is_demo": true
+      "value": 0.6056,
+      "source_url": "https://collegescorecard.ed.gov/school/?214777",
+      "checked_at": "2026-09-17",
+      "evidence": "College Scorecard API (latest): latest.admissions.admission_rate.overall=0.6056",
+      "is_demo": false
     },
     "sat": {
       "value": {
-        "p25": 1160,
+        "p25": 1240,
         "p50": null,
-        "p75": 1370
+        "p75": 1420
       },
-      "source_url": "https://admissions.psu.edu",
-      "checked_at": null,
-      "evidence": null,
-      "is_demo": true
+      "source_url": "https://collegescorecard.ed.gov/school/?214777",
+      "checked_at": "2026-09-17",
+      "evidence": "College Scorecard API (latest): 25th_percentile.critical_reading=620; 25th_percentile.math=620; 75th_percentile.critical_reading=700; 75th_percentile.math=720 (reading + math)",
+      "is_demo": false
     },
     "gpa_avg": {
       "value": 3.6,
@@ -1512,11 +1512,11 @@
       "is_demo": true
     },
     "cost_per_year_usd": {
-      "value": 55000,
-      "source_url": "https://admissions.psu.edu",
-      "checked_at": null,
-      "evidence": null,
-      "is_demo": true
+      "value": 60840,
+      "source_url": "https://collegescorecard.ed.gov/school/?214777",
+      "checked_at": "2026-09-17",
+      "evidence": "College Scorecard API (latest): latest.cost.attendance.academic_year=39694; latest.cost.tuition.in_state=20644; latest.cost.tuition.out_of_state=41790 (attendance − in-state tuition + out-of-state tuition)",
+      "is_demo": false
     },
     "intl_aid": {
       "value": "none",
@@ -1572,22 +1572,22 @@
       "math"
     ],
     "acceptance_rate": {
-      "value": 0.75,
-      "source_url": "https://admissions.tc.umn.edu",
-      "checked_at": null,
-      "evidence": null,
-      "is_demo": true
+      "value": 0.7975,
+      "source_url": "https://collegescorecard.ed.gov/school/?174066",
+      "checked_at": "2026-09-17",
+      "evidence": "College Scorecard API (latest): latest.admissions.admission_rate.overall=0.7975",
+      "is_demo": false
     },
     "sat": {
       "value": {
-        "p25": 1230,
+        "p25": 1300,
         "p50": null,
-        "p75": 1440
+        "p75": 1500
       },
-      "source_url": "https://admissions.tc.umn.edu",
-      "checked_at": null,
-      "evidence": null,
-      "is_demo": true
+      "source_url": "https://collegescorecard.ed.gov/school/?174066",
+      "checked_at": "2026-09-17",
+      "evidence": "College Scorecard API (latest): 25th_percentile.critical_reading=640; 25th_percentile.math=660; 75th_percentile.critical_reading=730; 75th_percentile.math=770 (reading + math)",
+      "is_demo": false
     },
     "gpa_avg": {
       "value": 3.7,
@@ -1604,11 +1604,11 @@
       "is_demo": true
     },
     "cost_per_year_usd": {
-      "value": 52000,
-      "source_url": "https://admissions.tc.umn.edu",
-      "checked_at": null,
-      "evidence": null,
-      "is_demo": true
+      "value": 51209,
+      "source_url": "https://collegescorecard.ed.gov/school/?174066",
+      "checked_at": "2026-09-17",
+      "evidence": "College Scorecard API (latest): latest.cost.attendance.academic_year=30061; latest.cost.tuition.in_state=17214; latest.cost.tuition.out_of_state=38362 (attendance − in-state tuition + out-of-state tuition)",
+      "is_demo": false
     },
     "intl_aid": {
       "value": "merit_only",
@@ -1664,11 +1664,11 @@
       "social_sciences"
     ],
     "acceptance_rate": {
-      "value": 0.9,
-      "source_url": "https://admission.asu.edu",
-      "checked_at": null,
-      "evidence": null,
-      "is_demo": true
+      "value": 0.8989,
+      "source_url": "https://collegescorecard.ed.gov/school/?104151",
+      "checked_at": "2026-09-17",
+      "evidence": "College Scorecard API (latest): latest.admissions.admission_rate.overall=0.8989",
+      "is_demo": false
     },
     "sat": {
       "value": {
@@ -1696,11 +1696,11 @@
       "is_demo": true
     },
     "cost_per_year_usd": {
-      "value": 48000,
-      "source_url": "https://admission.asu.edu",
-      "checked_at": null,
-      "evidence": null,
-      "is_demo": true
+      "value": 51027,
+      "source_url": "https://collegescorecard.ed.gov/school/?104151",
+      "checked_at": "2026-09-17",
+      "evidence": "College Scorecard API (latest): latest.cost.attendance.academic_year=30111; latest.cost.tuition.in_state=12223; latest.cost.tuition.out_of_state=33139 (attendance − in-state tuition + out-of-state tuition)",
+      "is_demo": false
     },
     "intl_aid": {
       "value": "merit_only",

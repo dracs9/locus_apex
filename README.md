@@ -172,23 +172,43 @@ The spec only names the closable-gap case. Unclosable gaps are also classified a
 
 ## Data sources
 
-- `supabase/seed/universities.json` has **42 universities** (US 19, UK 10, NL 4, CA 4, KR 2, SG 2, DE 1) and 10 majors. `supabase/seed/build_seed.py` generates it.
-- Values were compiled on **2026-09-17** as approximate figures from public Common Data Sets (US: sections C1, C9, C11–C12, C21–C22, H6) and official international admissions pages (UK / EU / Asia / Canada). **All facts are `is_demo: true`**, so the UI shows a "Демо-данные" badge until a person verifies each value against `source_url` (currently the university's official site). Values that could not be found are `null` and shown as "не опубликовано".
-- `world_rank`: QS World University Rankings 2025, approximate. The ranking is used only for the prestige priority. It is not scraped.
-- Deadlines in the seed are for one cycle. The engine shifts them to the student's intake year (Aug–Dec deadlines belong to the next year's intake), and the result stays marked as demo.
-- The pipeline (`pipeline/`) collects facts with verbatim evidence and drops unverified fields. See [pipeline/README.md](pipeline/README.md).
-- **Pipeline metrics:** not run yet for the demo seed. After a run, `pipeline/out/report.json` has pages processed and the share of verified fields.
+`supabase/seed/universities.json` has **42 universities** (US 19, UK 10, NL 4, CA 4, KR 2, SG 2, DE 1) and 10 majors. Of 312 facts, **72 are real** (source link and check date in the UI), and the rest are demo values with a "Демо-данные" badge. Missing values are `null` and shown as "не опубликовано".
+
+**Real data (US, collected 2026-09-17):**
+- **[College Scorecard API](https://collegescorecard.ed.gov/data/api-documentation/)** (U.S. Department of Education, IPEDS, "latest" data) supplies these for all 19 US universities:
+  - acceptance rate
+  - SAT 25th/75th percentile (reading + math); ASU and UCLA don't publish SAT
+  - cost for international students (cost of attendance − in-state tuition + out-of-state tuition)
+
+  The script is `pipeline/scorecard.py`, and the IPEDS ids in `pipeline/us_unitids.json` were checked by hand.
+- **Official Common Data Sets** (2025–26; Columbia 2024–25) come from each university's own institutional-research site (`pipeline/cds_sources.json`, `pipeline/cds.py`). From them we took average high-school GPA (C12), application closing / early deadlines (C14, C21, C22) and aid policy for nonresidents (H6), wherever the value was printed next to its label. Each fact stores a verbatim quote, and `pipeline/verify.py` rejects any quote that isn't in the document text.
+  - Covered: Harvard, Princeton, Georgia Tech, Boston University, NYU, Michigan, Purdue, Columbia.
+  - Files were also downloaded for Cornell, UChicago and ASU, but no value was quoted.
+  - The MIT, Yale, Penn, UCLA and Minnesota sites block automated downloads, and Stanford requires a login. We skip those rather than work around them.
+  - H6 only says whether need-based aid exists, so a need-based "yes" is stored as `partial`. `full_need` stays demo unless an official page says so.
+- **Verification rule.** A value from the Scorecard API, or a CDS value whose quote is found in the official document, gets `is_demo: false`. This is automatic verification, which goes further than the spec's "human-verified" wording, and was agreed for the hackathon.
+- **Why commondatasets.com was not used.** Its Terms & Conditions forbid scraping or bulk-harvesting its compiled database for republication. We went to the same public primary sources instead.
+
+**Demo data:**
+- The remaining US fields and all universities outside the US are approximate figures compiled by hand (`supabase/seed/build_seed.py`). The build script keeps rows that already have verified facts.
+- `world_rank` is taken approximately from QS World University Rankings 2025. It is used only for the prestige priority and is not scraped.
+- Deadlines come from a single admission cycle. The engine shifts them to the student's intake year (Aug–Dec deadlines belong to the next year's intake).
+
+**Pipeline metrics** (`pipeline/out/report.json`):
+- Scorecard: 19 universities, 55 of 57 fields published.
+- CDS: 12 documents from 11 universities; 17 facts extracted, 17 verified (100%).
+- Seed: 72 real facts, 240 demo facts.
 
 ## Ready-made components and libraries
 
 shadcn/ui (Button, Sheet, Slider, Switch, Collapsible patterns), Radix UI primitives, Tailwind CSS, tailwindcss-animate, class-variance-authority, clsx, tailwind-merge, lucide-react icons, Framer Motion, Recharts, TanStack Query (+ persist client, sync storage persister), Zustand, React Hook Form, Zod, @hookform/resolvers, sonner (toasts), React Router, @supabase/supabase-js, openapi-typescript. Fonts: Manrope and Unbounded (Google Fonts).
-Backend: FastAPI, Pydantic, pydantic-settings, SQLAlchemy, asyncpg, aiosqlite, PyJWT, httpx, google-genai, pytest. Pipeline: trafilatura, httpx.
+Backend: FastAPI, Pydantic, pydantic-settings, SQLAlchemy, asyncpg, aiosqlite, PyJWT, httpx, google-genai, pytest. Pipeline: trafilatura, httpx, pypdf.
 
 ## Limitations
 
 - GPA conversion from the 5-point scale to the 4.0 scale is **approximate**, and the UI says so.
 - Acceptance rates are **overall**, not specific to international applicants.
-- University data is **demo data** until it is human-verified. Deadlines are projected to the intake year.
+- Only US universities have real data (Scorecard + CDS), and verification is automatic (the quote must match the source), not done by a person. Other countries are demo data. Deadlines are projected to the intake year.
 - Anonymous sessions are **per browser**. Clearing site data or switching devices starts a new profile.
 - The "requirement unreachable" filter currently covers the IELTS minimum only. Other requirements (A-levels, Studienkolleg, interviews) are shown as information.
 - RAG `/ai/ask` and the voice guide (M5) are not implemented.

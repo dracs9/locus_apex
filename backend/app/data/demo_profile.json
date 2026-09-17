@@ -1,6 +1,6 @@
 {
   "grade": 11,
-  "gpa5": 4.6,
+  "gpa5": 4.8,
   "majors": ["cs", "economics"],
   "countries": ["US", "UK", "NL"],
   "budget_per_year_usd": 50000,
