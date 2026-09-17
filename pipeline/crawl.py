@@ -24,7 +24,7 @@ import trafilatura
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "pipeline" / "out" / "pages"
 SEED = ROOT / "supabase" / "seed" / "universities.json"
-USER_AGENT = "AdmissionRouteBot/1.0 (hackathon research; contact via repository)"
+USER_AGENT = "ApplyraBot/1.0 (hackathon research; contact via repository)"
 KEYWORDS = re.compile(r"admission|apply|tuition|fees?|cost|requirement|deadline|international|english|ielts|toefl|financial.aid|scholarship|sat\b", re.I)
 BLOCKED_HOSTS = ("topuniversities.com", "timeshighereducation.com", "mastersportal.com", "niche.com")
 DELAY_S = 1.0

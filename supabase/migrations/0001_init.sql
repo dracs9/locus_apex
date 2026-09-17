@@ -1,4 +1,4 @@
--- AI Admission Route — initial schema (§6)
+-- Applyra — initial schema (§6)
 
 create table if not exists public.universities (
   id          text primary key,

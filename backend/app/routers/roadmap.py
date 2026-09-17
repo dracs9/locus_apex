@@ -37,7 +37,7 @@ async def patch_step(step_id: str, body: StepPatch, user_id: UUID = Depends(get_
 @router.get("/roadmap.ics")
 async def roadmap_ics(user_id: UUID = Depends(get_user_id), session: AsyncSession = Depends(get_session)):
     return Response(content=ics.roadmap_to_ics(await _roadmap(session, user_id)), media_type="text/calendar; charset=utf-8",
-                    headers={"Content-Disposition": 'attachment; filename="route.ics"'})
+                    headers={"Content-Disposition": 'attachment; filename="applyra-route.ics"'})
 
 
 @router.get("/favorites", response_model=list[str])

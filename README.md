@@ -1,4 +1,4 @@
-# Маршрут — AI Admission Route Service
+# Applyra — AI Admission Route Service
 
 LOCUS Hackathon 2026, Case 02. Full specification: [SPEC.md](SPEC.md).
 

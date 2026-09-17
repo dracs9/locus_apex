@@ -1,7 +1,7 @@
 /** All UI strings (Russian). Add kz.ts / en.ts with the same shape later. */
 export const ru = {
   app: {
-    name: "Маршрут",
+    name: "Applyra",
     tagline: "Поступление за рубеж по шагам",
   },
   nav: {

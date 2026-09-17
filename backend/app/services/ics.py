@@ -23,8 +23,8 @@ def _fold(line: str) -> list[str]:
 
 def roadmap_to_ics(roadmap: Roadmap) -> str:
     stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
-    lines = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Admission Route//RU", "CALSCALE:GREGORIAN",
-             "X-WR-CALNAME:Маршрут поступления"]
+    lines = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Applyra//RU", "CALSCALE:GREGORIAN",
+             "X-WR-CALNAME:Applyra — маршрут поступления"]
     for s in roadmap.steps:
         desc = "Выполнено" if s.done else "Не выполнено"
         if s.source_url:
@@ -33,7 +33,7 @@ def roadmap_to_ics(roadmap: Roadmap) -> str:
             desc += "\nДемо-данные: проверьте дату на сайте вуза"
         lines += [
             "BEGIN:VEVENT",
-            f"UID:{s.id.replace(':', '-')}@admission-route",
+            f"UID:{s.id.replace(':', '-')}@applyra",
             f"DTSTAMP:{stamp}",
             f"DTSTART;VALUE=DATE:{s.due_date:%Y%m%d}",
             f"DTEND;VALUE=DATE:{s.due_date + timedelta(days=1):%Y%m%d}",

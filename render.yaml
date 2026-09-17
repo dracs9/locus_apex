@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: admission-route-api
+    name: applyra-api
     runtime: python
     rootDir: backend
     plan: free
