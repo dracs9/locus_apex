@@ -111,7 +111,7 @@ export const ru = {
   priorities: {
     cost: "Цена",
     prestige: "Престиж",
-    location: "Первая выбранная страна",
+    location: "Приоритетная страна",
     aid: "Финпомощь",
   },
   passport: {
