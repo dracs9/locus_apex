@@ -3,7 +3,7 @@ import { ArrowDown, ArrowRight, ArrowUp, CheckCircle2, ListMinus, ListPlus, Minu
 import type { ReactNode } from "react";
 import { Link } from "react-router-dom";
 
-import { useLatestChanges, useRecommendations, useUniversityMap } from "@/api/hooks";
+import { useLatestChanges, useRecommendations, useSuggestions, useUniversityMap } from "@/api/hooks";
 import type { Chance, Tier } from "@/api/types";
 import { ChanceBadge, TierBadge } from "@/components/ds/badges";
 import { Card, PageHeader, SectionTitle } from "@/components/ds/Card";
@@ -53,7 +53,19 @@ export function Changes() {
     </Link>
   );
   const recOf = (id: string) => recs.data?.recs.find((r) => r.university_id === id);
-  const stepTitle = (id: string) => id.replace(/^apply:([^:]+):.*/, (_, u: string) => `Заявка: ${map.get(u)?.name ?? u}`);
+  const suggestions = useSuggestions();
+  const suggestionTitles = new Map((suggestions.data ?? []).map((s) => [s.id, s.title]));
+  // Diff ids are suggestion ids; ones already added or gone are named by their pattern.
+  const stepTitle = (id: string) => {
+    const known = suggestionTitles.get(id);
+    if (known) return known;
+    const [kind, a, b] = id.split(":");
+    if (kind === "apply") return `Заявка: ${map.get(a)?.name ?? a}`;
+    if (kind === "exam") return b === "register" ? `Регистрация на ${a}` : `Экзамен ${a}`;
+    if (kind === "doc") return `${t.roadmap.kinds.document}: ${a}`;
+    if (kind === "academic") return t.roadmap.kinds.academic;
+    return t.roadmap.kinds.activity;
+  };
 
   if (changes.isPending) return <CardsSkeleton />;
   if (changes.isError && !changes.data) return <ErrorState onRetry={() => changes.refetch()} />;

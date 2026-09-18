@@ -69,7 +69,18 @@ export function Today() {
           </div>
         </Card>
       ) : (
-        <EmptyState icon={<PartyPopper className="h-6 w-6" />} title={steps.length ? t.today.allDone : t.roadmap.empty} />
+        <EmptyState
+          icon={<PartyPopper className="h-6 w-6" />}
+          title={steps.length ? t.today.allDone : t.roadmap.empty}
+          text={steps.length ? undefined : t.roadmap.emptyHint}
+          action={
+            steps.length ? undefined : (
+              <Button asChild>
+                <Link to="/roadmap">{t.roadmap.buildPlan}</Link>
+              </Button>
+            )
+          }
+        />
       )}
 
       <div className="grid gap-3 md:grid-cols-[220px_1fr]">

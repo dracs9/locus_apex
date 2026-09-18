@@ -24,6 +24,9 @@ import type {
   RecommendationResult,
   Roadmap,
   RoadmapTextOut,
+  StepIn,
+  StepPatch,
+  Suggestion,
   University,
 } from "./types";
 
@@ -31,6 +34,7 @@ export const keys = {
   profile: ["me", "profile"] as const,
   recommendations: ["me", "recommendations"] as const,
   roadmap: ["me", "roadmap"] as const,
+  suggestions: ["me", "roadmap", "suggestions"] as const,
   changes: ["me", "changes"] as const,
   favorites: ["me", "favorites"] as const,
   chanceHistory: (ids: string) => ["me", "chance-history", ids] as const,
@@ -85,6 +89,15 @@ export function useRecommendations(enabled = true) {
 
 export function useRoadmap(enabled = true) {
   return useQuery({ queryKey: keys.roadmap, queryFn: () => api<Roadmap>("/me/roadmap"), retry: noRetryOn404, enabled });
+}
+
+export function useSuggestions(enabled = true) {
+  return useQuery({
+    queryKey: keys.suggestions,
+    queryFn: () => api<Suggestion[]>("/me/roadmap/suggestions"),
+    retry: noRetryOn404,
+    enabled,
+  });
 }
 
 export function useLatestChanges() {
@@ -251,23 +264,54 @@ export function useLoadDemo() {
   return useComputeMutation(() => api<ComputeResponse>("/me/demo", { method: "POST" }), { silent: true });
 }
 
-export function usePatchStep() {
+/** Plan edits return the whole plan; suggestions change too (added ones drop out), so they are refetched. */
+function usePlanMutation<V>(fn: (v: V) => Promise<Roadmap>, optimistic?: (prev: Roadmap, v: V) => Roadmap) {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: ({ id, done }: { id: string; done: boolean }) =>
-      api<Roadmap>(`/me/roadmap/steps/${encodeURIComponent(id)}`, { method: "PATCH", body: { done } }),
-    onMutate: async ({ id, done }) => {
-      await qc.cancelQueries({ queryKey: keys.roadmap });
+    mutationFn: (v: V) => {
+      if (useNetwork.getState().offline) return Promise.reject(new ApiError(0, "NETWORK", t.common.offlineEditsDisabled));
+      return fn(v);
+    },
+    onMutate: async (v: V) => {
+      if (!optimistic) return { prev: undefined };
+      await qc.cancelQueries({ queryKey: keys.roadmap, exact: true });
       const prev = qc.getQueryData<Roadmap>(keys.roadmap);
-      if (prev) qc.setQueryData(keys.roadmap, { ...prev, steps: prev.steps.map((s) => (s.id === id ? { ...s, done } : s)) });
+      if (prev) qc.setQueryData(keys.roadmap, optimistic(prev, v));
       return { prev };
     },
-    onSuccess: (roadmap) => qc.setQueryData(keys.roadmap, roadmap),
+    onSuccess: (roadmap) => {
+      qc.setQueryData(keys.roadmap, roadmap);
+      void qc.invalidateQueries({ queryKey: keys.suggestions });
+    },
     onError: (e, _v, ctx) => {
       if (ctx?.prev) qc.setQueryData(keys.roadmap, ctx.prev);
       onMutationError(e);
     },
   });
+}
+
+export function useAddStep() {
+  return usePlanMutation((body: StepIn) => api<Roadmap>("/me/roadmap/items", { method: "POST", body }));
+}
+
+export function usePatchStep() {
+  return usePlanMutation(
+    ({ id, ...body }: StepPatch & { id: string }) =>
+      api<Roadmap>(`/me/roadmap/items/${encodeURIComponent(id)}`, { method: "PATCH", body }),
+    (prev, { id, ...patch }) => ({
+      ...prev,
+      steps: prev.steps.map((s) =>
+        s.id === id ? { ...s, ...Object.fromEntries(Object.entries(patch).filter(([, v]) => v != null)) } : s,
+      ),
+    }),
+  );
+}
+
+export function useDeleteStep() {
+  return usePlanMutation(
+    (id: string) => api<Roadmap>(`/me/roadmap/items/${encodeURIComponent(id)}`, { method: "DELETE" }),
+    (prev, id) => ({ ...prev, steps: prev.steps.filter((s) => s.id !== id) }),
+  );
 }
 
 export function useReset() {

@@ -1,4 +1,4 @@
-import { AlertTriangle, CheckCircle2, Circle } from "lucide-react";
+import { AlertTriangle, CheckCircle2, Circle, Pencil } from "lucide-react";
 
 import { usePatchStep } from "@/api/hooks";
 import type { AchievementType, RoadmapStep, University } from "@/api/types";
@@ -10,8 +10,9 @@ import { useNetwork } from "@/store/ui";
 
 import { SourceBadge } from "./badges";
 
+/** Exam steps added from a suggestion ('exam:SAT', not the registration step) prefill the achievement sheet. */
 export function examTypeOf(step: RoadmapStep): AchievementType | null {
-  const m = /^exam:(SAT|IELTS|TOEFL)$/.exec(step.id);
+  const m = /^exam:(SAT|IELTS|TOEFL)$/.exec(step.source_key ?? "");
   return m ? (m[1] as AchievementType) : null;
 }
 
@@ -35,11 +36,13 @@ export function StepRow({
   description,
   conflict,
   unis,
+  onEdit,
 }: {
   step: RoadmapStep;
   description?: string;
   conflict?: string;
   unis: Map<string, University>;
+  onEdit?: () => void;
 }) {
   const complete = useCompleteStep();
   const offline = useNetwork((s) => s.offline);
@@ -68,6 +71,7 @@ export function StepRow({
           <SourceBadge sourceUrl={step.source_url} isDemo={step.is_demo} />
         </p>
         {description && !step.done && <p className="text-sm text-muted-foreground">{description}</p>}
+        {step.note && <p className="whitespace-pre-line rounded-md bg-muted/60 px-2 py-1 text-sm">{step.note}</p>}
         {names.length > 0 && <p className="truncate text-xs text-muted-foreground">{names.join(" · ")}</p>}
         {conflict && !step.done && (
           <p className="flex items-start gap-1.5 text-xs font-semibold text-blocker">
@@ -76,6 +80,17 @@ export function StepRow({
           </p>
         )}
       </div>
+      {onEdit && (
+        <button
+          type="button"
+          onClick={onEdit}
+          disabled={offline}
+          aria-label={`${t.roadmap.edit}: ${step.title}`}
+          className="mt-0.5 h-9 w-9 shrink-0 rounded-full text-muted-foreground hover:bg-muted hover:text-foreground disabled:opacity-50"
+        >
+          <Pencil className="mx-auto h-4 w-4" />
+        </button>
+      )}
     </li>
   );
 }

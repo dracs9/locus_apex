@@ -33,7 +33,14 @@ export function WeekFocus({ steps }: { steps: RoadmapStep[] }) {
         </span>
       </div>
       {focus.length === 0 ? (
-        <p className="py-4 text-sm text-muted-foreground">{steps.length ? t.passport.allDone : t.roadmap.empty}</p>
+        <div className="space-y-3 py-4 text-sm text-muted-foreground">
+          <p>{steps.length ? t.passport.allDone : `${t.roadmap.empty}. ${t.roadmap.emptyHint}`}</p>
+          {!steps.length && (
+            <Link to="/roadmap" className="inline-flex items-center gap-1.5 font-bold text-primary hover:underline">
+              {t.roadmap.buildPlan} <ArrowRight className="h-4 w-4" />
+            </Link>
+          )}
+        </div>
       ) : (
         <ul className="divide-y">
           {focus.map((s) => {
