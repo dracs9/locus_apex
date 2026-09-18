@@ -2904,6 +2904,166 @@
     "world_rank": 28
   },
   {
+    "id": "rwth",
+    "name": "RWTH Aachen University",
+    "country": "DE",
+    "city": "Aachen",
+    "website": "https://www.rwth-aachen.de/go/id/bkvx/?lidx=1",
+    "majors": [
+      "engineering",
+      "cs",
+      "math",
+      "physics",
+      "business"
+    ],
+    "acceptance_rate": {
+      "value": null,
+      "source_url": "https://www.rwth-aachen.de/go/id/bkvx/?lidx=1",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "sat": {
+      "value": null,
+      "source_url": "https://www.rwth-aachen.de/go/id/bkvx/?lidx=1",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "gpa_avg": {
+      "value": null,
+      "source_url": "https://www.rwth-aachen.de/go/id/bkvx/?lidx=1",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "ielts_min": {
+      "value": 6.5,
+      "source_url": "https://www.rwth-aachen.de/go/id/bkvx/?lidx=1",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "cost_per_year_usd": {
+      "value": 14000,
+      "source_url": "https://www.rwth-aachen.de/go/id/bkvx/?lidx=1",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "intl_aid": {
+      "value": "none",
+      "source_url": "https://www.rwth-aachen.de/go/id/bkvx/?lidx=1",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "OTHER",
+          "date": "2027-07-15"
+        },
+        "source_url": "https://www.rwth-aachen.de/go/id/bkvx/?lidx=1",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      }
+    ],
+    "extra_requirements": [
+      "Studienkolleg или 1 год вуза в РК для аттестата",
+      "Немецкий язык для программ на немецком"
+    ],
+    "documents": [
+      "transcript",
+      "motivation_letter",
+      "cv",
+      "passport"
+    ],
+    "world_rank": 99
+  },
+  {
+    "id": "lmu",
+    "name": "LMU Munich",
+    "country": "DE",
+    "city": "Munich",
+    "website": "https://www.lmu.de/en/study/all-degrees-and-programs/application-and-admission",
+    "majors": [
+      "economics",
+      "business",
+      "physics",
+      "math",
+      "biology",
+      "medicine",
+      "social_sciences"
+    ],
+    "acceptance_rate": {
+      "value": null,
+      "source_url": "https://www.lmu.de/en/study/all-degrees-and-programs/application-and-admission",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "sat": {
+      "value": null,
+      "source_url": "https://www.lmu.de/en/study/all-degrees-and-programs/application-and-admission",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "gpa_avg": {
+      "value": null,
+      "source_url": "https://www.lmu.de/en/study/all-degrees-and-programs/application-and-admission",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "ielts_min": {
+      "value": 6.5,
+      "source_url": "https://www.lmu.de/en/study/all-degrees-and-programs/application-and-admission",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "cost_per_year_usd": {
+      "value": 15000,
+      "source_url": "https://www.lmu.de/en/study/all-degrees-and-programs/application-and-admission",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "intl_aid": {
+      "value": "none",
+      "source_url": "https://www.lmu.de/en/study/all-degrees-and-programs/application-and-admission",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "OTHER",
+          "date": "2027-07-15"
+        },
+        "source_url": "https://www.lmu.de/en/study/all-degrees-and-programs/application-and-admission",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      }
+    ],
+    "extra_requirements": [
+      "Studienkolleg или 1 год вуза в РК для аттестата",
+      "Немецкий язык для программ на немецком"
+    ],
+    "documents": [
+      "transcript",
+      "motivation_letter",
+      "cv",
+      "passport"
+    ],
+    "world_rank": 59
+  },
+  {
     "id": "kaist",
     "name": "KAIST",
     "country": "KR",
@@ -3058,6 +3218,84 @@
       "passport"
     ],
     "world_rank": 31
+  },
+  {
+    "id": "yonsei",
+    "name": "Yonsei University (Underwood International College)",
+    "country": "KR",
+    "city": "Seoul",
+    "website": "https://uic.yonsei.ac.kr/main/admission.php",
+    "majors": [
+      "economics",
+      "business",
+      "social_sciences",
+      "cs",
+      "engineering",
+      "design",
+      "biology"
+    ],
+    "acceptance_rate": {
+      "value": null,
+      "source_url": "https://uic.yonsei.ac.kr/main/admission.php",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "sat": {
+      "value": null,
+      "source_url": "https://uic.yonsei.ac.kr/main/admission.php",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "gpa_avg": {
+      "value": null,
+      "source_url": "https://uic.yonsei.ac.kr/main/admission.php",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "ielts_min": {
+      "value": 6.5,
+      "source_url": "https://uic.yonsei.ac.kr/main/admission.php",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "cost_per_year_usd": {
+      "value": 20000,
+      "source_url": "https://uic.yonsei.ac.kr/main/admission.php",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "intl_aid": {
+      "value": "merit_only",
+      "source_url": "https://uic.yonsei.ac.kr/main/admission.php",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "OTHER",
+          "date": "2027-01-10"
+        },
+        "source_url": "https://uic.yonsei.ac.kr/main/admission.php",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      }
+    ],
+    "extra_requirements": [],
+    "documents": [
+      "transcript",
+      "motivation_letter",
+      "recommendations",
+      "passport"
+    ],
+    "world_rank": 56
   },
   {
     "id": "nus",
@@ -3217,6 +3455,83 @@
       "passport"
     ],
     "world_rank": 15
+  },
+  {
+    "id": "smu",
+    "name": "Singapore Management University",
+    "country": "SG",
+    "city": "Singapore",
+    "website": "https://admissions.smu.edu.sg",
+    "majors": [
+      "business",
+      "economics",
+      "cs",
+      "social_sciences"
+    ],
+    "acceptance_rate": {
+      "value": null,
+      "source_url": "https://admissions.smu.edu.sg",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "sat": {
+      "value": null,
+      "source_url": "https://admissions.smu.edu.sg",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "gpa_avg": {
+      "value": null,
+      "source_url": "https://admissions.smu.edu.sg",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "ielts_min": {
+      "value": 6.5,
+      "source_url": "https://admissions.smu.edu.sg",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "cost_per_year_usd": {
+      "value": 38000,
+      "source_url": "https://admissions.smu.edu.sg",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "intl_aid": {
+      "value": "partial",
+      "source_url": "https://admissions.smu.edu.sg",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "OTHER",
+          "date": "2027-02-15"
+        },
+        "source_url": "https://admissions.smu.edu.sg",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      }
+    ],
+    "extra_requirements": [
+      "Интервью или оценочное задание на части программ"
+    ],
+    "documents": [
+      "transcript",
+      "motivation_letter",
+      "recommendations",
+      "passport"
+    ],
+    "world_rank": 500
   },
   {
     "id": "utoronto",
@@ -3527,5 +3842,713 @@
       "passport"
     ],
     "world_rank": 115
+  },
+  {
+    "id": "hku",
+    "name": "The University of Hong Kong",
+    "country": "HK",
+    "city": "Hong Kong",
+    "website": "https://admissions.hku.hk",
+    "majors": [
+      "cs",
+      "engineering",
+      "economics",
+      "business",
+      "medicine",
+      "social_sciences",
+      "biology"
+    ],
+    "acceptance_rate": {
+      "value": null,
+      "source_url": "https://admissions.hku.hk",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "sat": {
+      "value": null,
+      "source_url": "https://admissions.hku.hk",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "gpa_avg": {
+      "value": null,
+      "source_url": "https://admissions.hku.hk",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "ielts_min": {
+      "value": 6.5,
+      "source_url": "https://admissions.hku.hk",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "cost_per_year_usd": {
+      "value": 36000,
+      "source_url": "https://admissions.hku.hk",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "intl_aid": {
+      "value": "merit_only",
+      "source_url": "https://admissions.hku.hk",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "OTHER",
+          "date": "2027-01-06"
+        },
+        "source_url": "https://admissions.hku.hk",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      }
+    ],
+    "extra_requirements": [],
+    "documents": [
+      "transcript",
+      "motivation_letter",
+      "recommendations",
+      "passport"
+    ],
+    "world_rank": 17
+  },
+  {
+    "id": "hkust",
+    "name": "Hong Kong University of Science and Technology",
+    "country": "HK",
+    "city": "Hong Kong",
+    "website": "https://join.hkust.edu.hk",
+    "majors": [
+      "cs",
+      "engineering",
+      "business",
+      "economics",
+      "math",
+      "physics"
+    ],
+    "acceptance_rate": {
+      "value": null,
+      "source_url": "https://join.hkust.edu.hk",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "sat": {
+      "value": null,
+      "source_url": "https://join.hkust.edu.hk",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "gpa_avg": {
+      "value": null,
+      "source_url": "https://join.hkust.edu.hk",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "ielts_min": {
+      "value": 6.5,
+      "source_url": "https://join.hkust.edu.hk",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "cost_per_year_usd": {
+      "value": 34000,
+      "source_url": "https://join.hkust.edu.hk",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "intl_aid": {
+      "value": "merit_only",
+      "source_url": "https://join.hkust.edu.hk",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "OTHER",
+          "date": "2027-01-05"
+        },
+        "source_url": "https://join.hkust.edu.hk",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      }
+    ],
+    "extra_requirements": [],
+    "documents": [
+      "transcript",
+      "motivation_letter",
+      "recommendations",
+      "passport"
+    ],
+    "world_rank": 47
+  },
+  {
+    "id": "cuhk",
+    "name": "The Chinese University of Hong Kong",
+    "country": "HK",
+    "city": "Hong Kong",
+    "website": "https://admission.cuhk.edu.hk",
+    "majors": [
+      "cs",
+      "engineering",
+      "business",
+      "economics",
+      "medicine",
+      "biology",
+      "social_sciences"
+    ],
+    "acceptance_rate": {
+      "value": null,
+      "source_url": "https://admission.cuhk.edu.hk",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "sat": {
+      "value": null,
+      "source_url": "https://admission.cuhk.edu.hk",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "gpa_avg": {
+      "value": null,
+      "source_url": "https://admission.cuhk.edu.hk",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "ielts_min": {
+      "value": 6.0,
+      "source_url": "https://admission.cuhk.edu.hk",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "cost_per_year_usd": {
+      "value": 34000,
+      "source_url": "https://admission.cuhk.edu.hk",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "intl_aid": {
+      "value": "merit_only",
+      "source_url": "https://admission.cuhk.edu.hk",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "OTHER",
+          "date": "2027-01-05"
+        },
+        "source_url": "https://admission.cuhk.edu.hk",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      }
+    ],
+    "extra_requirements": [],
+    "documents": [
+      "transcript",
+      "motivation_letter",
+      "recommendations",
+      "passport"
+    ],
+    "world_rank": 36
+  },
+  {
+    "id": "tsinghua",
+    "name": "Tsinghua University",
+    "country": "CN",
+    "city": "Beijing",
+    "website": "https://join-tsinghua.edu.cn/en",
+    "majors": [
+      "engineering",
+      "cs",
+      "math",
+      "physics",
+      "economics",
+      "business",
+      "design"
+    ],
+    "acceptance_rate": {
+      "value": null,
+      "source_url": "https://join-tsinghua.edu.cn/en",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "sat": {
+      "value": null,
+      "source_url": "https://join-tsinghua.edu.cn/en",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "gpa_avg": {
+      "value": null,
+      "source_url": "https://join-tsinghua.edu.cn/en",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "ielts_min": {
+      "value": null,
+      "source_url": "https://join-tsinghua.edu.cn/en",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "cost_per_year_usd": {
+      "value": 11000,
+      "source_url": "https://join-tsinghua.edu.cn/en",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "intl_aid": {
+      "value": "partial",
+      "source_url": "https://join-tsinghua.edu.cn/en",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "OTHER",
+          "date": "2026-12-15"
+        },
+        "source_url": "https://join-tsinghua.edu.cn/en",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      }
+    ],
+    "extra_requirements": [
+      "HSK 5–6 для программ на китайском языке",
+      "Вступительный экзамен или интервью"
+    ],
+    "documents": [
+      "transcript",
+      "motivation_letter",
+      "recommendations",
+      "passport"
+    ],
+    "world_rank": 20
+  },
+  {
+    "id": "pku",
+    "name": "Peking University",
+    "country": "CN",
+    "city": "Beijing",
+    "website": "https://www.isd.pku.edu.cn",
+    "majors": [
+      "cs",
+      "economics",
+      "math",
+      "physics",
+      "biology",
+      "medicine",
+      "social_sciences"
+    ],
+    "acceptance_rate": {
+      "value": null,
+      "source_url": "https://www.isd.pku.edu.cn",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "sat": {
+      "value": null,
+      "source_url": "https://www.isd.pku.edu.cn",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "gpa_avg": {
+      "value": null,
+      "source_url": "https://www.isd.pku.edu.cn",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "ielts_min": {
+      "value": null,
+      "source_url": "https://www.isd.pku.edu.cn",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "cost_per_year_usd": {
+      "value": 11000,
+      "source_url": "https://www.isd.pku.edu.cn",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "intl_aid": {
+      "value": "partial",
+      "source_url": "https://www.isd.pku.edu.cn",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "OTHER",
+          "date": "2027-01-05"
+        },
+        "source_url": "https://www.isd.pku.edu.cn",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      }
+    ],
+    "extra_requirements": [
+      "HSK 5–6 для программ на китайском языке",
+      "Вступительный экзамен или интервью"
+    ],
+    "documents": [
+      "transcript",
+      "motivation_letter",
+      "recommendations",
+      "passport"
+    ],
+    "world_rank": 14
+  },
+  {
+    "id": "fudan",
+    "name": "Fudan University",
+    "country": "CN",
+    "city": "Shanghai",
+    "website": "https://iso.fudan.edu.cn",
+    "majors": [
+      "economics",
+      "business",
+      "medicine",
+      "social_sciences",
+      "cs",
+      "math"
+    ],
+    "acceptance_rate": {
+      "value": null,
+      "source_url": "https://iso.fudan.edu.cn",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "sat": {
+      "value": null,
+      "source_url": "https://iso.fudan.edu.cn",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "gpa_avg": {
+      "value": null,
+      "source_url": "https://iso.fudan.edu.cn",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "ielts_min": {
+      "value": null,
+      "source_url": "https://iso.fudan.edu.cn",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "cost_per_year_usd": {
+      "value": 11000,
+      "source_url": "https://iso.fudan.edu.cn",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "intl_aid": {
+      "value": "partial",
+      "source_url": "https://iso.fudan.edu.cn",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "OTHER",
+          "date": "2027-02-28"
+        },
+        "source_url": "https://iso.fudan.edu.cn",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      }
+    ],
+    "extra_requirements": [
+      "HSK 5–6 для программ на китайском языке",
+      "Вступительный экзамен или интервью"
+    ],
+    "documents": [
+      "transcript",
+      "motivation_letter",
+      "recommendations",
+      "passport"
+    ],
+    "world_rank": 39
+  },
+  {
+    "id": "bocconi",
+    "name": "Bocconi University",
+    "country": "IT",
+    "city": "Milan",
+    "website": "https://www.unibocconi.eu/en/programs/bachelor-degree-programs",
+    "majors": [
+      "economics",
+      "business",
+      "social_sciences",
+      "cs",
+      "math"
+    ],
+    "acceptance_rate": {
+      "value": null,
+      "source_url": "https://www.unibocconi.eu/en/programs/bachelor-degree-programs",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "sat": {
+      "value": null,
+      "source_url": "https://www.unibocconi.eu/en/programs/bachelor-degree-programs",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "gpa_avg": {
+      "value": null,
+      "source_url": "https://www.unibocconi.eu/en/programs/bachelor-degree-programs",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "ielts_min": {
+      "value": 6.5,
+      "source_url": "https://www.unibocconi.eu/en/programs/bachelor-degree-programs",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "cost_per_year_usd": {
+      "value": 30000,
+      "source_url": "https://www.unibocconi.eu/en/programs/bachelor-degree-programs",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "intl_aid": {
+      "value": "partial",
+      "source_url": "https://www.unibocconi.eu/en/programs/bachelor-degree-programs",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "OTHER",
+          "date": "2027-02-18"
+        },
+        "source_url": "https://www.unibocconi.eu/en/programs/bachelor-degree-programs",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      }
+    ],
+    "extra_requirements": [
+      "Онлайн-тест Bocconi или SAT"
+    ],
+    "documents": [
+      "transcript",
+      "motivation_letter",
+      "cv",
+      "passport"
+    ],
+    "world_rank": 300
+  },
+  {
+    "id": "polimi",
+    "name": "Politecnico di Milano",
+    "country": "IT",
+    "city": "Milan",
+    "website": "https://www.polimi.it/en/international-prospective-students",
+    "majors": [
+      "engineering",
+      "design",
+      "cs",
+      "math",
+      "physics"
+    ],
+    "acceptance_rate": {
+      "value": null,
+      "source_url": "https://www.polimi.it/en/international-prospective-students",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "sat": {
+      "value": null,
+      "source_url": "https://www.polimi.it/en/international-prospective-students",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "gpa_avg": {
+      "value": null,
+      "source_url": "https://www.polimi.it/en/international-prospective-students",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "ielts_min": {
+      "value": 6.0,
+      "source_url": "https://www.polimi.it/en/international-prospective-students",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "cost_per_year_usd": {
+      "value": 17000,
+      "source_url": "https://www.polimi.it/en/international-prospective-students",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "intl_aid": {
+      "value": "partial",
+      "source_url": "https://www.polimi.it/en/international-prospective-students",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "OTHER",
+          "date": "2027-02-28"
+        },
+        "source_url": "https://www.polimi.it/en/international-prospective-students",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      }
+    ],
+    "extra_requirements": [
+      "Вступительный тест TOL/TIL (или SAT)"
+    ],
+    "documents": [
+      "transcript",
+      "motivation_letter",
+      "cv",
+      "passport"
+    ],
+    "world_rank": 111
+  },
+  {
+    "id": "unibo",
+    "name": "University of Bologna",
+    "country": "IT",
+    "city": "Bologna",
+    "website": "https://www.unibo.it/en/study/international-students",
+    "majors": [
+      "economics",
+      "business",
+      "engineering",
+      "medicine",
+      "social_sciences",
+      "biology"
+    ],
+    "acceptance_rate": {
+      "value": null,
+      "source_url": "https://www.unibo.it/en/study/international-students",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "sat": {
+      "value": null,
+      "source_url": "https://www.unibo.it/en/study/international-students",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "gpa_avg": {
+      "value": null,
+      "source_url": "https://www.unibo.it/en/study/international-students",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "ielts_min": {
+      "value": 6.0,
+      "source_url": "https://www.unibo.it/en/study/international-students",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "cost_per_year_usd": {
+      "value": 14000,
+      "source_url": "https://www.unibo.it/en/study/international-students",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "intl_aid": {
+      "value": "partial",
+      "source_url": "https://www.unibo.it/en/study/international-students",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "OTHER",
+          "date": "2027-03-31"
+        },
+        "source_url": "https://www.unibo.it/en/study/international-students",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      }
+    ],
+    "extra_requirements": [],
+    "documents": [
+      "transcript",
+      "motivation_letter",
+      "cv",
+      "passport"
+    ],
+    "world_rank": 138
   }
 ]
