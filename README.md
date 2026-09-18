@@ -122,6 +122,7 @@ cd ../frontend && npm run gen:api
 9. Reload the page and the state is kept. **Настройки → Сбросить профиль** clears everything.
 10. Stop the backend. The app keeps the cached data, shows an offline banner and disables edits.
 11. Open **Достижения**, edit an achievement and attach a photo of a diploma and a link to a project (up to 5 per achievement). Thumbnails and links appear under the achievement, and tapping a photo opens it. Attachments don't change recommendations.
+12. Open **Ментор** and ask «Какие активности добавить в план?». The mentor answers from your profile and proposes steps; press **Применить** on one and it appears in **План**. Ask «Сколько стоит год в Purdue?»: the answer quotes the catalog and warns when a figure is demo data.
 
 ## Achievement attachments
 
@@ -186,6 +187,16 @@ The spec only names the closable-gap case. Unclosable gaps are also classified a
 - **Guardrails.** The prompts forbid new facts, numbers and percentages. Output is validated with Pydantic and checked for `%`, allowed `profile_field` values and matching step ids. If a check fails, the template is used. Calls time out after 8 s, and results are cached in `llm_cache` by a hash of the input.
 - Every AI response includes `generated: true|false`. The UI marks template text as "Шаблонный текст".
 - The app works fully with `LLM_API_KEY` empty.
+
+### AI mentor (`/mentor`)
+A chat with a mentor who knows the student and can suggest plan changes, which the student confirms.
+- **Model:** the same Gemini model with function calling (`backend/app/llm/mentor_model.py`), temperature 0.3, 25 s per call, at most 4 tool rounds per reply.
+- **Context:** built fresh for every message in `backend/app/services/mentor.py`: profile (grades, majors, countries, budget, best scores, achievements, Holland code), the top 10 recommendations with the engine's tier, chance and reasons, favorites, the student's plan with conflicts, and the plan suggestions with their reasons. It goes into the system prompt (`prompts.MENTOR`) together with the rules.
+- **Retrieval tools:** `get_university` (every fact with its source and demo flag, projected deadlines, requirements, the student's tier for it) and `find_universities` (catalog search by country, major, cost). The catalog is small and structured, so tool lookups replace vector search.
+- **Plan changes need confirmation.** `propose_add_suggestion`, `propose_add_step`, `propose_update_step` and `propose_delete_step` only validate and record a proposal: the step or suggestion must belong to the student, dates must fall between today and two years ahead, fields go through the same Pydantic models as the plan API. The reply shows each proposal with "Применить / Отклонить"; applying runs the same code as the plan endpoints.
+- **Rules in the prompt:** facts only from the context and tools, unknown values are "не опубликовано", demo data is called approximate, no admission chances in percent (a reply that pairs "шанс" with a percentage is sanitized server-side), no claims that the plan already changed, off-topic questions are steered back.
+- **History** is stored in `mentor_messages` (migration `0004`, RLS), the last 100 per student; the last 12 go to the model. Reset clears it. Without `LLM_API_KEY` the mentor answers with a template that names the next plan step.
+- **API:** `GET /ai/mentor`, `POST /ai/mentor {text}`, `POST /ai/mentor/{message_id}/actions/{index} {apply}`, `DELETE /ai/mentor`.
 
 ## Data sources
 
