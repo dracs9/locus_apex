@@ -41,7 +41,10 @@ export function Landing() {
             <p className="inline-flex rounded-full bg-accent/15 px-3 py-1 text-xs font-bold uppercase tracking-wide text-accent-foreground dark:text-accent">
               {t.app.tagline}
             </p>
-            <h1 className="text-balance text-3xl font-bold leading-[1.15] md:text-5xl">{t.landing.title}</h1>
+            <h1 className="text-balance text-3xl font-bold leading-[1.15] md:text-5xl">
+              {t.landing.titleLead} <em className="italic text-primary">{t.landing.titleAccent}</em>
+              {t.landing.titleTail}
+            </h1>
             <p className="text-lg text-muted-foreground">{t.landing.lead}</p>
             <div className="flex flex-col gap-3 sm:flex-row">
               <Button size="lg" onClick={() => navigate(hasProfile ? "/recommendations" : "/onboarding")}>
