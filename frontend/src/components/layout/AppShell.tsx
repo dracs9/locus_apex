@@ -9,6 +9,7 @@ import {
   ListChecks,
   Plus,
   Settings,
+  Sparkles,
 } from "lucide-react";
 import { Link, NavLink, Navigate, Outlet, useLocation } from "react-router-dom";
 
@@ -42,6 +43,7 @@ const SIDEBAR = [
   { to: "/interests", label: "Мои интересы", icon: Compass },
   { to: "/compare", label: t.nav.compare, icon: GitCompareArrows },
   { to: "/roadmap", label: t.nav.plan, icon: CalendarCheck2 },
+  { to: "/mentor", label: t.nav.mentor, icon: Sparkles },
   { to: "/today", label: t.nav.today, icon: Home },
   { to: "/history", label: t.nav.achievements, icon: ListChecks },
   { to: "/changes", label: t.nav.changes, icon: History },
@@ -189,7 +191,8 @@ export function AppShell() {
         </main>
       </div>
       <BottomTabBar />
-      {profile.data && <Fab />}
+      {/* the chat has its own input at the bottom, where the button would cover it */}
+      {profile.data && pathname !== "/mentor" && <Fab />}
       <AddAchievementSheet />
       {profile.data && <ProfileEditorSheet />}
     </div>

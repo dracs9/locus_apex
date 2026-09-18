@@ -8,6 +8,7 @@ import { useNetwork } from "@/store/ui";
 
 import { api, apiBlob, ApiError } from "./client";
 import type {
+  ActionResult,
   AchievementCreated,
   AchievementIn,
   Attachment,
@@ -17,6 +18,8 @@ import type {
   ExplainOut,
   LatestChanges,
   Major,
+  MentorMessage,
+  MentorReply,
   PassportOut,
   Priorities,
   Profile,
@@ -41,6 +44,7 @@ export const keys = {
   passport: ["me", "ai", "passport"] as const,
   explain: (id: string) => ["me", "ai", "explain", id] as const,
   roadmapText: (ids: string) => ["me", "ai", "roadmap-text", ids] as const,
+  mentor: ["me", "mentor"] as const,
   universities: ["catalog", "universities"] as const,
   majors: ["catalog", "majors"] as const,
 };
@@ -312,6 +316,83 @@ export function useDeleteStep() {
     (id: string) => api<Roadmap>(`/me/roadmap/items/${encodeURIComponent(id)}`, { method: "DELETE" }),
     (prev, id) => ({ ...prev, steps: prev.steps.filter((s) => s.id !== id) }),
   );
+}
+
+// --- AI mentor ---------------------------------------------------------------
+
+export function useMentor() {
+  return useQuery({ queryKey: keys.mentor, queryFn: () => api<MentorMessage[]>("/ai/mentor"), retry: noRetryOn404 });
+}
+
+function offlineGuard<T>(fn: () => Promise<T>): Promise<T> {
+  if (useNetwork.getState().offline) return Promise.reject(new ApiError(0, "NETWORK", t.common.offlineEditsDisabled));
+  return fn();
+}
+
+/** Sends a message; the user's bubble shows at once and is replaced by the saved pair from the server. */
+export function useSendMentor() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (text: string) => offlineGuard(() => api<MentorReply>("/ai/mentor", { method: "POST", body: { text } })),
+    onMutate: async (text) => {
+      await qc.cancelQueries({ queryKey: keys.mentor });
+      const prev = qc.getQueryData<MentorMessage[]>(keys.mentor) ?? [];
+      const pending: MentorMessage = {
+        id: `pending-${Date.now()}`,
+        role: "user",
+        text,
+        actions: [],
+        generated: false,
+        created_at: new Date().toISOString(),
+      };
+      qc.setQueryData(keys.mentor, [...prev, pending]);
+      return { prev };
+    },
+    onSuccess: (res, _text, ctx) => {
+      // Drop optimistic bubbles (one may survive a closed tab in the persisted cache), then resync:
+      // sending cancels an in-flight refetch, so the cached list can be missing earlier replies.
+      const saved = (ctx?.prev ?? []).filter((m) => !m.id.startsWith("pending-"));
+      qc.setQueryData(keys.mentor, [...saved, ...res.messages]);
+      void qc.invalidateQueries({ queryKey: keys.mentor });
+    },
+    onError: (e, _text, ctx) => {
+      if (ctx) qc.setQueryData(keys.mentor, ctx.prev);
+      onMutationError(e);
+    },
+  });
+}
+
+export function useMentorAction() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ messageId, index, apply }: { messageId: string; index: number; apply: boolean }) =>
+      offlineGuard(() =>
+        api<ActionResult>(`/ai/mentor/${messageId}/actions/${index}`, { method: "POST", body: { apply } }),
+      ),
+    onSuccess: (res) => {
+      qc.setQueryData<MentorMessage[]>(keys.mentor, (list) =>
+        (list ?? []).map((m) => (m.id === res.message.id ? res.message : m)),
+      );
+      if (res.roadmap) {
+        qc.setQueryData(keys.roadmap, res.roadmap);
+        void qc.invalidateQueries({ queryKey: keys.suggestions });
+      }
+    },
+    onError: (e) => {
+      // a failed apply marks the proposal on the server; refetch to show it
+      void qc.invalidateQueries({ queryKey: keys.mentor });
+      onMutationError(e);
+    },
+  });
+}
+
+export function useClearMentor() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: () => offlineGuard(() => api<void>("/ai/mentor", { method: "DELETE" })),
+    onSuccess: () => qc.setQueryData(keys.mentor, []),
+    onError: onMutationError,
+  });
 }
 
 export function useReset() {

@@ -19,6 +19,12 @@ export function AdviceCard({ text, generated }: { text: string; generated: boole
       >
         {t.passport.openPlan} <ArrowRight className="h-4 w-4" />
       </Link>
+      <Link
+        to="/mentor"
+        className="mt-2 flex h-12 items-center justify-center gap-2 rounded-xl border border-white/25 font-bold transition-colors hover:bg-white/10"
+      >
+        <Sparkles className="h-4 w-4" /> {t.mentor.ask}
+      </Link>
       <p className="mt-4 text-sm text-hero-dark-foreground/60">{generated ? t.common.aiText : t.common.templateText}</p>
     </section>
   );

@@ -6,6 +6,7 @@ import { Compare } from "./pages/Compare";
 import { History } from "./pages/History";
 import { Interests } from "./pages/Interests";
 import { Landing } from "./pages/Landing";
+import { Mentor } from "./pages/Mentor";
 import { Onboarding } from "./pages/Onboarding";
 import { Passport } from "./pages/Passport";
 import { Recommendations } from "./pages/Recommendations";
@@ -26,6 +27,7 @@ export const router = createBrowserRouter([
       { path: "/university/:id", element: <University /> },
       { path: "/compare", element: <Compare /> },
       { path: "/roadmap", element: <Roadmap /> },
+      { path: "/mentor", element: <Mentor /> },
       { path: "/today", element: <Today /> },
       { path: "/history", element: <History /> },
       { path: "/changes", element: <Changes /> },

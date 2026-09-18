@@ -1,5 +1,6 @@
 import { AlertTriangle, CalendarPlus, ListPlus, Plus, Sparkles } from "lucide-react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { toast } from "sonner";
 
 import { downloadIcs, useAddStep, useRoadmap, useRoadmapText, useSuggestions, useUniversityMap } from "@/api/hooks";
@@ -71,6 +72,11 @@ export function Roadmap() {
           <>
             <Button size="sm" onClick={openNew} disabled={offline}>
               <Plus /> {t.roadmap.addOwn}
+            </Button>
+            <Button variant="outline" size="sm" asChild>
+              <Link to="/mentor">
+                <Sparkles /> {t.mentor.ask}
+              </Link>
             </Button>
             {steps.length > 0 && (
               <Button variant="outline" size="sm" onClick={() => void downloadIcs()}>
