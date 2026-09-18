@@ -42,8 +42,8 @@ export function Landing() {
               {t.app.tagline}
             </p>
             <h1 className="text-balance text-3xl font-bold leading-[1.15] md:text-5xl">
-              {t.landing.titleLead} <em className="italic text-primary">{t.landing.titleAccent}</em>
-              {t.landing.titleTail}
+              {t.landing.titleLead}{" "}
+              <em className="font-serif text-[1.06em] font-medium italic tracking-tight text-primary">{t.landing.titleAccent}</em>
             </h1>
             <p className="text-lg text-muted-foreground">{t.landing.lead}</p>
             <div className="flex flex-col gap-3 sm:flex-row">

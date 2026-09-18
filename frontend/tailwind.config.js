@@ -13,6 +13,8 @@ export default {
       fontFamily: {
         sans: ["Manrope", "system-ui", "sans-serif"],
         display: ["Manrope", "system-ui", "sans-serif"],
+        // Accent only: the italic word in the landing headline.
+        serif: ["'Playfair Display'", "Georgia", "serif"],
       },
       colors: {
         background: v("background"),

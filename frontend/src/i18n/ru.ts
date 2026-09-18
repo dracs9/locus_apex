@@ -48,8 +48,7 @@ export const ru = {
   landing: {
     // Split so the last word can be accented; keep the sentence readable here.
     titleLead: "Университет мечты начинается с",
-    titleAccent: "тебя",
-    titleTail: ".",
+    titleAccent: "тебя.",
     lead: "Короткий профиль → объяснимые рекомендации «мечта / реальный / надёжный» → план по месяцам и один понятный следующий шаг.",
     start: "Построить мой маршрут",
     demo: "Попробовать демо-профиль",

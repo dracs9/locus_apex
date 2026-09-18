@@ -216,7 +216,7 @@ The spec only names the closable-gap case. Unclosable gaps are also classified a
 
 ## Ready-made components and libraries
 
-shadcn/ui (Button, Sheet, Slider, Switch, Collapsible patterns), Radix UI primitives, Tailwind CSS, tailwindcss-animate, class-variance-authority, clsx, tailwind-merge, lucide-react icons, Framer Motion, Recharts, TanStack Query (+ persist client, sync storage persister), Zustand, React Hook Form, Zod, @hookform/resolvers, sonner (toasts), React Router, @supabase/supabase-js, openapi-typescript. Fonts: Manrope and Unbounded (Google Fonts).
+shadcn/ui (Button, Sheet, Slider, Switch, Collapsible patterns), Radix UI primitives, Tailwind CSS, tailwindcss-animate, class-variance-authority, clsx, tailwind-merge, lucide-react icons, Framer Motion, Recharts, TanStack Query (+ persist client, sync storage persister), Zustand, React Hook Form, Zod, @hookform/resolvers, sonner (toasts), React Router, @supabase/supabase-js, openapi-typescript. Fonts: Manrope (UI) and Playfair Display Italic (the accented word in the landing headline) — both Google Fonts.
 Backend: FastAPI, Pydantic, pydantic-settings, SQLAlchemy, asyncpg, aiosqlite, PyJWT, httpx, google-genai, python-multipart, pytest. Storage: Supabase Storage REST API. Pipeline: trafilatura, httpx, pypdf.
 
 ## Limitations
