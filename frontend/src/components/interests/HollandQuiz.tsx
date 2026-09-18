@@ -1,4 +1,6 @@
+import { Briefcase } from "lucide-react";
 import { useState } from "react";
+import { useMajors } from "@/api/hooks";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/misc";
 import {
@@ -6,6 +8,7 @@ import {
   holland,
   interestScores,
   hollandCode,
+  suggestedCareers,
   type Answers,
 } from "@/lib/interests";
 const choices = [
@@ -103,6 +106,37 @@ export function HollandQuiz({
   );
 }
 
+function CareerIdeas({ answers }: { answers: Answers }) {
+  const majors = useMajors();
+  const careers = suggestedCareers(answers);
+  if (!careers.length) return null;
+  const majorName = (id: string) =>
+    majors.data?.find((m) => m.id === id)?.name_ru;
+  return (
+    <div className="space-y-3">
+      <h3 className="flex items-center gap-2 font-bold">
+        <Briefcase className="h-4 w-4 text-primary" />
+        Профессии, которые могут подойти
+      </h3>
+      <ul className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+        {careers.map((c) => (
+          <li key={c.id} className="rounded-lg border bg-card px-3 py-2">
+            <p className="text-sm font-semibold">{c.name_ru}</p>
+            <p className="text-xs text-muted-foreground">
+              {c.codes.join("")}
+              {majorName(c.major) && ` · ${majorName(c.major)}`}
+            </p>
+          </li>
+        ))}
+      </ul>
+      <p className="text-xs text-muted-foreground">
+        Это идеи для исследования, а не приговор: поговорите с людьми из этих
+        профессий или попробуйте небольшой проект.
+      </p>
+    </div>
+  );
+}
+
 export function HollandResult({ answers }: { answers: Answers }) {
   const code = hollandCode(answers);
   const scores = interestScores(answers).sort((a, b) => b.score - a.score);
@@ -131,6 +165,7 @@ export function HollandResult({ answers }: { answers: Answers }) {
           </div>
         ))}
       </div>
+      <CareerIdeas answers={answers} />
       <p className="text-sm text-muted-foreground">
         {!code
           ? "Одинаковые баллы не выделяют одно направление. Попробуйте разные проекты и вернитесь к вопросам позже."
