@@ -2,8 +2,8 @@
 import asyncio
 from collections.abc import AsyncIterator
 
-from sqlalchemy import (JSON, Boolean, Column, Date, DateTime, Float, Integer, MetaData, String, Table, Text, Uuid,
-                        text)
+from sqlalchemy import (JSON, Boolean, Column, Date, DateTime, Float, Integer, MetaData, String, Table, Text,
+                        UniqueConstraint, Uuid, text)
 from sqlalchemy.dialects.postgresql import ARRAY, JSONB
 from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, async_sessionmaker, create_async_engine
 from sqlalchemy.pool import StaticPool
@@ -65,6 +65,24 @@ roadmap_progress = Table(
     Column("step_id", Text, primary_key=True),
     Column("done", Boolean, nullable=False),
     Column("done_at", DateTime(timezone=True)),
+)
+
+roadmap_items = Table(
+    "roadmap_items", metadata,
+    Column("id", Uuid, primary_key=True),
+    Column("user_id", Uuid, nullable=False, index=True),
+    Column("kind", Text, nullable=False),
+    Column("title", Text, nullable=False),
+    Column("due_date", Date, nullable=False),
+    Column("note", Text),
+    Column("source_key", Text),
+    Column("university_ids", TextArray, nullable=False),
+    Column("source_url", Text),
+    Column("is_demo", Boolean, nullable=False),
+    Column("done", Boolean, nullable=False),
+    Column("done_at", DateTime(timezone=True)),
+    Column("created_at", DateTime(timezone=True), nullable=False),
+    UniqueConstraint("user_id", "source_key"),
 )
 
 achievement_attachments = Table(

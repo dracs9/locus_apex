@@ -3,8 +3,7 @@ from collections import Counter
 
 from app.engine import text
 from app.engine.normalize import best_ielts, best_score, done_achievements, profile_gpa4
-from app.engine.roadmap import DOCUMENTS
-from app.schemas import Profile, RecommendationResult, RoadmapStep, University
+from app.schemas import Profile, RecommendationResult, University
 from app.schemas.ai import PassportItem, PassportOut
 
 LEVEL_RANK = {"international": 4, "national": 3, "city": 2, "school": 1, None: 0}
@@ -89,21 +88,3 @@ def _lc(s: str) -> str:
     """Lowercase the first letter unless the first word is an acronym (SAT, IELTS...)."""
     word = s.split(" ", 1)[0]
     return s if word.isupper() else s[:1].lower() + s[1:]
-
-
-def step_description(step: RoadmapStep) -> str:
-    kind, _, rest = step.id.partition(":")
-    if kind == "exam" and rest.endswith(":register"):
-        return "Выберите дату и центр тестирования и оплатите регистрацию — места на удобные даты заканчиваются заранее."
-    if kind == "exam":
-        return "Сдайте экзамен не позже срока: результат приходит не сразу, и его нужно успеть отправить в вузы."
-    if kind == "doc":
-        name = DOCUMENTS.get(rest, (rest, 0))[0]
-        return f"{name}. Начните заранее: документы часто требуют подписи школы и перевода."
-    if kind == "apply":
-        return "Заполните анкету на сайте вуза, приложите документы и результаты экзаменов, оплатите сбор или запросите освобождение."
-    if kind == "academic":
-        return "Средний балл ниже, чем у поступивших: сосредоточьтесь на профильных предметах в этом семестре."
-    if kind == "activity":
-        return "Одно сильное достижение (олимпиада, проект, конкурс) заметно усиливает заявку в топ-вузы."
-    return step.title

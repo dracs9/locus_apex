@@ -12,6 +12,10 @@ from .roadmap import (
     Roadmap,
     RoadmapStep,
     Snapshot,
+    StepIn,
+    StepPatch,
+    Suggestion,
+    SuggestionWhy,
     TierChange,
 )
 from .university import Deadline, Major, SatRange, Sourced, University

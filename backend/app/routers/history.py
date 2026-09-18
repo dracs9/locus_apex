@@ -5,6 +5,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.deps import get_session, get_user_id
 from app.engine.history import chance_history
+from app.engine.roadmap import target_ids
 from app.schemas import ChancePoint
 from app.services import catalog, compute, profiles
 
@@ -22,6 +23,5 @@ async def get_chance_history(ids: str | None = Query(default=None, description="
         university_ids = (await profiles.favorite_ids(session, user_id))[:3]
         if not university_ids:
             result = await compute.current_result(session, user_id, profile)
-            roadmap = await compute.roadmap_for(session, user_id, profile, result)
-            university_ids = sorted({u for s in roadmap.steps if s.kind == "application" for u in s.university_ids})[:3]
+            university_ids = target_ids([], result.recs, unis)
     return chance_history(profile, university_ids, unis, await catalog.major_names(session))

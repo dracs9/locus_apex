@@ -1,4 +1,4 @@
-"""Change flow (§7): prev snapshot -> (change already saved) -> recommend + roadmap -> diff -> save snapshot."""
+"""Change flow (§7): prev snapshot -> (change already saved) -> recommend + suggestions -> diff -> save snapshot."""
 import hashlib
 import json
 from datetime import date
@@ -9,10 +9,10 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.engine.diff import describe_changes, diff
 from app.engine.recommend import recommend
-from app.engine.roadmap import build_roadmap
-from app.schemas import ComputeResponse, Profile, RecommendationResult, Roadmap, Snapshot
+from app.engine.roadmap import build_roadmap, suggest_actions
+from app.schemas import ComputeResponse, Profile, RecommendationResult, Roadmap, Snapshot, Suggestion
 
-from . import catalog, profiles, snapshots
+from . import catalog, profiles, roadmap_items, snapshots
 
 
 def today() -> date:
@@ -33,10 +33,16 @@ async def require_profile(session: AsyncSession, user_id: UUID) -> Profile:
     return profile
 
 
-async def roadmap_for(session: AsyncSession, user_id: UUID, profile: Profile, result: RecommendationResult) -> Roadmap:
-    unis = await catalog.universities(session)
-    return build_roadmap(profile, await profiles.favorite_ids(session, user_id), result.recs, unis,
-                         await profiles.progress(session, user_id), today())
+async def roadmap_for(session: AsyncSession, user_id: UUID) -> Roadmap:
+    """The student's own plan."""
+    return build_roadmap(await roadmap_items.list_items(session, user_id), today())
+
+
+async def suggestions_for(session: AsyncSession, user_id: UUID, profile: Profile, result: RecommendationResult,
+                          include_added: bool = False) -> list[Suggestion]:
+    added = set() if include_added else await roadmap_items.added_keys(session, user_id)
+    return suggest_actions(profile, await profiles.favorite_ids(session, user_id), result.recs,
+                           await catalog.universities(session), added, today(), await catalog.major_names(session))
 
 
 async def current_result(session: AsyncSession, user_id: UUID, profile: Profile) -> RecommendationResult:
@@ -63,9 +69,11 @@ async def recompute(session: AsyncSession, user_id: UUID, prev_profile: Profile 
     prev = await snapshots.latest(session, user_id)
     result = recommend(profile, unis, today(), names)
     result.computed_at = profiles.now()
-    roadmap = build_roadmap(profile, favs, result.recs, unis, await profiles.progress(session, user_id), today())
+    # Snapshots keep the suggestion ids, so the diff reports which recommendations appeared or went away.
+    suggestions = suggest_actions(profile, favs, result.recs, unis, set(), today(), names)
+    roadmap = await roadmap_for(session, user_id)
 
-    snap = Snapshot(id=uuid4(), at=profiles.now(), result=result, roadmap_step_ids=[s.id for s in roadmap.steps],
+    snap = Snapshot(id=uuid4(), at=profiles.now(), result=result, roadmap_step_ids=[s.id for s in suggestions],
                     profile_hash=profile_hash(profile, favs),
                     cause=cause or describe_changes(prev_profile, profile, names))
     d = diff(prev[0] if prev else None, snap)

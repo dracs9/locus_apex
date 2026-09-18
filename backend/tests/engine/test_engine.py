@@ -5,7 +5,7 @@ from app.engine.diff import describe_changes, diff
 from app.engine.history import chance_history
 from app.engine.normalize import gpa5_to_gpa4, profile_at, project_deadline
 from app.engine.recommend import recommend
-from app.engine.roadmap import build_roadmap, detect_conflicts, next_step
+from app.engine.roadmap import build_roadmap, detect_conflicts, next_step, suggest_actions
 from app.schemas import Deadline, RoadmapStep, Snapshot
 
 from .conftest import TODAY, ach, make_profile, make_uni
@@ -175,44 +175,99 @@ def test_diff_reports_changes():
     assert d.model_dump(by_alias=True)["tier_changed"][0]["from"] == "dream"
 
 
-# --- roadmap ---------------------------------------------------------------
+# --- roadmap: suggestions + the student's own plan ---------------------------
 
-def test_roadmap_steps_are_deterministic_and_progress_survives():
+def suggest(p, unis, favs=(), added=()):
+    return suggest_actions(p, list(favs), recommend(p, unis, TODAY).recs, unis, set(added), TODAY)
+
+
+def step(id_, kind, due, unis=(), done=False, source_key=None):
+    return RoadmapStep(id=id_, kind=kind, title=id_, due_date=due, depends_on=[], university_ids=list(unis),
+                       is_demo=False, done=done, priority=0, source_key=source_key)
+
+
+def test_suggestions_are_deterministic_and_explained():
     uni = make_uni("u", sat={"value": {"p25": 1500, "p75": 1580}, "is_demo": True})
     p = make_profile()
-    recs = recommend(p, [uni], TODAY).recs
-    r1 = build_roadmap(p, [], recs, [uni], {}, TODAY)
-    ids = [s.id for s in r1.steps]
-    assert {"exam:SAT", "exam:SAT:register", "doc:transcript", "doc:essay", "apply:u:RD"} <= set(ids)
-    r2 = build_roadmap(p, [], recs, [uni], {"exam:SAT:register": True}, TODAY)
-    assert [s.id for s in r2.steps] == ids
-    assert r2.progress > 0
-    assert r2.next_step_id != "exam:SAT:register"
-    apply = next(s for s in r1.steps if s.id == "apply:u:RD")
-    assert "exam:SAT" in apply.depends_on and apply.due_date == date(2027, 1, 15)
+    s1 = suggest(p, [uni])
+    assert [s.model_dump() for s in s1] == [s.model_dump() for s in suggest(p, [uni])]
+    ids = {s.id for s in s1}
+    assert {"exam:SAT", "exam:SAT:register", "doc:transcript", "doc:essay", "apply:u:RD"} <= ids
+    assert all(s.why.text and s.description for s in s1)
+    sat = next(s for s in s1 if s.id == "exam:SAT")
+    assert "1450" in sat.why.text and sat.why.profile_field == "achievement:SAT" and "(цель: 1500+)" in sat.title
+    assert next(s for s in s1 if s.id == "apply:u:RD").suggested_due == date(2027, 1, 15)
 
 
-def test_roadmap_uses_favorites_first():
+def test_suggestions_use_favorites_first():
     a, b = make_uni("a"), make_uni("b")
-    p = make_profile()
-    recs = recommend(p, [a, b], TODAY).recs
-    rm = build_roadmap(p, ["b"], recs, [a, b], {}, TODAY)
-    assert {s.id for s in rm.steps if s.kind == "application"} == {"apply:b:RD"}
+    assert {s.id for s in suggest(make_profile(), [a, b], favs=["b"]) if s.kind == "application"} == {"apply:b:RD"}
 
 
-def test_conflict_when_exam_result_arrives_after_deadline():
-    deadline = TODAY + timedelta(days=5)
-    steps = [
-        RoadmapStep(id="exam:IELTS", kind="exam", title="Сдать IELTS", due_date=TODAY - timedelta(days=10), depends_on=[],
-                    university_ids=["u"], is_demo=True, done=False, priority=4),
-        RoadmapStep(id="apply:u:RD", kind="application", title="Подать", due_date=deadline, depends_on=["exam:IELTS"],
-                    university_ids=["u"], is_demo=True, done=False, priority=5),
-    ]
-    conflicts = detect_conflicts(steps, TODAY)
-    assert [c.step_id for c in conflicts] == ["exam:IELTS"]
-    assert next_step(steps).id == "exam:IELTS"
+def test_exam_suggestion_disappears_once_score_is_enough():
+    uni = make_uni("u")
+    assert "exam:SAT" in {s.id for s in suggest(make_profile(achievements=[ach("SAT", 1300), ach("IELTS", 7.0)]), [uni])}
+    assert "exam:SAT" not in {s.id for s in suggest(make_profile(), [uni])}  # 1450 >= p25 1400
+
+
+def test_activity_suggestions_follow_major_and_skip_added():
+    uni = make_uni("u", majors=["cs", "design"])
+    cs = {s.id for s in suggest(make_profile(majors=["cs"]), [uni])}
+    design = {s.id for s in suggest(make_profile(majors=["design"]), [uni])}
+    assert "act:olympiad_informatics" in cs and "act:olympiad_informatics" not in design
+    assert "act:design_portfolio" in design and "act:design_portfolio" not in cs
+    assert "act:olympiad_informatics" not in {s.id for s in suggest(make_profile(majors=["cs"]), [uni],
+                                                                       added=["act:olympiad_informatics"])}
+    strong = make_profile(majors=["cs"], achievements=[ach("SAT", 1450), ach("IELTS", 7.0),
+                                                       ach("OLYMPIAD", level="national", title="Респ. олимпиада")])
+    assert not any(s.id.startswith("act:olympiad") for s in suggest(strong, [uni]))
+
+
+def test_activity_due_dates_stay_before_the_deadline():
+    uni = make_uni("u", deadlines=[{"value": {"type": "RD", "date": "2026-11-01"}, "is_demo": True}])
+    for s in suggest(make_profile(), [uni]):
+        if s.id.startswith("act:"):
+            assert TODAY + timedelta(days=14) <= s.suggested_due <= date(2026, 11, 1)
+
+
+def test_suggestion_demo_flags_follow_deadline_source():
+    verified = make_uni("real", deadlines=[{"value": {"type": "RD", "date": "2025-01-05"}, "is_demo": False,
+                                            "source_url": "https://example.edu/cds.pdf"}])
+    demo = make_uni("demo")
+    p = make_profile(intake_year=2028)
+    for uni, expected in ((verified, False), (demo, True)):
+        sug = suggest(p, [uni], favs=[uni.id])
+        apply = next(s for s in sug if s.kind == "application")
+        doc = next(s for s in sug if s.id == "doc:essay")
+        assert apply.suggested_due == (date(2028, 1, 5) if uni.id == "real" else date(2028, 1, 15))
+        assert apply.is_demo is expected and doc.is_demo is expected
+
+
+def test_plan_orders_own_steps_and_tracks_progress():
+    steps = [step("b", "activity", TODAY + timedelta(days=30)), step("a", "exam", TODAY + timedelta(days=10), done=True),
+             step("c", "document", TODAY + timedelta(days=30))]
+    rm = build_roadmap(steps, TODAY)
+    assert [s.id for s in rm.steps] == ["a", "c", "b"]  # same date: higher priority first
+    assert rm.progress == round(1 / 3, 3) and rm.next_step_id == "c"
+    assert build_roadmap([], TODAY).next_step_id is None
+
+
+def test_conflict_when_exam_result_arrives_after_application():
+    steps = [step("x", "exam", TODAY + timedelta(days=2), unis=["u"], source_key="exam:IELTS"),
+             step("y", "application", TODAY + timedelta(days=5), unis=["u"])]
+    rm = build_roadmap(steps, TODAY)
+    apply = next(s for s in rm.steps if s.id == "y")
+    assert apply.depends_on == ["x"]
+    assert [c.step_id for c in rm.conflicts] == ["x"]  # IELTS results take ~13 days
+    assert next_step(rm.steps).id == "x"
     steps[0].done = True
-    assert detect_conflicts(steps, TODAY) == []
+    assert build_roadmap(steps, TODAY).conflicts == []
+
+
+def test_overdue_step_is_a_conflict():
+    rm = build_roadmap([step("late", "activity", TODAY - timedelta(days=1))], TODAY)
+    assert [c.step_id for c in rm.conflicts] == ["late"]
+    assert detect_conflicts(rm.steps, TODAY - timedelta(days=5)) == []
 
 
 # --- chance history --------------------------------------------------------
@@ -225,16 +280,3 @@ def test_chance_history_follows_achievements():
     assert [h.date for h in hist] == [date(2026, 1, 1), date(2026, 3, 1), date(2026, 8, 1)]
     assert hist[1].chance_by_uni["u"] == "low" and hist[2].chance_by_uni["u"] == "medium"
     assert hist[2].achievement_id is not None
-
-
-def test_roadmap_demo_flags_follow_deadline_source():
-    verified = make_uni("real", deadlines=[{"value": {"type": "RD", "date": "2025-01-05"}, "is_demo": False,
-                                            "source_url": "https://example.edu/cds.pdf"}])
-    demo = make_uni("demo")
-    p = make_profile(intake_year=2028)
-    for uni, expected in ((verified, False), (demo, True)):
-        rm = build_roadmap(p, [uni.id], recommend(p, [uni], TODAY).recs, [uni], {}, TODAY)
-        apply = next(s for s in rm.steps if s.kind == "application")
-        doc = next(s for s in rm.steps if s.id == "doc:essay")
-        assert apply.due_date == (date(2028, 1, 5) if uni.id == "real" else date(2028, 1, 15))
-        assert apply.is_demo is expected and doc.is_demo is expected

@@ -247,7 +247,44 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/me/roadmap/steps/{step_id}": {
+    "/me/roadmap/suggestions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get Suggestions
+         * @description What the engine recommends adding to the plan (steps already added are left out).
+         */
+        get: operations["get_suggestions_me_roadmap_suggestions_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/me/roadmap/items": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Add Step */
+        post: operations["add_step_me_roadmap_items_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/me/roadmap/items/{item_id}": {
         parameters: {
             query?: never;
             header?: never;
@@ -257,11 +294,12 @@ export interface paths {
         get?: never;
         put?: never;
         post?: never;
-        delete?: never;
+        /** Delete Step */
+        delete: operations["delete_step_me_roadmap_items__item_id__delete"];
         options?: never;
         head?: never;
         /** Patch Step */
-        patch: operations["patch_step_me_roadmap_steps__step_id__patch"];
+        patch: operations["patch_step_me_roadmap_items__item_id__patch"];
         trace?: never;
     };
     "/me/roadmap.ics": {
@@ -410,7 +448,10 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** Roadmap Text */
+        /**
+         * Roadmap Text
+         * @description What to do and why, for suggestion ids and/or plan step ids. Titles and dates come from the engine.
+         */
         post: operations["roadmap_text_ai_roadmap_text_post"];
         delete?: never;
         options?: never;
@@ -877,7 +918,10 @@ export interface components {
             /** Progress */
             progress: number;
         };
-        /** RoadmapStep */
+        /**
+         * RoadmapStep
+         * @description A step of the student's own plan (a stored roadmap item).
+         */
         RoadmapStep: {
             /** Id */
             id: string;
@@ -905,6 +949,10 @@ export interface components {
             done: boolean;
             /** Priority */
             priority: number;
+            /** Source Key */
+            source_key?: string | null;
+            /** Note */
+            note?: string | null;
         };
         /** RoadmapTextIn */
         RoadmapTextIn: {
@@ -1008,10 +1056,34 @@ export interface components {
              */
             is_demo: boolean;
         };
+        /**
+         * StepIn
+         * @description Add a step: from a suggestion (fields optional overrides) or a custom one (title, kind, due_date required).
+         */
+        StepIn: {
+            /** Suggestion Id */
+            suggestion_id?: string | null;
+            /** Title */
+            title?: string | null;
+            /** Kind */
+            kind?: ("exam" | "document" | "academic" | "activity" | "application") | null;
+            /** Due Date */
+            due_date?: string | null;
+            /** Note */
+            note?: string | null;
+        };
         /** StepPatch */
         StepPatch: {
             /** Done */
-            done: boolean;
+            done?: boolean | null;
+            /** Title */
+            title?: string | null;
+            /** Kind */
+            kind?: ("exam" | "document" | "academic" | "activity" | "application") | null;
+            /** Due Date */
+            due_date?: string | null;
+            /** Note */
+            note?: string | null;
         };
         /** StepText */
         StepText: {
@@ -1019,6 +1091,44 @@ export interface components {
             id: string;
             /** Description */
             description: string;
+        };
+        /**
+         * Suggestion
+         * @description What the engine recommends adding to the plan. Deterministic; never saved until the student adds it.
+         */
+        Suggestion: {
+            /** Id */
+            id: string;
+            /**
+             * Kind
+             * @enum {string}
+             */
+            kind: "exam" | "document" | "academic" | "activity" | "application";
+            /** Title */
+            title: string;
+            why: components["schemas"]["SuggestionWhy"];
+            /** Description */
+            description: string;
+            /**
+             * Suggested Due
+             * Format: date
+             */
+            suggested_due: string;
+            /** University Ids */
+            university_ids: string[];
+            /** Source Url */
+            source_url?: string | null;
+            /** Is Demo */
+            is_demo: boolean;
+            /** Priority */
+            priority: number;
+        };
+        /** SuggestionWhy */
+        SuggestionWhy: {
+            /** Text */
+            text: string;
+            /** Profile Field */
+            profile_field: string;
         };
         /** TierChange */
         TierChange: {
@@ -1586,14 +1696,113 @@ export interface operations {
             };
         };
     };
-    patch_step_me_roadmap_steps__step_id__patch: {
+    get_suggestions_me_roadmap_suggestions_get: {
+        parameters: {
+            query?: never;
+            header?: {
+                authorization?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Suggestion"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    add_step_me_roadmap_items_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                authorization?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["StepIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Roadmap"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    delete_step_me_roadmap_items__item_id__delete: {
         parameters: {
             query?: never;
             header?: {
                 authorization?: string | null;
             };
             path: {
-                step_id: string;
+                item_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Roadmap"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    patch_step_me_roadmap_items__item_id__patch: {
+        parameters: {
+            query?: never;
+            header?: {
+                authorization?: string | null;
+            };
+            path: {
+                item_id: string;
             };
             cookie?: never;
         };

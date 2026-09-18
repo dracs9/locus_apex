@@ -796,21 +796,135 @@
         }
       }
     },
-    "/me/roadmap/steps/{step_id}": {
+    "/me/roadmap/suggestions": {
+      "get": {
+        "tags": [
+          "roadmap"
+        ],
+        "summary": "Get Suggestions",
+        "description": "What the engine recommends adding to the plan (steps already added are left out).",
+        "operationId": "get_suggestions_me_roadmap_suggestions_get",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Suggestion"
+                  },
+                  "title": "Response Get Suggestions Me Roadmap Suggestions Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/roadmap/items": {
+      "post": {
+        "tags": [
+          "roadmap"
+        ],
+        "summary": "Add Step",
+        "operationId": "add_step_me_roadmap_items_post",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StepIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Roadmap"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/roadmap/items/{item_id}": {
       "patch": {
         "tags": [
           "roadmap"
         ],
         "summary": "Patch Step",
-        "operationId": "patch_step_me_roadmap_steps__step_id__patch",
+        "operationId": "patch_step_me_roadmap_items__item_id__patch",
         "parameters": [
           {
-            "name": "step_id",
+            "name": "item_id",
             "in": "path",
             "required": true,
             "schema": {
               "type": "string",
-              "title": "Step Id"
+              "format": "uuid",
+              "title": "Item Id"
             }
           },
           {
@@ -840,6 +954,63 @@
             }
           }
         },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Roadmap"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "roadmap"
+        ],
+        "summary": "Delete Step",
+        "operationId": "delete_step_me_roadmap_items__item_id__delete",
+        "parameters": [
+          {
+            "name": "item_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Item Id"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Successful Response",
@@ -1359,6 +1530,7 @@
           "ai"
         ],
         "summary": "Roadmap Text",
+        "description": "What to do and why, for suggestion ids and/or plan step ids. Titles and dates come from the engine.",
         "operationId": "roadmap_text_ai_roadmap_text_post",
         "parameters": [
           {
@@ -2808,6 +2980,28 @@
           "priority": {
             "type": "integer",
             "title": "Priority"
+          },
+          "source_key": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source Key"
+          },
+          "note": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Note"
           }
         },
         "type": "object",
@@ -2822,7 +3016,8 @@
           "done",
           "priority"
         ],
-        "title": "RoadmapStep"
+        "title": "RoadmapStep",
+        "description": "A step of the student's own plan (a stored roadmap item)."
       },
       "RoadmapTextIn": {
         "properties": {
@@ -3190,17 +3385,149 @@
         ],
         "title": "Sourced[int]"
       },
-      "StepPatch": {
+      "StepIn": {
         "properties": {
-          "done": {
-            "type": "boolean",
-            "title": "Done"
+          "suggestion_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Suggestion Id"
+          },
+          "title": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 200,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Title"
+          },
+          "kind": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "exam",
+                  "document",
+                  "academic",
+                  "activity",
+                  "application"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Kind"
+          },
+          "due_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Due Date"
+          },
+          "note": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 1000
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Note"
           }
         },
         "type": "object",
-        "required": [
-          "done"
-        ],
+        "title": "StepIn",
+        "description": "Add a step: from a suggestion (fields optional overrides) or a custom one (title, kind, due_date required)."
+      },
+      "StepPatch": {
+        "properties": {
+          "done": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Done"
+          },
+          "title": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 200,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Title"
+          },
+          "kind": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "exam",
+                  "document",
+                  "academic",
+                  "activity",
+                  "application"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Kind"
+          },
+          "due_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Due Date"
+          },
+          "note": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 1000
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Note"
+          }
+        },
+        "type": "object",
         "title": "StepPatch"
       },
       "StepText": {
@@ -3221,6 +3548,99 @@
           "description"
         ],
         "title": "StepText"
+      },
+      "Suggestion": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "exam",
+              "document",
+              "academic",
+              "activity",
+              "application"
+            ],
+            "title": "Kind"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "why": {
+            "$ref": "#/components/schemas/SuggestionWhy"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description"
+          },
+          "suggested_due": {
+            "type": "string",
+            "format": "date",
+            "title": "Suggested Due"
+          },
+          "university_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "University Ids"
+          },
+          "source_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source Url"
+          },
+          "is_demo": {
+            "type": "boolean",
+            "title": "Is Demo"
+          },
+          "priority": {
+            "type": "integer",
+            "title": "Priority"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "kind",
+          "title",
+          "why",
+          "description",
+          "suggested_due",
+          "university_ids",
+          "is_demo",
+          "priority"
+        ],
+        "title": "Suggestion",
+        "description": "What the engine recommends adding to the plan. Deterministic; never saved until the student adds it."
+      },
+      "SuggestionWhy": {
+        "properties": {
+          "text": {
+            "type": "string",
+            "title": "Text"
+          },
+          "profile_field": {
+            "type": "string",
+            "title": "Profile Field"
+          }
+        },
+        "type": "object",
+        "required": [
+          "text",
+          "profile_field"
+        ],
+        "title": "SuggestionWhy"
       },
       "TierChange": {
         "properties": {

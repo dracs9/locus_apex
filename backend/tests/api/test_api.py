@@ -43,7 +43,7 @@ async def test_put_profile_returns_diff(client, user):
     first = await client.put("/me/profile", json=PROFILE, headers=user["headers"])
     assert first.status_code == 200, first.text
     body = first.json()
-    assert body["diff"] is None and len(body["result"]["recs"]) >= 3 and body["roadmap"]["steps"]
+    assert body["diff"] is None and len(body["result"]["recs"]) >= 3 and body["roadmap"]["steps"] == []
 
     cheaper = {**PROFILE, "budget_per_year_usd": 20000, "initial_achievements": []}
     second = (await client.put("/me/profile", json=cheaper, headers=user["headers"])).json()
@@ -69,7 +69,7 @@ async def test_user_isolation(client, user):
 async def test_preview_saves_nothing(client, user):
     await client.put("/me/profile", json=PROFILE, headers=user["headers"])
     profile = (await client.get("/me/profile", headers=user["headers"])).json()
-    tables = (db.snapshots, db.profiles, db.achievements, db.favorites, db.roadmap_progress)
+    tables = (db.snapshots, db.profiles, db.achievements, db.favorites, db.roadmap_items)
     before = [await count(t) for t in tables]
     r = await client.post("/preview", json={"profile": profile,
                                             "priorities_override": {"cost": 1, "prestige": 0, "location": 0, "aid": 0}})
@@ -135,17 +135,49 @@ async def test_snapshot_save_prunes_to_keep_last(user):
     assert kept == "newest"  # the prune drops the oldest, not the row just written
 
 
-async def test_favorites_roadmap_progress_ics(client, user):
-    await client.put("/me/profile", json=PROFILE, headers=user["headers"])
-    r = (await client.put("/me/favorites/purdue", headers=user["headers"])).json()
-    apply_steps = [s["id"] for s in r["roadmap"]["steps"] if s["kind"] == "application"]
-    assert apply_steps == ["apply:purdue:EA"]
-    assert "Purdue" in r["diff"]["cause"]
-    step = r["roadmap"]["steps"][0]["id"]
-    rm = (await client.patch(f"/me/roadmap/steps/{step}", json={"done": True}, headers=user["headers"])).json()
-    assert next(s for s in rm["steps"] if s["id"] == step)["done"] and rm["progress"] > 0
-    ics = await client.get("/me/roadmap.ics", headers=user["headers"])
-    assert ics.status_code == 200 and "BEGIN:VCALENDAR" in ics.text
+async def test_plan_is_built_from_suggestions_and_own_steps(client, user):
+    h = user["headers"]
+    await client.put("/me/profile", json=PROFILE, headers=h)
+    r = (await client.put("/me/favorites/purdue", headers=h)).json()
+    assert "Purdue" in r["diff"]["cause"] and r["roadmap"]["steps"] == []  # nothing is generated into the plan
+
+    sug = (await client.get("/me/roadmap/suggestions", headers=h)).json()
+    assert [s["id"] for s in sug if s["kind"] == "application"] == ["apply:purdue:EA"]
+    assert any(s["id"].startswith("act:") for s in sug) and all(s["why"]["text"] for s in sug)
+
+    added = await client.post("/me/roadmap/items", json={"suggestion_id": "apply:purdue:EA"}, headers=h)
+    assert added.status_code == 201
+    [apply] = added.json()["steps"]
+    assert apply["source_key"] == "apply:purdue:EA" and apply["university_ids"] == ["purdue"]
+    assert "apply:purdue:EA" not in [s["id"] for s in (await client.get("/me/roadmap/suggestions", headers=h)).json()]
+    dup = await client.post("/me/roadmap/items", json={"suggestion_id": "apply:purdue:EA"}, headers=h)
+    assert dup.status_code == 409 and dup.json()["error"]["code"] == "STEP_EXISTS"
+    gone = await client.post("/me/roadmap/items", json={"suggestion_id": "act:nope"}, headers=h)
+    assert gone.status_code == 404
+
+    custom = (await client.post("/me/roadmap/items", json={"title": "Сходить на день открытых дверей",
+                                                           "kind": "activity", "due_date": "2026-12-01",
+                                                           "note": "взять друга"}, headers=h)).json()
+    mine = next(s for s in custom["steps"] if s["source_key"] is None)
+    assert mine["note"] == "взять друга" and len(custom["steps"]) == 2
+    bad = await client.post("/me/roadmap/items", json={"title": "без даты", "kind": "activity"}, headers=h)
+    assert bad.status_code == 422
+
+    rm = (await client.patch(f"/me/roadmap/items/{mine['id']}", json={"done": True, "due_date": "2026-11-20",
+                                                                     "title": "День открытых дверей"}, headers=h)).json()
+    step = next(s for s in rm["steps"] if s["id"] == mine["id"])
+    assert step["done"] and step["due_date"] == "2026-11-20" and step["title"] == "День открытых дверей"
+    assert rm["progress"] == 0.5
+
+    other = {"Authorization": f"Bearer {token_for(str(uuid4()))}"}
+    assert (await client.patch(f"/me/roadmap/items/{mine['id']}", json={"done": False}, headers=other)).status_code == 404
+    assert (await client.delete(f"/me/roadmap/items/{mine['id']}", headers=other)).status_code == 404
+
+    ics = await client.get("/me/roadmap.ics", headers=h)
+    assert ics.status_code == 200 and "BEGIN:VCALENDAR" in ics.text and "Purdue" in ics.text
+    rm = (await client.delete(f"/me/roadmap/items/{mine['id']}", headers=h)).json()
+    assert [s["id"] for s in rm["steps"]] == [apply["id"]]
+    assert (await client.delete(f"/me/roadmap/items/{mine['id']}", headers=h)).status_code == 404
 
 
 async def test_demo_reset_and_ai_fallbacks(client, user):
@@ -157,9 +189,11 @@ async def test_demo_reset_and_ai_fallbacks(client, user):
     assert p["generated"] is False and len(p["strengths"]) == 3 and len(p["constraints"]) == 2
     e = (await client.post("/ai/explain", json={"university_id": "mit"}, headers=user["headers"])).json()
     assert e["generated"] is False and e["summary"]
-    steps = [s["id"] for s in r["roadmap"]["steps"]][:3]
+    assert r["roadmap"]["steps"], "the demo shows a ready plan"
+    sug = (await client.get("/me/roadmap/suggestions", headers=user["headers"])).json()
+    steps = [s["id"] for s in r["roadmap"]["steps"]][:2] + [s["id"] for s in sug][:2]
     t = (await client.post("/ai/roadmap-text", json={"step_ids": steps}, headers=user["headers"])).json()
-    assert [i["id"] for i in t["items"]] == steps
+    assert [i["id"] for i in t["items"]] == steps and all(i["description"] for i in t["items"])
     assert (await client.post("/me/reset", headers=user["headers"])).json() == {"ok": True}
     assert (await client.get("/me/profile", headers=user["headers"])).status_code == 404
 

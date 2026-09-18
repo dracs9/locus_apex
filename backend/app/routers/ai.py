@@ -7,6 +7,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.deps import get_session, get_user_id
 from app.llm import cache, fallbacks, prompts
+from app.engine.roadmap import step_description
 from app.llm.client import generate_json
 from app.schemas.ai import ExplainIn, ExplainOut, PassportOut, RoadmapTextIn, RoadmapTextOut, StepText
 from app.services import catalog, compute
@@ -79,20 +80,28 @@ async def explain(body: ExplainIn, user_id: UUID = Depends(get_user_id), session
 @router.post("/roadmap-text", response_model=RoadmapTextOut)
 async def roadmap_text(body: RoadmapTextIn, user_id: UUID = Depends(get_user_id),
                        session: AsyncSession = Depends(get_session)):
+    """What to do and why, for suggestion ids and/or plan step ids. Titles and dates come from the engine."""
     profile = await compute.require_profile(session, user_id)
     result = await compute.current_result(session, user_id, profile)
-    roadmap = await compute.roadmap_for(session, user_id, profile, result)
-    steps = [s for s in roadmap.steps if s.id in set(body.step_ids)]
-    template = RoadmapTextOut(items=[StepText(id=s.id, description=fallbacks.step_description(s)) for s in steps])
-    if not steps:
+    suggestions = {s.id: s for s in await compute.suggestions_for(session, user_id, profile, result, include_added=True)}
+    steps = {s.id: s for s in (await compute.roadmap_for(session, user_id)).steps}
+    entries: list[tuple[str, dict, str]] = []  # (id, llm payload, template)
+    for i in dict.fromkeys(body.step_ids):
+        if i in suggestions:
+            s = suggestions[i]
+            entries.append((i, {"id": i, "title": s.title, "kind": s.kind, "why": s.why.text}, s.description))
+        elif i in steps:
+            st = steps[i]
+            entries.append((i, {"id": i, "title": st.title, "kind": st.kind, "note": st.note or ""},
+                            step_description(st)))
+    template = RoadmapTextOut(items=[StepText(id=i, description=t[:400]) for i, _, t in entries])
+    if not entries:
         return template
-    out = await _llm(session, "roadmap-text", prompts.ROADMAP_TEXT,
-                     {"steps": [{"id": s.id, "title": s.title, "kind": s.kind, "due_date": s.due_date.isoformat()}
-                                for s in steps]})
+    out = await _llm(session, "roadmap-text", prompts.ROADMAP_TEXT, {"steps": [p for _, p, _ in entries]})
     try:
         generated = RoadmapTextOut.model_validate({**(out or {}), "generated": True})
     except ValidationError:
         return template
-    if [i.id for i in generated.items] != [s.id for s in steps] or any("%" in i.description for i in generated.items):
+    if [i.id for i in generated.items] != [i for i, _, _ in entries] or any("%" in i.description for i in generated.items):
         return template
     return generated

@@ -72,18 +72,7 @@ async def set_favorite(session: AsyncSession, user_id: UUID, university_id: str,
         await session.execute(insert(db.favorites).values(user_id=user_id, university_id=university_id))
 
 
-async def progress(session: AsyncSession, user_id: UUID) -> dict[str, bool]:
-    rows = await session.execute(select(db.roadmap_progress).where(db.roadmap_progress.c.user_id == user_id))
-    return {r.step_id: r.done for r in rows}
-
-
-async def set_progress(session: AsyncSession, user_id: UUID, step_id: str, done: bool) -> None:
-    await session.execute(delete(db.roadmap_progress).where(db.roadmap_progress.c.user_id == user_id,
-                                                            db.roadmap_progress.c.step_id == step_id))
-    await session.execute(insert(db.roadmap_progress).values(user_id=user_id, step_id=step_id, done=done,
-                                                             done_at=now() if done else None))
-
-
 async def wipe_user(session: AsyncSession, user_id: UUID) -> None:
-    for table in (db.achievement_attachments, db.achievements, db.favorites, db.roadmap_progress, db.snapshots, db.profiles):
+    for table in (db.achievement_attachments, db.achievements, db.favorites, db.roadmap_progress, db.roadmap_items,
+                  db.snapshots, db.profiles):
         await session.execute(delete(table).where(table.c.user_id == user_id))

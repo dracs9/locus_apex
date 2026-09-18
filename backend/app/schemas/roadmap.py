@@ -8,9 +8,11 @@ from pydantic import BaseModel, ConfigDict, Field
 from .recommendation import Chance, RecommendationResult, Tier
 
 StepKind = Literal["exam", "document", "academic", "activity", "application"]
+SuggestionCategory = Literal["exam", "document", "academic", "activity", "application"]
 
 
 class RoadmapStep(BaseModel):
+    """A step of the student's own plan (a stored roadmap item)."""
     id: str
     kind: StepKind
     title: str
@@ -21,6 +23,44 @@ class RoadmapStep(BaseModel):
     is_demo: bool
     done: bool
     priority: int
+    source_key: str | None = None      # suggestion it was added from; None for a custom step
+    note: str | None = None
+
+
+class SuggestionWhy(BaseModel):
+    text: str
+    profile_field: str
+
+
+class Suggestion(BaseModel):
+    """What the engine recommends adding to the plan. Deterministic; never saved until the student adds it."""
+    id: str                            # deterministic key: 'exam:SAT', 'doc:essay', 'apply:mit:RD', 'act:olympiad'
+    kind: StepKind
+    title: str
+    why: SuggestionWhy
+    description: str                   # template text; /ai/roadmap-text may rephrase it
+    suggested_due: dt.date
+    university_ids: list[str]
+    source_url: str | None = None
+    is_demo: bool
+    priority: int
+
+
+class StepIn(BaseModel):
+    """Add a step: from a suggestion (fields optional overrides) or a custom one (title, kind, due_date required)."""
+    suggestion_id: str | None = None
+    title: str | None = Field(default=None, min_length=1, max_length=200)
+    kind: StepKind | None = None
+    due_date: dt.date | None = None
+    note: str | None = Field(default=None, max_length=1000)
+
+
+class StepPatch(BaseModel):
+    done: bool | None = None
+    title: str | None = Field(default=None, min_length=1, max_length=200)
+    kind: StepKind | None = None
+    due_date: dt.date | None = None
+    note: str | None = Field(default=None, max_length=1000)
 
 
 class Conflict(BaseModel):

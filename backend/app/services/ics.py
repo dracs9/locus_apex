@@ -27,6 +27,8 @@ def roadmap_to_ics(roadmap: Roadmap) -> str:
              "X-WR-CALNAME:Applyra — маршрут поступления"]
     for s in roadmap.steps:
         desc = "Выполнено" if s.done else "Не выполнено"
+        if s.note:
+            desc += f"\n{s.note}"
         if s.source_url:
             desc += f"\nИсточник: {s.source_url}"
         if s.is_demo:
