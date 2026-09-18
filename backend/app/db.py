@@ -1,7 +1,9 @@
 """SQLAlchemy Core tables mirroring supabase/migrations (Postgres in prod, SQLite in tests)."""
+import asyncio
 from collections.abc import AsyncIterator
 
-from sqlalchemy import (JSON, Boolean, Column, Date, DateTime, Float, Integer, MetaData, String, Table, Text, Uuid)
+from sqlalchemy import (JSON, Boolean, Column, Date, DateTime, Float, Integer, MetaData, String, Table, Text, Uuid,
+                        text)
 from sqlalchemy.dialects.postgresql import ARRAY, JSONB
 from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, async_sessionmaker, create_async_engine
 from sqlalchemy.pool import StaticPool
@@ -109,9 +111,15 @@ def get_engine() -> AsyncEngine:
         if url.startswith("sqlite"):
             _engine = create_async_engine(url, poolclass=StaticPool, connect_args={"check_same_thread": False})
         else:
-            # statement_cache_size=0 keeps asyncpg compatible with Supabase's transaction pooler
-            _engine = create_async_engine(url, pool_pre_ping=True, pool_size=5, max_overflow=5,
-                                          connect_args={"statement_cache_size": 0})
+            # Supabase's pooler in session mode pins one server backend per pooled connection,
+            # so keep the pool small. statement_cache_size=0 leaves statements anonymous, which
+            # costs nothing (Parse+Bind+Execute still pipeline into one round trip, and
+            # SQLAlchemy has its own prepared-statement cache) and keeps port 6543 an option.
+            _engine = create_async_engine(url, pool_pre_ping=True, pool_size=3, max_overflow=2,
+                                          pool_timeout=10, pool_recycle=1800, pool_use_lifo=True,
+                                          connect_args={"statement_cache_size": 0,
+                                                        "command_timeout": 10.0, "timeout": 10.0,
+                                                        "server_settings": {"application_name": "applyra-api"}})
         _sessionmaker = async_sessionmaker(_engine, expire_on_commit=False)
     return _engine
 
@@ -121,6 +129,24 @@ async def get_session() -> AsyncIterator[AsyncSession]:
     assert _sessionmaker is not None
     async with _sessionmaker() as session:
         yield session
+
+
+def new_session() -> AsyncSession:
+    """A session outside the request cycle (startup warm-up, scripts)."""
+    get_engine()
+    assert _sessionmaker is not None
+    return _sessionmaker()
+
+
+async def warm_pool(n: int = 3) -> None:
+    """Open n connections up front so the first request skips the TLS + auth handshake."""
+    engine = get_engine()
+
+    async def ping() -> None:
+        async with engine.connect() as conn:
+            await conn.execute(text("select 1"))
+
+    await asyncio.gather(*(ping() for _ in range(n)))
 
 
 async def create_all() -> None:

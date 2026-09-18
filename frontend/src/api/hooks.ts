@@ -181,6 +181,9 @@ function useComputeMutation<V, R extends ComputeResponse = ComputeResponse>(fn: 
       if (useNetwork.getState().offline) return Promise.reject(new ApiError(0, "NETWORK", t.common.offlineEditsDisabled));
       return fn(v);
     },
+    // A 503 means the backend lost its database connection mid-request, so the transaction
+    // rolled back and nothing was written — retrying once is safe and saves the user a toast.
+    retry: (attempt, e) => e instanceof ApiError && e.status === 503 && attempt < 1,
     onSuccess: (res) => applyCompute(qc, res, opts),
     onError: onMutationError,
   });

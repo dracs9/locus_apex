@@ -19,6 +19,10 @@ async def _llm(session: AsyncSession, kind: str, system: str, payload: dict) -> 
     hit = await cache.get(session, key)
     if hit is not None:
         return hit
+    # The SELECT above opened a transaction; release it before waiting on the LLM.
+    # Session-mode pooling pins a server backend per connection, so an idle-in-transaction
+    # holder for the whole 8 s timeout is what starves the pool.
+    await session.rollback()
     out = await generate_json(system, payload)
     if isinstance(out, dict):
         await cache.put(session, key, out)

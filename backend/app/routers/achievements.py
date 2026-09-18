@@ -1,11 +1,12 @@
+from bisect import bisect_right
 from uuid import UUID
 
 from fastapi import APIRouter, Depends, File, Form, HTTPException, Response, UploadFile
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.deps import get_session, get_user_id
-from app.schemas import (MAX_PHOTO_BYTES, AchievementCreated, AchievementIn, AchievementPatch, Attachment,
-                         ComputeResponse, LinkIn)
+from app.schemas import (MAX_PHOTO_BYTES, Achievement, AchievementCreated, AchievementIn, AchievementPatch,
+                         Attachment, ComputeResponse, LinkIn, Profile)
 from app.services import attachments, compute, profiles, storage
 
 router = APIRouter(prefix="/me/achievements", tags=["achievements"])
@@ -13,12 +14,28 @@ router = APIRouter(prefix="/me/achievements", tags=["achievements"])
 NOT_FOUND = HTTPException(status_code=404, detail={"code": "ACHIEVEMENT_NOT_FOUND", "message": "Достижение не найдено"})
 
 
+def _with_achievement(prev: Profile, achievement_id: UUID, body: AchievementIn) -> Profile:
+    """The post-insert profile, without re-reading it from the database.
+
+    Deep-copied so `prev` stays untouched — otherwise the diff would compare the profile with
+    itself and lose its cause text. The position matters too: `load_profile` orders by
+    (date, created_at, id), and the new row has the newest created_at, so it belongs after
+    every achievement with an earlier or equal date. Getting this wrong changes profile_hash
+    and silently costs the next read its snapshot cache hit.
+    """
+    profile = prev.model_copy(deep=True)
+    fresh = Achievement(id=achievement_id, **body.model_dump())
+    at = bisect_right([a.date for a in profile.achievements], fresh.date)
+    profile.achievements.insert(at, fresh)
+    return profile
+
+
 @router.post("", response_model=AchievementCreated)
 async def create_achievement(body: AchievementIn, user_id: UUID = Depends(get_user_id),
                              session: AsyncSession = Depends(get_session)):
     prev = await compute.require_profile(session, user_id)
     achievement_id = await profiles.add_achievement(session, user_id, body)
-    res = await compute.recompute(session, user_id, prev)
+    res = await compute.recompute(session, user_id, prev, profile=_with_achievement(prev, achievement_id, body))
     return AchievementCreated(**res.model_dump(), achievement_id=achievement_id)
 
 

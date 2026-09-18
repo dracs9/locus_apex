@@ -1,8 +1,11 @@
-from uuid import uuid4
+from datetime import datetime, timedelta
+from uuid import UUID, uuid4
 
-from sqlalchemy import func, select
+from sqlalchemy import func, insert, select
 
 from app import db
+from app.schemas import RecommendationResult, Snapshot
+from app.services import snapshots
 
 from .conftest import token_for
 
@@ -83,6 +86,53 @@ async def test_achievement_flow_updates_route(client, user):
     assert "SAT 1380 → 1560" in r["diff"]["cause"]
     history = (await client.get("/me/chance-history?ids=purdue,mit", headers=user["headers"])).json()
     assert len(history) >= 2 and set(history[-1]["chance_by_uni"]) == {"purdue", "mit"}
+
+
+async def test_added_achievement_keeps_snapshot_reusable(client, user):
+    """POST builds the post-insert profile in memory rather than re-reading it.
+
+    profile_hash covers the achievement list *in order*, and the DB orders by
+    (date, created_at, id). The date here falls between the two seeded ones (2026-05-01 and
+    2026-08-01), so appending instead of inserting in date order yields a different hash — and
+    then every later read misses the snapshot and recomputes, which shows up as a fresh
+    computed_at.
+    """
+    await client.put("/me/profile", json=PROFILE, headers=user["headers"])
+    posted = (await client.post("/me/achievements",
+                                json={"type": "OLYMPIAD", "title": "Мат. олимпиада", "level": "national",
+                                      "date": "2026-06-15", "status": "done"},
+                                headers=user["headers"])).json()
+    first = (await client.get("/me/recommendations", headers=user["headers"])).json()
+    second = (await client.get("/me/recommendations", headers=user["headers"])).json()
+    assert posted["result"]["computed_at"] == first["computed_at"] == second["computed_at"]
+
+
+async def test_snapshot_save_prunes_to_keep_last(user):
+    """save() prunes with a DELETE over a subselect instead of fetching the ids first.
+
+    Worth a test because the subselect uses OFFSET without LIMIT, which SQLite only accepts
+    via its `LIMIT -1 OFFSET n` rendering, and because nothing else here ever exceeds 50 rows.
+    """
+    uid = UUID(user["id"])
+    empty = RecommendationResult(recs=[], excluded=[], suggestions=[], computed_at=datetime(2026, 9, 1, 12, 0))
+    async with db.get_engine().begin() as conn:
+        for i in range(snapshots.KEEP_LAST + 5):
+            await conn.execute(insert(db.snapshots).values(
+                id=uuid4(), user_id=uid, at=datetime(2026, 1, 1, 0, 0) + timedelta(minutes=i),
+                result=empty.model_dump(mode="json"), roadmap_step_ids=[], profile_hash=f"h{i}", cause="seed"))
+
+    snap = Snapshot(id=uuid4(), at=datetime(2026, 9, 2, 12, 0), result=empty, roadmap_step_ids=[],
+                    profile_hash="newest", cause="test")
+    async with db.new_session() as session:
+        await snapshots.save(session, uid, snap, None)
+        await session.commit()
+        mine = (await session.execute(select(func.count()).select_from(db.snapshots)
+                                      .where(db.snapshots.c.user_id == uid))).scalar_one()
+        kept = (await session.execute(select(db.snapshots.c.profile_hash)
+                                      .where(db.snapshots.c.user_id == uid)
+                                      .order_by(db.snapshots.c.at.desc()).limit(1))).scalar_one()
+    assert mine == snapshots.KEEP_LAST
+    assert kept == "newest"  # the prune drops the oldest, not the row just written
 
 
 async def test_favorites_roadmap_progress_ics(client, user):

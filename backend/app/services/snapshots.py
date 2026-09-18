@@ -27,8 +27,7 @@ async def save(session: AsyncSession, user_id: UUID, snap: Snapshot, diff: Diff 
         id=snap.id, user_id=user_id, at=snap.at, result=snap.result.model_dump(mode="json"),
         roadmap_step_ids=snap.roadmap_step_ids, profile_hash=snap.profile_hash, cause=snap.cause,
         diff=diff.model_dump(mode="json", by_alias=True) if diff else None))
-    old = (await session.execute(select(db.snapshots.c.id).where(db.snapshots.c.user_id == user_id)
-                                 .order_by(db.snapshots.c.at.desc()).offset(KEEP_LAST))).all()
-    if old:
-        await session.execute(delete(db.snapshots).where(db.snapshots.c.user_id == user_id,
-                                                         db.snapshots.c.id.in_([r[0] for r in old])))
+    # Prune in the same round trip as the delete: selecting the ids first cost an extra one.
+    old = (select(db.snapshots.c.id).where(db.snapshots.c.user_id == user_id)
+           .order_by(db.snapshots.c.at.desc()).offset(KEEP_LAST).scalar_subquery())
+    await session.execute(delete(db.snapshots).where(db.snapshots.c.id.in_(old)))

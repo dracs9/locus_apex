@@ -49,9 +49,13 @@ async def current_result(session: AsyncSession, user_id: UUID, profile: Profile)
 
 
 async def recompute(session: AsyncSession, user_id: UUID, prev_profile: Profile | None,
-                    cause: str | None = None) -> ComputeResponse:
-    """Call after the change is written (not yet committed). Commits the transaction."""
-    profile = await require_profile(session, user_id)
+                    cause: str | None = None, profile: Profile | None = None) -> ComputeResponse:
+    """Call after the change is written (not yet committed). Commits the transaction.
+
+    Pass `profile` when the caller already holds the post-change profile — re-reading it here
+    costs two more round trips, which is a lot on a remote database.
+    """
+    profile = profile or await require_profile(session, user_id)
     unis = await catalog.universities(session)
     names = await catalog.major_names(session)
     favs = await profiles.favorite_ids(session, user_id)
