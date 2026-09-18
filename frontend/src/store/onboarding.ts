@@ -16,6 +16,7 @@ export interface OnboardingDraft {
   majors: string[];
   countries: string[];
   budget: number | null;
+  budgetUnknown: boolean;
   needsAid: boolean | null;
   sat: string;
   ielts: string;
@@ -33,6 +34,7 @@ const initial: OnboardingDraft = {
   majors: [],
   countries: [],
   budget: null,
+  budgetUnknown: false,
   needsAid: null,
   sat: "",
   ielts: "",

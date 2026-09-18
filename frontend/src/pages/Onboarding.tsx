@@ -1,4 +1,4 @@
-import { ArrowLeft, ArrowRight, Loader2 } from "lucide-react";
+import { ArrowLeft, ArrowRight, Loader2, Users } from "lucide-react";
 import type { ReactNode } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { z } from "zod";
@@ -126,6 +126,8 @@ export function Onboarding() {
     draft.step === 0 ? navigate("/") : draft.patch({ step: draft.step - 1 });
 
   const dontKnow: Partial<Record<(typeof STEPS)[number], () => void>> = {
+    budget: () =>
+      draft.patch({ budget: 30000, budgetUnknown: true, step: draft.step + 1 }),
     exams: () =>
       draft.patch({ sat: "", ielts: "", toefl: "", step: draft.step + 1 }),
     priorities: () =>
@@ -341,6 +343,7 @@ export function Onboarding() {
                       draft.patch({
                         budget:
                           e.target.value === "" ? null : Number(e.target.value),
+                        budgetUnknown: false,
                       });
                   }}
                   className="h-16 text-2xl font-bold"
@@ -351,6 +354,22 @@ export function Onboarding() {
                   полное покрытие. Если стоимость выше вашего вклада, проверим
                   варианты финансовой помощи — её получение не гарантировано.
                 </p>
+                {draft.budgetUnknown && (
+                  <p className="text-sm font-semibold text-primary">
+                    {t.onboarding.budget.dontKnowNote}
+                  </p>
+                )}
+                <div className="flex gap-3 rounded-xl border border-primary/20 bg-primary/5 p-4">
+                  <Users className="mt-0.5 h-5 w-5 shrink-0 text-primary" />
+                  <div className="space-y-1">
+                    <p className="text-sm font-bold">
+                      {t.onboarding.budget.parentsTitle}
+                    </p>
+                    <p className="text-sm text-muted-foreground">
+                      {t.onboarding.budget.parentsTip}
+                    </p>
+                  </div>
+                </div>
                 {draft.budget !== null && !valid.budget && (
                   <p role="alert" className="text-sm text-blocker">
                     Введите целую сумму от 0 до 500 000 USD в год.
