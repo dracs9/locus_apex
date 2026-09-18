@@ -41,14 +41,14 @@ A short profile leads to explained recommendations (Dream / Target / Safety), th
 
 ```
 React (Vite)  ──HTTPS + Supabase JWT──▶  FastAPI
-   │  supabase-js (anon session only)        ├── engine/   pure, deterministic scoring + roadmap + diff
+   │  supabase-js (anon session only)        ├── engine/   pure, deterministic scoring + plan suggestions + diff
    │                                          ├── services/ profiles, snapshots, compute flow, ics
    └── TanStack Query cache (localStorage)    ├── llm/      prompts, template fallbacks, cache
                                               └── db ─────▶ Supabase Postgres (RLS on user tables)
 pipeline/ (offline) ──▶ supabase/seed ──▶ Supabase (universities)
 ```
 
-When a profile or achievement changes, the backend runs these steps: load the previous snapshot, save the change, run `recommend()` and `build_roadmap()`, compute `diff(prev, new)`, save the new snapshot, and return `ComputeResponse {result, roadmap, diff}`.
+When a profile or achievement changes, the backend runs these steps: load the previous snapshot, save the change, run `recommend()` and `suggest_actions()`, compute `diff(prev, new)`, save the new snapshot, and return `ComputeResponse {result, roadmap, diff}`. The roadmap in the response is the student's own plan; the diff lists which plan recommendations appeared or went away.
 `POST /preview` is stateless. The Compare sliders use it, and it never writes anything.
 
 ```
@@ -115,9 +115,9 @@ cd ../frontend && npm run gen:api
 2. Press **"Показать варианты"**. You see recommendations in 3 tiers, each with reason chips. Expand "Почему не рекомендованы".
 3. Press **"Изменить профиль"** and lower the budget from $50,000 to $20,000. A toast says "Маршрут обновлён: −N". Open **"Что изменилось"** to see which universities dropped out, with the cause ("Бюджет $50 000 → $20 000").
 4. Change the major or add a country. The recommendation set changes, and the diff explains why.
-5. Tap **"+ Достижение" → SAT → 1520 → Сохранить**. The demo student has SAT 1150, so Purdue moves from «Мечта» to «Надёжный», SAT gaps close for about 10 universities in the diff, and the roadmap drops the SAT retake step. The chance-history chart gets a new point.
+5. Tap **"+ Достижение" → SAT → 1520 → Сохранить**. The demo student has SAT 1150, so Purdue moves from «Мечта» to «Надёжный», SAT gaps close for about 10 universities in the diff, and the SAT retake disappears from the plan recommendations. The chance-history chart gets a new point.
 6. Open **Сравнение** and move the "Цена" and "Престиж" sliders. Columns re-rank live, and the saved profile does not change.
-7. Star a university ("В план"). **План** rebuilds around it with deadlines, dependencies and conflicts. Press "В календарь (.ics)".
+7. Star a university ("В план"), then open **План**. The demo already has a few steps. Below them, **"Рекомендации для тебя"** lists activities matched to the majors and interests, plus exams, documents and the application deadline for the starred university, each with a reason. Tap "В план" on one, add your own step with "Свой шаг", change its date, mark it done. Press "В календарь (.ics)".
 8. Open **Сегодня** to see one next step, a progress ring and the chance-history chart with achievement markers.
 9. Reload the page and the state is kept. **Настройки → Сбросить профиль** clears everything.
 10. Stop the backend. The app keeps the cached data, shows an offline banner and disables edits.
@@ -168,11 +168,13 @@ A country that isn't selected is filtered out silently. Missing data never block
 
 The spec only names the closable-gap case. Unclosable gaps are also classified as dream, never target, and get a separate "hard to close" reason.
 
-**Roadmap.**
-- Steps come from favorites. Without favorites, the roadmap uses the best university in each tier.
-- Due dates are counted back from the earliest deadline that hasn't passed, using result delays in `backend/app/data/exams.json`.
-- Step ids are deterministic (`exam:SAT`, `doc:essay`, `apply:mit:EA`), so progress survives recomputation.
-- A conflict is flagged when a dependency can't be finished before its dependant is due.
+**Plan (roadmap).** The engine no longer writes the plan; it suggests steps and the student builds the plan.
+- `suggest_actions()` (pure) returns suggestions, each with a reason (`why`) tied to a profile field:
+  - from the target universities (favorites, otherwise the best university of each tier): register for and take SAT/IELTS when the score is missing or below the requirement, the documents each university asks for, "raise grades" when the GPA is below average, and the application itself. Dates are counted back from the earliest deadline that hasn't passed, using result delays in `backend/app/data/exams.json`, and carry the deadline's source or demo flag.
+  - from the activity catalog `backend/app/data/activities.json` (25 generic ideas: olympiads, research, hackathons, volunteering, debates, portfolio, summer school…). Ranked by major match (2), top Holland interest (1), general ideas (0.5); skipped when the student already has that achievement type at national level or higher. Up to 8, due no sooner than in 14 days and at least 30 days before the earliest deadline. The catalog names no specific competitions or dates.
+- Suggestion ids are deterministic (`exam:SAT`, `doc:essay`, `apply:mit:EA`, `act:hackathon`); an added suggestion leaves the list.
+- The plan is the `roadmap_items` table (migration `0003`): steps added from suggestions (with their `source_key`) or written by the student, all editable and deletable. `build_roadmap()` orders them, links an application step to the exam and document steps of the same university, and flags conflicts: overdue steps, and an exam whose result would arrive after that application's date.
+- API: `GET /me/roadmap`, `GET /me/roadmap/suggestions`, `POST /me/roadmap/items` (`{suggestion_id}` or `{title, kind, due_date, note}`), `PATCH`/`DELETE /me/roadmap/items/{id}`, `GET /me/roadmap.ics`. Loading the demo profile adds the first two suggestions of each kind so the plan isn't empty.
 
 ## AI
 
@@ -180,7 +182,7 @@ The spec only names the closable-gap case. Unclosable gaps are also classified a
 - **Routes:**
   - `/ai/passport` turns the template passport into natural language.
   - `/ai/explain` writes a summary of at most 2 sentences, using only the engine's reasons.
-  - `/ai/roadmap-text` describes the roadmap steps.
+  - `/ai/roadmap-text` describes plan steps and suggestions (what to do and why), using only the title, kind and reason.
 - **Guardrails.** The prompts forbid new facts, numbers and percentages. Output is validated with Pydantic and checked for `%`, allowed `profile_field` values and matching step ids. If a check fails, the template is used. Calls time out after 8 s, and results are cached in `llm_cache` by a hash of the input.
 - Every AI response includes `generated: true|false`. The UI marks template text as "Шаблонный текст".
 - The app works fully with `LLM_API_KEY` empty.

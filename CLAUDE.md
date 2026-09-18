@@ -352,6 +352,8 @@ Never output percentages. If fewer than 3 recs, fill `suggestions` from `exclude
 `diff(prev: Snapshot | None, new: Snapshot) -> Diff | None` — returns `None` on first compute. `cause` is built from the fields that changed between the two profile versions.
 
 ### 8.7 Roadmap
+> **Changed 2026-09-18:** the plan is no longer generated. `suggest_actions()` returns the steps below as *suggestions* (plus an activity catalog, `data/activities.json`), each with a reason; the student adds them or custom steps to `roadmap_items` and edits them freely. `build_roadmap(items, today)` orders the student's steps and detects conflicts. See README → Plan.
+
 `build_roadmap(profile, favorite_ids, recs, progress, today)`:
 - Steps from gaps and requirements of favorites (fallback: top 3 recs): take/retake SAT/IELTS, documents, essays, recommendation letters, activities, application submission per deadline.
 - Due dates computed backwards from the earliest relevant deadline using `data/exams.json` (e.g. IELTS result delay ≈ 13 days, SAT scores ≈ 2 weeks — `is_demo` if unverified).
