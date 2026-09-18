@@ -29,9 +29,11 @@ import {
 import { t } from "@/i18n/ru";
 import { countryName } from "@/lib/format";
 import { cn } from "@/lib/utils";
-import { useNetwork, useUi } from "@/store/ui";
+import { MAX_COMPARE, useNetwork, useUi } from "@/store/ui";
 
 const TIERS: Tier[] = ["dream", "target", "safety"];
+/** Cards shown per tier before "показать ещё". */
+const PREVIEW_PER_TIER = 3;
 
 export function Recommendations() {
   const navigate = useNavigate();
@@ -46,6 +48,7 @@ export function Recommendations() {
   const offline = useNetwork((s) => s.offline);
   const { compareIds, toggleCompare } = useUi();
   const [whyNotOpen, setWhyNotOpen] = useState(false);
+  const [expanded, setExpanded] = useState<Partial<Record<Tier, boolean>>>({});
 
   const favSet = new Set(favorites.data ?? []);
   const data = recs.data;
@@ -64,9 +67,7 @@ export function Recommendations() {
       (country === "all" || countryOf(r.university_id) === country) &&
       (tier === "all" || r.tier === tier),
   );
-  const groups = [
-    ...new Set(visible.map((r) => countryOf(r.university_id))),
-  ].sort((a, b) => countryName(a).localeCompare(countryName(b), "ru"));
+  const sections = TIERS.filter((tr) => tier === "all" || tr === tier);
   const excluded = (data?.excluded ?? []).filter(
     (r) => country === "all" || countryOf(r.university_id) === country,
   );
@@ -191,42 +192,68 @@ export function Recommendations() {
               </p>
             </Card>
           )}
-          {groups.map((code) => (
-            <section key={code} aria-labelledby={`country-${code}`}>
-              <div className="mb-4 flex items-center gap-3">
-                <h2 id={`country-${code}`} className="text-xl font-bold">
-                  {code === "unknown" ? "Страна уточняется" : countryName(code)}
-                </h2>
-                <span className="rounded-full bg-primary/10 px-2.5 py-1 text-xs font-semibold text-primary">
-                  {
-                    visible.filter((r) => countryOf(r.university_id) === code)
-                      .length
-                  }
-                </span>
-              </div>
-              <div className="grid gap-4 lg:grid-cols-2">
-                {visible
-                  .filter((r) => countryOf(r.university_id) === code)
-                  .map((rec) => (
-                    <UniversityCard
-                      key={rec.university_id}
-                      rec={rec}
-                      uni={map.get(rec.university_id)}
-                      favorite={favSet.has(rec.university_id)}
-                      disabled={offline || toggleFavorite.isPending}
-                      onFavorite={() =>
-                        toggleFavorite.mutate({
-                          id: rec.university_id,
-                          on: !favSet.has(rec.university_id),
-                        })
-                      }
-                      selected={compareIds.includes(rec.university_id)}
-                      onSelect={() => toggleCompare(rec.university_id)}
-                    />
-                  ))}
-              </div>
-            </section>
-          ))}
+          {sections.map((tr) => {
+            const inTier = visible.filter((r) => r.tier === tr);
+            const open = expanded[tr] ?? false;
+            const shown = open ? inTier : inTier.slice(0, PREVIEW_PER_TIER);
+            const rest = inTier.length - shown.length;
+            return (
+              <section key={tr} aria-labelledby={`tier-${tr}`}>
+                <div className="mb-4 flex items-center gap-3">
+                  <h2 id={`tier-${tr}`} className="text-xl font-bold">
+                    {t.tiers[tr]}
+                  </h2>
+                  <span className="rounded-full bg-primary/10 px-2.5 py-1 text-xs font-semibold text-primary">
+                    {inTier.length}
+                  </span>
+                </div>
+                {inTier.length === 0 ? (
+                  <Card className="p-4 text-sm text-muted-foreground">
+                    {t.recs.empty}
+                  </Card>
+                ) : (
+                  <>
+                    <div className="grid gap-4 lg:grid-cols-2">
+                      {shown.map((rec) => (
+                        <UniversityCard
+                          key={rec.university_id}
+                          rec={rec}
+                          uni={map.get(rec.university_id)}
+                          favorite={favSet.has(rec.university_id)}
+                          disabled={offline || toggleFavorite.isPending}
+                          onFavorite={() =>
+                            toggleFavorite.mutate({
+                              id: rec.university_id,
+                              on: !favSet.has(rec.university_id),
+                            })
+                          }
+                          selected={compareIds.includes(rec.university_id)}
+                          onSelect={() => toggleCompare(rec.university_id)}
+                          selectDisabled={
+                            compareIds.length >= MAX_COMPARE &&
+                            !compareIds.includes(rec.university_id)
+                          }
+                        />
+                      ))}
+                    </div>
+                    {(rest > 0 || open) && inTier.length > PREVIEW_PER_TIER && (
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="mt-3"
+                        onClick={() =>
+                          setExpanded((s) => ({ ...s, [tr]: !open }))
+                        }
+                        aria-expanded={open}
+                      >
+                        {open ? t.recs.showLess : t.recs.showMore(rest)}
+                      </Button>
+                    )}
+                  </>
+                )}
+              </section>
+            );
+          })}
 
           {excluded.length > 0 && (
             <Collapsible open={whyNotOpen} onOpenChange={setWhyNotOpen}>

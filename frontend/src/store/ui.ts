@@ -16,6 +16,11 @@ export const useNetwork = create<NetworkState>((set) => ({
   setSlow: (slow) => set({ slow }),
 }));
 
+/** How many universities the compare table can hold. */
+export const MAX_COMPARE = 10;
+/** How many are picked automatically on the first visit. */
+export const DEFAULT_COMPARE = 3;
+
 interface UiState {
   compareIds: string[];
   toggleCompare: (id: string) => void;
@@ -31,9 +36,9 @@ export const useUi = create<UiState>()(
       toggleCompare: (id) => {
         const ids = get().compareIds;
         if (ids.includes(id)) set({ compareIds: ids.filter((x) => x !== id) });
-        else if (ids.length < 3) set({ compareIds: [...ids, id] });
+        else if (ids.length < MAX_COMPARE) set({ compareIds: [...ids, id] });
       },
-      setCompare: (compareIds) => set({ compareIds: compareIds.slice(0, 3) }),
+      setCompare: (compareIds) => set({ compareIds: compareIds.slice(0, MAX_COMPARE) }),
       theme: document.documentElement.classList.contains("dark") ? "dark" : "light",
       setTheme: (theme) => {
         document.documentElement.classList.toggle("dark", theme === "dark");

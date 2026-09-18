@@ -25,6 +25,8 @@ interface Props {
   onFavorite?: () => void;
   selected?: boolean;
   onSelect?: () => void;
+  /** Compare list is full and this university is not in it. */
+  selectDisabled?: boolean;
   disabled?: boolean;
 }
 
@@ -35,6 +37,7 @@ export function UniversityCard({
   onFavorite,
   selected,
   onSelect,
+  selectDisabled,
   disabled,
 }: Props) {
   const [expanded, setExpanded] = useState(false);
@@ -124,8 +127,10 @@ export function UniversityCard({
           type="button"
           onClick={onSelect}
           aria-pressed={selected}
+          disabled={selectDisabled}
+          title={selectDisabled ? t.recs.compareLimit : undefined}
           className={cn(
-            "mt-3 inline-flex items-center gap-2 text-xs font-semibold",
+            "mt-3 inline-flex items-center gap-2 text-xs font-semibold disabled:cursor-not-allowed disabled:opacity-50",
             selected
               ? "text-primary"
               : "text-muted-foreground hover:text-foreground",
