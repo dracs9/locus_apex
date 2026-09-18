@@ -190,7 +190,7 @@ export function Onboarding() {
   return (
     <div className="flex min-h-dvh flex-col">
       <NetworkBanners />
-      <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col px-4 pb-8 pt-5">
+      <div className="mx-auto flex w-full max-w-4xl flex-1 flex-col px-4 pb-8 pt-5">
         <div className="mb-8 flex items-center justify-between">
           <Logo />
           <span className="text-xs font-semibold text-muted-foreground">

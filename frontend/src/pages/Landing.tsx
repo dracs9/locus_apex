@@ -24,7 +24,7 @@ export function Landing() {
   return (
     <div className="min-h-dvh">
       <NetworkBanners />
-      <div className="mx-auto flex max-w-5xl flex-col gap-12 px-4 pb-16 pt-6 md:px-8 md:pt-10">
+      <div className="mx-auto flex max-w-6xl flex-col gap-12 px-4 pb-16 pt-6 md:px-8 md:pt-10">
         <header className="flex items-center justify-between">
           <div className="flex items-center gap-2">
         <Logo />
