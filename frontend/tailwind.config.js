@@ -33,6 +33,7 @@ export default {
         plus: { DEFAULT: v("plus"), soft: v("plus-soft") },
         risk: { DEFAULT: v("risk"), soft: v("risk-soft") },
         blocker: { DEFAULT: v("blocker"), soft: v("blocker-soft") },
+        "hero-dark": { DEFAULT: v("hero-dark"), foreground: v("hero-dark-foreground") },
       },
       borderRadius: {
         lg: "var(--radius-lg)",

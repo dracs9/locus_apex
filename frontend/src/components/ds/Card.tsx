@@ -22,8 +22,19 @@ export function SectionTitle({ children, className }: { children: ReactNode; cla
   return <h2 className={cn("mb-3 text-base font-bold md:text-lg", className)}>{children}</h2>;
 }
 
-export function ProgressRing({ value, size = 88, label }: { value: number; size?: number; label?: string }) {
-  const stroke = 9;
+export function ProgressRing({
+  value,
+  size = 88,
+  stroke = 9,
+  label,
+  sublabel,
+}: {
+  value: number;
+  size?: number;
+  stroke?: number;
+  label?: ReactNode;
+  sublabel?: ReactNode;
+}) {
   const r = (size - stroke) / 2;
   const c = 2 * Math.PI * r;
   const v = Math.min(1, Math.max(0, value));
@@ -43,9 +54,14 @@ export function ProgressRing({ value, size = 88, label }: { value: number; size?
           className="stroke-primary transition-[stroke-dashoffset] duration-700"
         />
       </svg>
-      <span className="absolute text-sm font-bold" aria-label={label}>
-        {label}
-      </span>
+      {sublabel ? (
+        <span className="absolute flex flex-col items-center px-4 text-center">
+          <span className="font-display text-4xl font-bold leading-none">{label}</span>
+          <span className="mt-1.5 text-xs leading-tight text-muted-foreground">{sublabel}</span>
+        </span>
+      ) : (
+        <span className="absolute text-sm font-bold">{label}</span>
+      )}
     </div>
   );
 }
