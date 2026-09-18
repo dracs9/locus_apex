@@ -182,7 +182,7 @@ export function AppShell() {
         </div>
         <main
           key={pathname}
-          className="mx-auto w-full max-w-6xl flex-1 animate-fade-up px-4 pb-safe pt-5 md:px-8 md:pb-12 md:pt-8"
+          className="mx-auto w-full max-w-7xl flex-1 animate-fade-up px-4 pb-safe pt-5 md:px-8 md:pb-12 md:pt-8"
         >
           <Stepper />
           {content}

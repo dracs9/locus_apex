@@ -20,14 +20,14 @@ import { DEFAULT_COMPARE, MAX_COMPARE, useNetwork, useUi } from "@/store/ui";
 const PRIORITY_KEYS = ["cost", "prestige", "aid", "location"] as const;
 
 /** Fixed column widths keep ~6 universities on screen instead of one per viewport. */
-const LABEL_W = 136;
-const COL_W = 176;
+const LABEL_W = 168;
+const COL_W = 208;
 
 /** Sticky label column + one cell per university. */
 function Row({ label, children }: { label: string; children: ReactNode }) {
   return (
     <tr>
-      <th scope="row" className="sticky left-0 z-10 border-t border-border/60 bg-card py-3 pl-4 pr-3 text-left align-top text-xs font-semibold text-muted-foreground">
+      <th scope="row" className="sticky left-0 z-10 border-t border-border/60 bg-card py-3.5 pl-4 pr-3 text-left align-top text-sm font-semibold text-muted-foreground">
         {label}
       </th>
       {children}
@@ -84,7 +84,7 @@ export function Compare() {
   /** One <td> per column, highlighting the best-ranked one. */
   const cells = (render: (rec: Recommendation, uni: University | undefined) => ReactNode) =>
     columns.map((rec, i) => (
-      <td key={rec.university_id} className={cn("border-t border-border/60 px-3.5 py-3 align-top", i === 0 && "bg-primary/5")}>
+      <td key={rec.university_id} className={cn("border-t border-border/60 px-4 py-3.5 align-top", i === 0 && "bg-primary/5")}>
         {render(rec, map.get(rec.university_id))}
       </td>
     ));
@@ -117,7 +117,7 @@ export function Compare() {
         <Card className="p-0">
           <div className="overflow-x-auto rounded-xl">
             <table
-              className="table-fixed border-separate border-spacing-0 text-sm"
+              className="table-fixed border-separate border-spacing-0 text-base"
               style={{ width: LABEL_W + columns.length * COL_W }}
             >
               <caption className="sr-only">{t.compare.title}</caption>
@@ -129,15 +129,15 @@ export function Compare() {
               </colgroup>
               <thead>
                 <tr>
-                  <th scope="col" className="sticky left-0 z-20 bg-card py-3 pl-4 pr-3 text-left align-bottom text-xs font-semibold text-muted-foreground">
+                  <th scope="col" className="sticky left-0 z-20 bg-card py-3.5 pl-4 pr-3 text-left align-bottom text-sm font-semibold text-muted-foreground">
                     {t.compare.param}
                   </th>
                   {columns.map((rec, i) => {
                     const uni = map.get(rec.university_id);
                     return (
-                      <th key={rec.university_id} scope="col" className={cn("px-3.5 py-3 text-left align-top", i === 0 && "bg-primary/5")}>
+                      <th key={rec.university_id} scope="col" className={cn("px-4 py-3.5 text-left align-top", i === 0 && "bg-primary/5")}>
                         <div className="flex items-start justify-between gap-1">
-                          <p className="text-[11px] font-bold text-primary">{t.compare.rank(i + 1)}</p>
+                          <p className="text-xs font-bold text-primary">{t.compare.rank(i + 1)}</p>
                           <button type="button" onClick={() => toggleCompare(rec.university_id)} className="-mr-1 -mt-1 shrink-0 rounded-full p-1 text-muted-foreground hover:bg-muted" aria-label={t.compare.remove}>
                             <X className="h-4 w-4" />
                           </button>
@@ -145,15 +145,15 @@ export function Compare() {
                         <Link to={`/university/${rec.university_id}`} className="mt-0.5 block font-semibold leading-snug hover:underline">
                           {uni?.name ?? rec.university_id}
                         </Link>
-                        {uni && <p className="mt-0.5 text-xs font-normal text-muted-foreground">{uni.city}</p>}
+                        {uni && <p className="mt-0.5 text-sm font-normal text-muted-foreground">{uni.city}</p>}
                       </th>
                     );
                   })}
                 </tr>
               </thead>
               <tbody>
-                <Row label={t.compare.tier}>{cells((rec) => <TierBadge tier={rec.tier} />)}</Row>
-                <Row label={t.compare.chance}>{cells((rec) => <ChanceBadge chance={rec.chance} />)}</Row>
+                <Row label={t.compare.tier}>{cells((rec) => <TierBadge tier={rec.tier} className="text-sm" />)}</Row>
+                <Row label={t.compare.chance}>{cells((rec) => <ChanceBadge chance={rec.chance} className="text-sm" />)}</Row>
                 <Row label={t.university.cost}>{cells((_, uni) => <span className="font-semibold">{money(uni?.cost_per_year_usd.value ?? null)}</span>)}</Row>
                 <Row label={t.university.aid}>
                   {cells((_, uni) => <span className="font-semibold">{uni?.intl_aid.value ? t.aid[uni.intl_aid.value] : t.common.notPublished}</span>)}
@@ -185,7 +185,7 @@ export function Compare() {
                   {cells((rec) => (
                     <div className="flex flex-wrap gap-1.5">
                       {pickReasons(rec.reasons, 2).map((r) => (
-                        <ReasonChip key={r.code + r.text} reason={r} />
+                        <ReasonChip key={r.code + r.text} reason={r} className="text-sm" />
                       ))}
                     </div>
                   ))}
@@ -195,7 +195,7 @@ export function Compare() {
                 <tr>
                   <th scope="row" className="sticky left-0 z-10 border-t border-border/60 bg-card" />
                   {columns.map((rec, i) => (
-                    <td key={rec.university_id} className={cn("border-t border-border/60 px-3.5 py-3.5 align-top", i === 0 && "bg-primary/5")}>
+                    <td key={rec.university_id} className={cn("border-t border-border/60 px-4 py-4 align-top", i === 0 && "bg-primary/5")}>
                       <Button
                         className="w-full"
                         size="sm"
