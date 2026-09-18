@@ -74,5 +74,5 @@ async def set_favorite(session: AsyncSession, user_id: UUID, university_id: str,
 
 async def wipe_user(session: AsyncSession, user_id: UUID) -> None:
     for table in (db.achievement_attachments, db.achievements, db.favorites, db.roadmap_progress, db.roadmap_items,
-                  db.snapshots, db.profiles):
+                  db.mentor_messages, db.snapshots, db.profiles):
         await session.execute(delete(table).where(table.c.user_id == user_id))

@@ -459,6 +459,42 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/ai/mentor": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Messages */
+        get: operations["get_messages_ai_mentor_get"];
+        put?: never;
+        /** Send */
+        post: operations["send_ai_mentor_post"];
+        /** Clear */
+        delete: operations["clear_ai_mentor_delete"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ai/mentor/{message_id}/actions/{index}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Act */
+        post: operations["act_ai_mentor__message_id__actions__index__post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -557,6 +593,16 @@ export interface components {
             date?: string | null;
             /** Status */
             status?: ("done" | "planned") | null;
+        };
+        /** ActionIn */
+        ActionIn: {
+            /** Apply */
+            apply: boolean;
+        };
+        /** ActionResult */
+        ActionResult: {
+            message: components["schemas"]["MentorMessage"];
+            roadmap?: components["schemas"]["Roadmap"] | null;
         };
         /** Attachment */
         Attachment: {
@@ -743,6 +789,69 @@ export interface components {
              * @default []
              */
             cip_codes: string[];
+        };
+        /**
+         * MentorAction
+         * @description A plan change the mentor proposed. Nothing changes until the student applies it.
+         */
+        MentorAction: {
+            /**
+             * Type
+             * @enum {string}
+             */
+            type: "add_suggestion" | "add_step" | "update_step" | "delete_step";
+            /** Summary */
+            summary: string;
+            /** Args */
+            args: {
+                [key: string]: unknown;
+            };
+            /**
+             * Status
+             * @default pending
+             * @enum {string}
+             */
+            status: "pending" | "applied" | "dismissed" | "failed";
+        };
+        /** MentorIn */
+        MentorIn: {
+            /** Text */
+            text: string;
+        };
+        /** MentorMessage */
+        MentorMessage: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /**
+             * Role
+             * @enum {string}
+             */
+            role: "user" | "assistant";
+            /** Text */
+            text: string;
+            /**
+             * Actions
+             * @default []
+             */
+            actions: components["schemas"]["MentorAction"][];
+            /**
+             * Generated
+             * @default false
+             */
+            generated: boolean;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+        };
+        /** MentorReply */
+        MentorReply: {
+            /** Messages */
+            messages: components["schemas"]["MentorMessage"][];
         };
         /** PassportItem */
         PassportItem: {
@@ -2144,6 +2253,139 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["RoadmapTextOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_messages_ai_mentor_get: {
+        parameters: {
+            query?: never;
+            header?: {
+                authorization?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MentorMessage"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    send_ai_mentor_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                authorization?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["MentorIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MentorReply"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    clear_ai_mentor_delete: {
+        parameters: {
+            query?: never;
+            header?: {
+                authorization?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    act_ai_mentor__message_id__actions__index__post: {
+        parameters: {
+            query?: never;
+            header?: {
+                authorization?: string | null;
+            };
+            path: {
+                message_id: string;
+                index: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ActionIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ActionResult"];
                 };
             };
             /** @description Validation Error */

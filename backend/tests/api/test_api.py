@@ -69,7 +69,7 @@ async def test_user_isolation(client, user):
 async def test_preview_saves_nothing(client, user):
     await client.put("/me/profile", json=PROFILE, headers=user["headers"])
     profile = (await client.get("/me/profile", headers=user["headers"])).json()
-    tables = (db.snapshots, db.profiles, db.achievements, db.favorites, db.roadmap_items)
+    tables = (db.snapshots, db.profiles, db.achievements, db.favorites, db.roadmap_items, db.mentor_messages)
     before = [await count(t) for t in tables]
     r = await client.post("/preview", json={"profile": profile,
                                             "priorities_override": {"cost": 1, "prestige": 0, "location": 0, "aid": 0}})

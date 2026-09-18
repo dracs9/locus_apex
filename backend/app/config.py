@@ -15,6 +15,7 @@ class Settings(BaseSettings):
     llm_api_key: str = ""
     llm_model: str = "gemini-2.5-flash"
     llm_timeout_s: float = 8.0
+    llm_mentor_timeout_s: float = 25.0  # a mentor turn may chain several tool calls
     cors_origins: str = "http://localhost:5173"
 
     @property

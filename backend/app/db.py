@@ -85,6 +85,17 @@ roadmap_items = Table(
     UniqueConstraint("user_id", "source_key"),
 )
 
+mentor_messages = Table(
+    "mentor_messages", metadata,
+    Column("id", Uuid, primary_key=True),
+    Column("user_id", Uuid, nullable=False, index=True),
+    Column("role", Text, nullable=False),
+    Column("text", Text, nullable=False),
+    Column("actions", Json, nullable=False),
+    Column("generated", Boolean, nullable=False),
+    Column("created_at", DateTime(timezone=True), nullable=False),
+)
+
 achievement_attachments = Table(
     "achievement_attachments", metadata,
     Column("id", Uuid, primary_key=True),

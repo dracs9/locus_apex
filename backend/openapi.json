@@ -1583,6 +1583,234 @@
           }
         }
       }
+    },
+    "/ai/mentor": {
+      "get": {
+        "tags": [
+          "mentor"
+        ],
+        "summary": "Get Messages",
+        "operationId": "get_messages_ai_mentor_get",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MentorMessage"
+                  },
+                  "title": "Response Get Messages Ai Mentor Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "mentor"
+        ],
+        "summary": "Send",
+        "operationId": "send_ai_mentor_post",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MentorIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MentorReply"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "mentor"
+        ],
+        "summary": "Clear",
+        "operationId": "clear_ai_mentor_delete",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ai/mentor/{message_id}/actions/{index}": {
+      "post": {
+        "tags": [
+          "mentor"
+        ],
+        "summary": "Act",
+        "operationId": "act_ai_mentor__message_id__actions__index__post",
+        "parameters": [
+          {
+            "name": "message_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Message Id"
+            }
+          },
+          {
+            "name": "index",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Index"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ActionIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActionResult"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -1905,6 +2133,41 @@
         },
         "type": "object",
         "title": "AchievementPatch"
+      },
+      "ActionIn": {
+        "properties": {
+          "apply": {
+            "type": "boolean",
+            "title": "Apply"
+          }
+        },
+        "type": "object",
+        "required": [
+          "apply"
+        ],
+        "title": "ActionIn"
+      },
+      "ActionResult": {
+        "properties": {
+          "message": {
+            "$ref": "#/components/schemas/MentorMessage"
+          },
+          "roadmap": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Roadmap"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "message"
+        ],
+        "title": "ActionResult"
       },
       "Attachment": {
         "properties": {
@@ -2427,6 +2690,126 @@
           "name_en"
         ],
         "title": "Major"
+      },
+      "MentorAction": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "add_suggestion",
+              "add_step",
+              "update_step",
+              "delete_step"
+            ],
+            "title": "Type"
+          },
+          "summary": {
+            "type": "string",
+            "title": "Summary"
+          },
+          "args": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Args"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "applied",
+              "dismissed",
+              "failed"
+            ],
+            "title": "Status",
+            "default": "pending"
+          }
+        },
+        "type": "object",
+        "required": [
+          "type",
+          "summary",
+          "args"
+        ],
+        "title": "MentorAction",
+        "description": "A plan change the mentor proposed. Nothing changes until the student applies it."
+      },
+      "MentorIn": {
+        "properties": {
+          "text": {
+            "type": "string",
+            "maxLength": 1000,
+            "minLength": 1,
+            "title": "Text"
+          }
+        },
+        "type": "object",
+        "required": [
+          "text"
+        ],
+        "title": "MentorIn"
+      },
+      "MentorMessage": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "user",
+              "assistant"
+            ],
+            "title": "Role"
+          },
+          "text": {
+            "type": "string",
+            "title": "Text"
+          },
+          "actions": {
+            "items": {
+              "$ref": "#/components/schemas/MentorAction"
+            },
+            "type": "array",
+            "title": "Actions",
+            "default": []
+          },
+          "generated": {
+            "type": "boolean",
+            "title": "Generated",
+            "default": false
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "role",
+          "text",
+          "created_at"
+        ],
+        "title": "MentorMessage"
+      },
+      "MentorReply": {
+        "properties": {
+          "messages": {
+            "items": {
+              "$ref": "#/components/schemas/MentorMessage"
+            },
+            "type": "array",
+            "title": "Messages"
+          }
+        },
+        "type": "object",
+        "required": [
+          "messages"
+        ],
+        "title": "MentorReply"
       },
       "PassportItem": {
         "properties": {

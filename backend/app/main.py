@@ -12,7 +12,7 @@ from sqlalchemy.exc import TimeoutError as SATimeoutError
 
 from . import db
 from .config import get_settings
-from .routers import achievements, ai, catalog, demo, history, profile, recommendations, roadmap
+from .routers import achievements, ai, catalog, demo, history, mentor, profile, recommendations, roadmap
 
 logging.basicConfig(level=logging.INFO)
 
@@ -124,5 +124,5 @@ async def health():
     return {"status": "ok"}
 
 
-for r in (catalog, profile, achievements, recommendations, roadmap, history, demo, ai):
+for r in (catalog, profile, achievements, recommendations, roadmap, history, demo, ai, mentor):
     app.include_router(r.router)
