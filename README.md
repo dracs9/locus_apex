@@ -252,5 +252,5 @@ Backend: FastAPI, Pydantic, pydantic-settings, SQLAlchemy, asyncpg, aiosqlite, P
 
 ## Deployed URLs
 
-- Frontend: _add Vercel URL_
-- Backend: _add Render URL_ (`/health`, `/docs`)
+- Frontend: https://locus-apex.vercel.app
+- Backend: https://locus-apex.onrender.com (`/health`, `/docs`)
