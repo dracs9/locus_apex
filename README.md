@@ -228,6 +228,15 @@ A chat with a mentor who knows the student and can suggest plan changes, which t
 - Scorecard: 19 universities, 55 of 57 fields published.
 - CDS: 12 documents from 11 universities; 17 facts extracted, 17 verified (100%).
 - Seed: 73 real facts, 484 demo facts.
+- Essays (`python pipeline/essays.py`): 144 essays, 67 matched to catalog universities, 141 with at least one major.
+
+## Essays (`/essays`)
+
+A collection of **144 essays by admitted students** from [openessays.org](https://openessays.org), scraped on 2026-09-18: 16 bachelor's (Common App / Personal Statement), 7 master's, 119 PhD, 1 MBA and 1 other. `pipeline/essays.py` normalizes the raw dump (`data/openessays_dump/`, git-ignored) into `backend/app/data/essays.json`. It parses the school from the title, maps 67 essays to catalog universities, and maps the free-text program onto the 10 majors by keywords.
+
+- **Screens.** The list has search and filters by level, essay type, major and university, plus "only universities from my list" and three sort orders. The essay page shows the full text, author, license, links to the source and the original, the university page and similar essays. The University page links to its essays, and Today has an entry card.
+- **Recommendations** (`GET /me/essays/recommended`, `services/essays.py`) are deterministic and explained. Weights: bachelor's level +3, university in the student's plan +3 (or in their recommendations +2), shared major +2, Common App / personal statement +1. Ties are broken by id, and every card shows its reasons.
+- **Licenses.** 109 essays are CC BY-NC-SA 4.0. For 35, including all bachelor's essays, the source does not state a license. They were published by their authors as public success stories. Every essay is shown with the author's name, a license badge and links to openessays.org and the original. We will remove an essay at the author's request.
 
 ## Ready-made components and libraries
 
@@ -241,6 +250,7 @@ Backend: FastAPI, Pydantic, pydantic-settings, SQLAlchemy, asyncpg, aiosqlite, P
 - Only US universities have real data (Scorecard + CDS), and verification is automatic (the quote must match the source), not done by a person. Other countries are demo data. Deadlines are projected to the intake year.
 - Anonymous sessions are **per browser**. Clearing site data or switching devices starts a new profile.
 - The "requirement unreachable" filter currently covers the IELTS minimum only. Other requirements (A-levels, Studienkolleg, interviews) are shown as information.
+- Essays: most are PhD statements of purpose, all texts are in English, and majors are mapped by keywords, so some essays have none.
 - RAG `/ai/ask` and the voice guide (M5) are not implemented.
 
 ## Team
