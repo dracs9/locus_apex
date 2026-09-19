@@ -13,7 +13,8 @@ sys.path.insert(0, str(ROOT / "backend"))
 import asyncpg  # noqa: E402
 
 from app.config import Settings  # noqa: E402
-from app.schemas import Major, University  # noqa: E402
+from app.schemas import Essay, Major, University  # noqa: E402
+from app.services.essays import to_row  # noqa: E402
 
 SEED = ROOT / "supabase" / "seed"
 
@@ -32,8 +33,18 @@ def load() -> tuple[list[University], list[Major]]:
     return unis, majors
 
 
+def load_essays(majors: list[Major]) -> list[Essay]:
+    essays = [Essay.model_validate(e) for e in json.loads((SEED / "essays.json").read_text(encoding="utf-8"))]
+    major_ids = {m.id for m in majors}
+    for e in essays:
+        if set(e.majors) - major_ids:
+            sys.exit(f"essay {e.id}: unknown majors {set(e.majors) - major_ids}")
+    return essays
+
+
 async def main() -> None:
     unis, majors = load()
+    essays = load_essays(majors)
     settings = Settings(_env_file=ROOT / "backend" / ".env")
     conn = await asyncpg.connect(settings.database_url.replace("postgresql+asyncpg://", "postgresql://"),
                                  statement_cache_size=0)
@@ -56,11 +67,21 @@ async def main() -> None:
                        data = excluded.data""",
                     core["id"], core["name"], core["country"], core["city"], core["website"], core["world_rank"],
                     json.dumps(data, ensure_ascii=False))
+            for e in essays:
+                r = to_row(e)
+                await conn.execute(
+                    """insert into public.essays (id, university_id, level, kind, word_count, data, body, refs)
+                       values ($1, $2, $3, $4, $5, $6::jsonb, $7, $8::jsonb)
+                       on conflict (id) do update set university_id = excluded.university_id, level = excluded.level,
+                       kind = excluded.kind, word_count = excluded.word_count, data = excluded.data,
+                       body = excluded.body, refs = excluded.refs""",
+                    r["id"], r["university_id"], r["level"], r["kind"], r["word_count"],
+                    json.dumps(r["data"], ensure_ascii=False), r["body"], json.dumps(r["refs"], ensure_ascii=False))
     finally:
         await conn.close()
     demo = sum(1 for u in unis for f in (u.acceptance_rate, u.sat, u.gpa_avg, u.ielts_min, u.cost_per_year_usd, u.intl_aid)
                if f.is_demo)
-    print(f"upserted {len(majors)} majors, {len(unis)} universities ({demo} demo-flagged facts)")
+    print(f"upserted {len(majors)} majors, {len(unis)} universities ({demo} demo-flagged facts), {len(essays)} essays")
 
 
 if __name__ == "__main__":

@@ -23,13 +23,18 @@ async def seed_sqlite() -> None:
     """Local dev without Supabase Postgres: create tables and load the catalog from supabase/seed."""
     from sqlalchemy import func, insert, select
 
-    from .schemas import University
+    from .schemas import Essay, University
+    from .services.essays import to_row
 
     await db.create_all()
+    if not SEED_DIR.exists():
+        return
     async with db.get_engine().begin() as conn:
+        # Each table is seeded on its own, so an older local DB still picks up tables added later.
+        if (await conn.execute(select(func.count()).select_from(db.essays))).scalar_one() == 0:
+            for e in json.loads((SEED_DIR / "essays.json").read_text(encoding="utf-8")):
+                await conn.execute(insert(db.essays).values(**to_row(Essay.model_validate(e))))
         if (await conn.execute(select(func.count()).select_from(db.universities))).scalar_one() > 0:
-            return
-        if not SEED_DIR.exists():
             return
         for u in json.loads((SEED_DIR / "universities.json").read_text(encoding="utf-8")):
             data = University.model_validate(u).model_dump(mode="json")

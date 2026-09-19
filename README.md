@@ -78,7 +78,7 @@ python -m venv .venv
 .venv/Scripts/pip install -e ".[dev]"        # macOS/Linux: .venv/bin/pip
 cp .env.example .env                         # fill DATABASE_URL, SUPABASE_URL, SUPABASE_JWT_SECRET, LLM_API_KEY, CORS_ORIGINS
 .venv/Scripts/python ../supabase/migrate.py  # applies supabase/migrations/*.sql (or paste them into the SQL editor)
-.venv/Scripts/python ../supabase/seed.py     # validates seed JSON with Pydantic and upserts it
+.venv/Scripts/python ../supabase/seed.py     # validates seed JSON (universities, majors, essays) with Pydantic and upserts it
 .venv/Scripts/uvicorn app.main:app --reload --port 8000
 .venv/Scripts/pytest                         # 40 tests
 ```
@@ -232,7 +232,7 @@ A chat with a mentor who knows the student and can suggest plan changes, which t
 
 ## Essays (`/essays`)
 
-A collection of **144 essays by admitted students** from [openessays.org](https://openessays.org), scraped on 2026-09-18: 16 bachelor's (Common App / Personal Statement), 7 master's, 119 PhD, 1 MBA and 1 other. `pipeline/essays.py` normalizes the raw dump (`data/openessays_dump/`, git-ignored) into `backend/app/data/essays.json`. It parses the school from the title, maps 67 essays to catalog universities, and maps the free-text program onto the 10 majors by keywords.
+A collection of **144 essays by admitted students** from [openessays.org](https://openessays.org), scraped on 2026-09-18: 16 bachelor's (Common App / Personal Statement), 7 master's, 119 PhD, 1 MBA and 1 other. `pipeline/essays.py` normalizes the raw dump (`data/openessays_dump/`, git-ignored) into `supabase/seed/essays.json`. It parses the school from the title, maps 67 essays to catalog universities, and maps the free-text program onto the 10 majors by keywords. `supabase/seed.py` validates the file with Pydantic and upserts it into the `essays` table (migration `0005_essays.sql`: public read under RLS, like the catalog). The backend caches the essay list in memory and reads a full text per request. A local SQLite database seeds itself from the same file.
 
 - **Screens.** The list has search and filters by level, essay type, major and university, plus "only universities from my list" and three sort orders. The essay page shows the full text, author, license, links to the source and the original, the university page and similar essays. The University page links to its essays, and Today has an entry card.
 - **Recommendations** (`GET /me/essays/recommended`, `services/essays.py`) are deterministic and explained. Weights: bachelor's level +3, university in the student's plan +3 (or in their recommendations +2), shared major +2, Common App / personal statement +1. Ties are broken by id, and every card shows its reasons.

@@ -33,6 +33,18 @@ majors = Table(
     Column("cip_codes", TextArray, nullable=False),
 )
 
+essays = Table(
+    "essays", metadata,
+    Column("id", Text, primary_key=True),
+    Column("university_id", Text, index=True),
+    Column("level", Text, nullable=False),
+    Column("kind", Text, nullable=False),
+    Column("word_count", Integer, nullable=False),
+    Column("data", Json, nullable=False),
+    Column("body", Text, nullable=False),
+    Column("refs", Json, nullable=False),
+)
+
 profiles = Table(
     "profiles", metadata,
     Column("user_id", Uuid, primary_key=True),

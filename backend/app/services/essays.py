@@ -1,11 +1,18 @@
-"""Essay collection (backend/app/data/essays.json, built by pipeline/essays.py) and reading recommendations."""
-import json
-from functools import cache
-from pathlib import Path
+"""Essay collection (table public.essays, loaded by supabase/seed.py from supabase/seed/essays.json)
+and reading recommendations. Summaries are cached in memory; full texts are read per request."""
+import asyncio
+import time
 
+from sqlalchemy import select
+from sqlalchemy.ext.asyncio import AsyncSession
+
+from app import db
 from app.schemas import Essay, EssaySummary, Profile, RecommendedEssay
 
-DATA = Path(__file__).resolve().parents[1] / "data" / "essays.json"
+TTL_SECONDS = 600
+CORE = ("id", "university_id", "level", "kind", "word_count")
+_cache: dict = {"at": 0.0, "loaded": False, "summaries": []}
+_lock = asyncio.Lock()
 
 # Recommendation weights: the audience applies to a bachelor's, so the level matters most.
 W_BACHELOR = 3
@@ -15,18 +22,38 @@ W_MAJOR = 2
 W_PERSONAL = 1   # Common App / personal statement — the formats a school student writes
 
 
-@cache
-def load() -> tuple[Essay, ...]:
-    return tuple(Essay.model_validate(e) for e in json.loads(DATA.read_text(encoding="utf-8")))
+def to_row(essay: Essay) -> dict:
+    """Essay -> essays table row (seed.py, SQLite self-seed, tests)."""
+    data = essay.model_dump(mode="json")
+    row = {k: data.pop(k) for k in CORE}
+    return {**row, "body": data.pop("body"), "refs": data.pop("references"), "data": data}
 
 
-@cache
-def summaries() -> tuple[EssaySummary, ...]:
-    return tuple(EssaySummary.model_validate(e.model_dump(exclude={"body", "references"})) for e in load())
+def _summary(row) -> EssaySummary:
+    return EssaySummary.model_validate({**row.data, **{k: getattr(row, k) for k in CORE}})
 
 
-def get(essay_id: str) -> Essay | None:
-    return next((e for e in load() if e.id == essay_id), None)
+def _stale() -> bool:
+    return not _cache["loaded"] or time.monotonic() - _cache["at"] > TTL_SECONDS
+
+
+async def summaries(session: AsyncSession) -> list[EssaySummary]:
+    if _stale():
+        async with _lock:
+            if _stale():
+                cols = [db.essays.c[k] for k in CORE] + [db.essays.c.data]
+                rows = (await session.execute(select(*cols).order_by(db.essays.c.id))).all()
+                _cache["summaries"] = [_summary(r) for r in rows]
+                _cache["at"] = time.monotonic()
+                _cache["loaded"] = True
+    return _cache["summaries"]
+
+
+async def get(session: AsyncSession, essay_id: str) -> Essay | None:
+    row = (await session.execute(select(db.essays).where(db.essays.c.id == essay_id))).first()
+    if row is None:
+        return None
+    return Essay.model_validate({**_summary(row).model_dump(), "body": row.body, "references": row.refs or []})
 
 
 def recommend_essays(essays: list[EssaySummary] | tuple[EssaySummary, ...], profile: Profile | None,

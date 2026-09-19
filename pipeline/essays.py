@@ -1,7 +1,7 @@
 """Normalize the openessays.org dump into the essay collection served by the backend.
 
 Input:  data/openessays_dump/essays.jsonl   (scraped 2026-09-18; data/ is git-ignored)
-Output: backend/app/data/essays.json          (committed, sorted by id, deterministic)
+Output: supabase/seed/essays.json             (committed, sorted by id; loaded into the DB by supabase/seed.py)
 
 The dump has an empty `school` field, so the school is parsed from the title ("<kind> Essay - <school>").
 Majors are mapped from the free-text `program` onto the catalog major ids by keywords.
@@ -15,7 +15,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SRC = ROOT / "data" / "openessays_dump" / "essays.jsonl"
-OUT = ROOT / "backend" / "app" / "data" / "essays.json"
+OUT = ROOT / "supabase" / "seed" / "essays.json"
 
 LEVELS = {"BACHELORS": "bachelor", "POST_GRAD": "master", "PHD": "phd", "MBA": "mba"}
 

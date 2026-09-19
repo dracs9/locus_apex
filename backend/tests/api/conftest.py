@@ -16,7 +16,8 @@ from sqlalchemy import insert  # noqa: E402
 
 from app import db  # noqa: E402
 from app.main import app  # noqa: E402
-from app.schemas import University  # noqa: E402
+from app.schemas import Essay, University  # noqa: E402
+from app.services.essays import to_row  # noqa: E402
 
 SEED = Path(__file__).parents[3] / "supabase" / "seed"
 
@@ -38,6 +39,8 @@ async def database():
             await conn.execute(insert(db.universities).values(**core, data=v))
         for m in majors:
             await conn.execute(insert(db.majors).values(**m))
+        for e in json.loads((SEED / "essays.json").read_text(encoding="utf-8")):
+            await conn.execute(insert(db.essays).values(**to_row(Essay.model_validate(e))))
     yield
 
 
