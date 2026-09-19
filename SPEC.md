@@ -1,17 +1,20 @@
 # SPEC — AI Admission Route Service (LOCUS Hackathon 2026, Case 02)
 
-# NAME OF THE APP: Applyra
+**App name:** Applyra · **Participation code:** `LOCUSCASE2` · **Status (2026-09-19):** M1–M4 done, feature freeze passed; only bug fixes and docs from now on.
 
-## 0. How to work (instructions for Claude Code)
+This spec describes the product as built. Where the build departs from the original plan, the section says **Changed** and gives the reason. `CLAUDE.md` keeps the original working instructions; this file is the source of truth for scope. [README.md](README.md) holds run instructions, the jury scenario and the technical reference.
 
-- Build in the milestone order in §11. After each milestone both apps must build, pass tests and deploy.
+---
+
+## 0. Working rules
+
+- Build and fix in milestone order (§13). After each change both apps must build, pass tests and deploy.
 - Prefer simple, readable code over abstractions. TypeScript strict mode on the frontend, type hints + Pydantic v2 on the backend.
 - The **scoring engine is deterministic pure Python** in the backend. The LLM never decides tiers, chances, deadlines or numbers.
-- Never invent university facts. Unknown value = `null` and the UI says "not published".
-- Never commit secrets. Use `.env` files (git-ignored) and provide `.env.example` for both apps.
-- Every third-party UI kit / library used must be listed in `README.md` (hackathon rule).
+- Never invent university facts. Unknown value = `null` and the UI says "не опубликовано".
+- Never commit secrets. `.env` files are git-ignored; both apps ship `.env.example`.
+- Every third-party UI kit / library is listed in `README.md` (hackathon rule).
 - Commit often with meaningful messages (Git history is reviewed).
-- Ask before adding new heavy dependencies or changing the stack.
 
 ---
 
@@ -19,11 +22,17 @@
 
 **Problem.** High-school students don't need another list of universities. They need a route: where to apply, why it fits, and what to do next.
 
-**Audience.** High-school students (grades 10–12) in Kazakhstan aiming at top universities in developed countries (US, UK, Europe, Asia).
+**Audience.** High-school students in Kazakhstan, **grades 9–12** (**Changed:** grade 9 added, since planning starts early), aiming at top universities in developed countries (US, UK, Europe, Asia).
 
-**Core promise.** Short profile → explained recommendations (Dream / Target / Safety) → comparison → personal roadmap → one clear next step. The route visibly updates whenever the profile or achievements change.
+**Core promise.** Short profile → explained recommendations (Dream / Target / Safety) → comparison → personal plan → one clear next step. The route visibly updates whenever the profile or achievements change.
 
-**Out of scope.** Courses, lessons, teacher dashboards, a plain AI chat as the main UI, email/password auth, copying LOCUS design.
+**Beyond the core** (added during the build, all optional for the main path):
+- RIASEC interest quiz that suggests majors (§8.10).
+- AI mentor chat that proposes plan changes the student confirms (§9.1).
+- Essay library with explained reading recommendations (§8.11).
+- Photo and link attachments on achievements.
+
+**Out of scope.** Courses, lessons, teacher dashboards, a plain AI chat as the *main* UI, email/password auth, copying LOCUS design.
 
 **Judging (weights).** User journey 30%, UX/UI 25%, personalization 20%, stability 15%, tech 10%. The jury will change budget / major / country / exam and check that results change and are explained.
 
@@ -33,23 +42,24 @@
 
 | Layer | Choice |
 | --- | --- |
-| Frontend | React 18 + Vite + TypeScript (strict), React Router |
-| Styling / UI | Tailwind CSS + shadcn/ui, lucide-react icons, Framer Motion |
+| Frontend | React 18 + Vite 6 + TypeScript (strict), React Router 6 |
+| Styling / UI | Tailwind CSS + shadcn/ui, lucide-react icons, Framer Motion; fonts Manrope + Playfair Display |
 | Server state | TanStack Query (with localStorage persister for offline cache of last results) |
 | Client state | Zustand (UI state, onboarding draft) |
 | Forms / validation | React Hook Form + Zod |
 | Charts | Recharts |
 | API types | `openapi-typescript` generated from FastAPI's `/openapi.json` |
 | Backend | FastAPI (Python 3.11+), Pydantic v2, Uvicorn |
-| Database | Supabase Postgres (+ pgvector for RAG in M5) |
-| Auth | Supabase **anonymous sign-in** (no login screen); backend verifies the Supabase JWT |
-| DB access | `supabase-py` or SQLAlchemy/asyncpg with the Postgres connection string (pick one, stay consistent) |
-| LLM | Gemini API, called only from the backend |
-| Data pipeline | Python in `/pipeline` (Crawl4AI or trafilatura + Playwright) |
-| Tests | pytest (engine + API), Vitest (frontend utils), Playwright e2e happy path (optional) |
-| Deploy | Frontend → Vercel; Backend → Render / Railway / Fly.io; DB → Supabase |
+| Database | Supabase Postgres (SQLite for local runs without Supabase) |
+| DB access | **SQLAlchemy 2 async + asyncpg** (decided) |
+| Auth | Supabase **anonymous sign-in** (no login screen); backend verifies the Supabase JWT (JWKS or legacy HS256 secret) |
+| File storage | Supabase Storage, private bucket `achievement-files`, accessed only by the backend |
+| LLM | Google Gemini via `google-genai`, model set by `LLM_MODEL` (`gemini-3.8-flash` in production), called only from the backend |
+| Data pipeline | Python in `/pipeline`: httpx + trafilatura + pypdf, College Scorecard API (**Changed:** no Crawl4AI/Playwright; static pages and PDFs were enough) |
+| Tests | pytest (engine, API, pipeline), Vitest (frontend logic) |
+| Deploy | Frontend → Vercel; Backend → Render (`render.yaml`); DB/auth/storage → Supabase |
 
-UI language: Russian first (all strings in `frontend/src/i18n/ru.ts` so KZ/EN can be added later).
+UI language: Russian (all strings in `frontend/src/i18n/ru.ts` so KZ/EN can be added later).
 
 ---
 
@@ -57,18 +67,18 @@ UI language: Russian first (all strings in `frontend/src/i18n/ru.ts` so KZ/EN ca
 
 ```
 React (Vite)  ──HTTPS + Supabase JWT──▶  FastAPI
-   │  supabase-js (anon session only)        ├── engine/   (pure, deterministic)
-   │                                          ├── services/ (profile, roadmap, snapshots, ai)
-   └── TanStack Query cache (localStorage)    ├── llm/      (prompts, fallbacks, cache)
-                                              └── db ─────▶ Supabase Postgres (+ pgvector)
-pipeline/ (offline) ──▶ Supabase (universities, doc_chunks)
+   │  supabase-js (anon session only)        ├── engine/   pure, deterministic scoring, diff, plan suggestions
+   │                                          ├── services/ profiles, snapshots, compute, plan, ics, essays, mentor, storage
+   └── TanStack Query cache (localStorage)    ├── llm/      prompts, fallbacks, cache, mentor tools ──▶ Gemini
+                                              └── db ─────▶ Supabase Postgres + Storage
+pipeline/ (offline) ──▶ supabase/seed/*.json ──▶ seed.py ──▶ Supabase (universities, majors, essays)
 ```
 
 Rules:
-- The frontend talks to Supabase **only** for anonymous auth. All data goes through FastAPI.
-- The backend verifies the JWT (Supabase JWKS or JWT secret) and uses `sub` as `user_id`.
-- Recomputation happens on the backend after every profile/achievement change; the response contains the new result **and** the diff.
-- "What-if" previews (compare sliders, trying a different budget) use a stateless endpoint that doesn't save anything.
+- The frontend talks to Supabase **only** for anonymous auth. All data, including photos, goes through FastAPI.
+- The backend verifies the JWT and uses `sub` as `user_id`; every user query filters by it.
+- Recomputation happens on the backend after every profile / achievement / favorite change; the response contains the new result **and** the diff.
+- "What-if" previews (Compare sliders, viewing a country outside the profile) use the stateless `/preview`, which never saves anything.
 - If the backend is unreachable, the frontend shows the last cached result with an "offline" banner and disables edits.
 
 ---
@@ -79,60 +89,44 @@ Rules:
 frontend/
   src/
     main.tsx  App.tsx  router.tsx
-    pages/
-      Landing.tsx  Onboarding.tsx  Passport.tsx  Recommendations.tsx
-      University.tsx  Compare.tsx  Roadmap.tsx  Today.tsx  History.tsx
-      Changes.tsx  Settings.tsx
+    pages/      Landing Onboarding Passport Interests Recommendations University Compare
+                Roadmap Mentor Essays Essay Today History Changes Settings
     components/
-      ui/                     # shadcn
-      ds/                     # Card, ReasonChip, TierBadge, ChanceBadge, SourceBadge,
-                              # DemoBadge, Stepper, EmptyState, ErrorState, OfflineBanner, Skeletons
-      achievements/AddAchievementSheet.tsx
-      layout/                 # BottomTabBar, Sidebar, AppShell
-    api/
-      client.ts               # fetch wrapper, attaches JWT, error normalization
-      schema.d.ts             # generated from OpenAPI
-      hooks.ts                # TanStack Query hooks
-    lib/
-      supabase.ts             # anon sign-in
-      format.ts
-    store/                    # zustand
-    i18n/ru.ts
-    styles/tokens.css
-  .env.example                # VITE_API_URL, VITE_SUPABASE_URL, VITE_SUPABASE_ANON_KEY
+      ui/            shadcn
+      ds/            Card, badges (Tier/Chance/Source/Demo/Reason), Stepper, UniversityCard,
+                     StepRow, ChanceChart, states (Empty/Error/Offline/Skeletons)
+      achievements/  AddAchievementSheet, AttachmentsEditor, AttachmentStrip
+      passport/      GoalHero, StatTiles, WeekFocus, AdviceCard, PassportUniCard
+      profile/       ProfileEditorSheet, AcademicField
+      interests/     HollandQuiz
+      essays/  roadmap/  brand/  layout/AppShell (bottom tabs + sidebar)
+    api/        client.ts  schema.d.ts (generated)  hooks.ts
+    lib/        supabase, format, academic, interests, profileIn, profileCompleteness, suggestions, essays, image
+    data/holland.json   (copy of the backend file; a test checks they match)
+    store/  i18n/ru.ts  styles/tokens.css
+  .env.example          VITE_API_URL, VITE_SUPABASE_URL, VITE_SUPABASE_ANON_KEY
 
 backend/
   app/
-    main.py                   # FastAPI app, CORS, routers, /health
-    config.py                 # pydantic-settings
-    deps.py                   # auth (JWT verify), db session
-    schemas/                  # Pydantic models (§5)
-    routers/
-      catalog.py  profile.py  achievements.py  recommendations.py
-      roadmap.py  history.py  ai.py  demo.py
-    engine/
-      normalize.py  filters.py  fit.py  score.py  tier.py
-      recommend.py  diff.py  roadmap.py  history.py  config.py
-    services/
-      profiles.py  snapshots.py  roadmap_state.py  ics.py
-    llm/
-      client.py  prompts.py  fallbacks.py  cache.py
-    data/
-      exams.json  demo_profile.json
-  tests/
-    engine/  api/
-  pyproject.toml
-  .env.example                # DATABASE_URL, SUPABASE_URL, SUPABASE_JWT_SECRET, LLM_API_KEY, CORS_ORIGINS
+    main.py  config.py  deps.py
+    schemas/   profile, university, recommendation, roadmap, ai, mentor, essay
+    routers/   catalog profile achievements recommendations roadmap history ai mentor essays demo
+    engine/    normalize filters fit score tier recommend diff roadmap history interests text config
+    services/  profiles snapshots compute plan roadmap_items ics essays mentor mentor_store attachments storage catalog
+    llm/       client prompts fallbacks cache mentor_model
+    data/      exams.json activities.json holland.json demo_profile.json
+  tests/       engine/  api/
+  scripts/dump_openapi.py
+  .env.example          DATABASE_URL, SUPABASE_URL, SUPABASE_JWT_SECRET, SUPABASE_SERVICE_KEY, LLM_API_KEY, LLM_MODEL, CORS_ORIGINS
 
 supabase/
-  migrations/                 # SQL (§6)
-  seed/universities.json  seed/majors.json
-  seed.py                     # validates with Pydantic, upserts into DB
+  migrations/  0001_init  0002_achievement_attachments  0003_roadmap_items  0004_mentor_messages  0005_essays
+  seed/        universities.json  majors.json  essays.json  build_seed.py
+  migrate.py  seed.py
 
-pipeline/
-  crawl.py  extract.py  verify.py  embed.py  README.md
-
-README.md  SPEC.md
+pipeline/      scorecard.py  cds.py  crawl.py  extract.py  verify.py  essays.py  embed.py (stub)  tests/  README.md
+docs/          TEAM_GUIDE.md (Russian team notes)
+README.md  SPEC.md  CLAUDE.md  render.yaml  run-back.sh  run-front.sh
 ```
 
 ---
@@ -147,22 +141,14 @@ class Sourced(BaseModel, Generic[T]):
     source_url: str | None = None
     checked_at: date | None = None
     evidence: str | None = None      # verbatim quote from source
-    is_demo: bool                    # True = not verified, UI shows "Demo data"
+    is_demo: bool = True             # True = not verified, UI shows "Демо-данные"
 
-class SatRange(BaseModel):
-    p25: int; p50: int | None = None; p75: int
-
-class Deadline(BaseModel):
-    type: Literal['ED', 'EA', 'REA', 'RD', 'UCAS', 'OTHER']
-    date: date
+class SatRange(BaseModel):  p25: int; p50: int | None = None; p75: int
+class Deadline(BaseModel):  type: Literal['ED', 'EA', 'REA', 'RD', 'UCAS', 'OTHER']; date: date
 
 class University(BaseModel):
-    id: str
-    name: str
-    country: str                     # 'US' | 'UK' | 'DE' | 'NL' | 'KR' | 'JP' | 'SG' | 'CA' | ...
-    city: str
-    website: str
-    majors: list[str]                # ids from majors table
+    id: str; name: str; country: str; city: str; website: str
+    majors: list[str]
     acceptance_rate: Sourced[float]  # 0..1, overall (not intl-specific)
     sat: Sourced[SatRange]
     gpa_avg: Sourced[float]          # 4.0 scale
@@ -170,210 +156,238 @@ class University(BaseModel):
     cost_per_year_usd: Sourced[int]  # tuition + living
     intl_aid: Sourced[Literal['full_need', 'partial', 'merit_only', 'none']]
     deadlines: list[Sourced[Deadline]]
-    extra_requirements: list[str]    # e.g. "A-levels or foundation", "interview"
-    documents: list[str]
-    world_rank: int                  # cite the ranking source + year in README
+    extra_requirements: list[str]; documents: list[str]
+    world_rank: int                  # QS World University Rankings 2025, approximate
 
-AchievementType = Literal['SAT', 'IELTS', 'TOEFL', 'OLYMPIAD', 'PROJECT',
-                          'VOLUNTEER', 'COMPETITION', 'OTHER']
+class Major(BaseModel): id: str; name_ru: str; name_en: str; cip_codes: list[str]
+
+AchievementType = Literal['SAT', 'IELTS', 'TOEFL', 'OLYMPIAD', 'PROJECT', 'VOLUNTEER', 'COMPETITION', 'OTHER']
+
+class Attachment(BaseModel):         # added: evidence only, never affects scoring
+    id: UUID; kind: Literal['photo', 'link']; url: str | None   # link, or 1-hour signed URL for photos
+    title: str | None; content_type: str | None; created_at: datetime
 
 class Achievement(BaseModel):
-    id: UUID
-    type: AchievementType
-    score: float | None = None
-    title: str | None = None
-    level: Literal['school', 'city', 'national', 'international'] | None = None
-    date: date
-    status: Literal['done', 'planned']
+    id: UUID; type: AchievementType; score: float | None; title: str | None
+    level: Literal['school', 'city', 'national', 'international'] | None
+    date: date; status: Literal['done', 'planned']
+    attachments: list[Attachment] = []          # max 5
 
-class Priorities(BaseModel):
-    cost: float; prestige: float; location: float; aid: float   # 0..1
+class Priorities(BaseModel): cost: float; prestige: float; location: float; aid: float   # 0..1
+
+class AcademicRecord(BaseModel):     # added: the grade as the student knows it
+    scale: Literal['5', '4', '100', 'ib8']; value: float       # value <= scale maximum
+
+class HollandAssessment(BaseModel):  # added: RIASEC answers
+    version: Literal['applyra-riasec-v1']; answers: dict[str, int]   # all 30 questions, 0..4
 
 class Profile(BaseModel):
-    grade: Literal[10, 11, 12]
-    gpa5: float = Field(ge=2.0, le=5.0)   # Kazakh 5-point scale
+    grade: Literal[9, 10, 11, 12]                  # Changed: 9 added
+    gpa5: float | None                             # Changed: optional; legacy field, still read
+    academic_record: AcademicRecord | None
+    holland: HollandAssessment | None
     majors: list[str] = Field(min_length=1, max_length=3)
     countries: list[str] = Field(min_length=1)
-    budget_per_year_usd: int = Field(ge=0)
-    needs_aid: bool
+    budget_per_year_usd: int = Field(ge=0)         # family's yearly contribution; 0 = full aid needed
+    needs_aid: bool                                # kept for old clients; onboarding sends True
     intake_year: int
     priorities: Priorities
     achievements: list[Achievement] = []
     created_at: datetime
 
 class Reason(BaseModel):
-    kind: Literal['plus', 'risk', 'blocker']
-    code: str                        # e.g. 'SAT_BELOW_P25'
-    text: str                        # human Russian text
-    profile_field: str               # 'budget_per_year_usd' | 'achievement:SAT' | ...
-    gap: float | None = None
+    kind: Literal['plus', 'risk', 'blocker']; code: str; text: str
+    profile_field: str; gap: float | None = None
 
-Tier = Literal['dream', 'target', 'safety']
-Chance = Literal['low', 'medium', 'high']
-
-class Recommendation(BaseModel):
-    university_id: str; tier: Tier; chance: Chance; score: float; reasons: list[Reason]
-
-class Excluded(BaseModel):
-    university_id: str; reasons: list[Reason]      # blockers only
-
+class Recommendation(BaseModel):  university_id: str; tier: Tier; chance: Chance; score: float; reasons: list[Reason]
+class Excluded(BaseModel):        university_id: str; reasons: list[Reason]      # blockers only
 class RecommendationResult(BaseModel):
-    recs: list[Recommendation]; excluded: list[Excluded]
-    suggestions: list[str]           # "what to change" when < 3 recs
-    computed_at: datetime
+    recs: list[Recommendation]; excluded: list[Excluded]; suggestions: list[str]; computed_at: datetime
+
+# Plan — Changed 2026-09-18: suggestions + student-owned steps (see §8.7)
+class Suggestion(BaseModel):
+    id: str                          # deterministic: 'exam:SAT', 'doc:essay', 'apply:mit:RD', 'act:olympiad'
+    kind: Literal['exam', 'document', 'academic', 'activity', 'application']
+    title: str; why: SuggestionWhy   # {text, profile_field}
+    description: str; suggested_due: date; university_ids: list[str]
+    source_url: str | None; is_demo: bool; priority: int
 
 class RoadmapStep(BaseModel):
-    id: str                          # deterministic id, e.g. 'exam:IELTS' / 'apply:mit:RD'
-    kind: Literal['exam', 'document', 'academic', 'activity', 'application']
-    title: str
-    due_date: date
-    depends_on: list[str]
-    university_ids: list[str]
-    source_url: str | None = None
-    is_demo: bool
-    done: bool
-    priority: int
+    id: str; kind: StepKind; title: str; due_date: date
+    depends_on: list[str]; university_ids: list[str]
+    source_url: str | None; is_demo: bool; done: bool; priority: int
+    source_key: str | None           # suggestion it came from; None for a custom step
+    note: str | None
 
-class Conflict(BaseModel):
-    step_id: str; message: str
-
-class Roadmap(BaseModel):
-    steps: list[RoadmapStep]; conflicts: list[Conflict]; next_step_id: str | None
-    progress: float                  # 0..1
+class Conflict(BaseModel):  step_id: str; message: str
+class Roadmap(BaseModel):   steps: list[RoadmapStep]; conflicts: list[Conflict]; next_step_id: str | None; progress: float
 
 class Diff(BaseModel):
     added: list[str]; removed: list[str]
-    tier_changed: list[dict]         # {id, from, to}
-    chance_changed: list[dict]
-    gaps_closed: list[dict]          # {id, code}
-    roadmap_added: list[str]; roadmap_removed: list[str]
-    cause: str                       # which profile field changed, human text
+    tier_changed: list[TierChange]; chance_changed: list[ChanceChange]   # {id, from, to}
+    gaps_closed: list[GapClosed]     # {id, code}
+    roadmap_added: list[str]; roadmap_removed: list[str]                 # suggestion ids
+    cause: str
 
-class Snapshot(BaseModel):
-    id: UUID; at: datetime; result: RecommendationResult
-    roadmap_step_ids: list[str]; profile_hash: str; cause: str
+class Snapshot(BaseModel): id: UUID; at: datetime; result: RecommendationResult
+                           roadmap_step_ids: list[str]; profile_hash: str; cause: str
+class ComputeResponse(BaseModel): result: RecommendationResult; roadmap: Roadmap; diff: Diff | None
+class ChancePoint(BaseModel): date: date; chance_by_uni: dict[str, Chance | None]; achievement_id: str | None
 
-class ComputeResponse(BaseModel):
-    result: RecommendationResult; roadmap: Roadmap; diff: Diff | None
+# Mentor (added)
+class MentorAction(BaseModel):
+    type: Literal['add_suggestion', 'add_step', 'update_step', 'delete_step']
+    summary: str; args: dict; status: Literal['pending', 'applied', 'dismissed', 'failed']
+class MentorMessage(BaseModel):
+    id: UUID; role: Literal['user', 'assistant']; text: str
+    actions: list[MentorAction]; generated: bool; created_at: datetime
+
+# Essays (added)
+class EssaySummary(BaseModel):
+    id: str; school: str | None; university_id: str | None; level; kind; prompt: str | None
+    program: str | None; majors: list[str]; topics: list[str]; author: str | None
+    license: Literal['CC_BY_NC_SA_4_0', 'UNKNOWN']; source_url: str; original_url: str | None
+    word_count: int; excerpt: str
+class Essay(EssaySummary): body: str; references: list[str]
+class RecommendedEssay(BaseModel): essay: EssaySummary; reasons: list[str]
 ```
 
 ---
 
 ## 6. Database (`supabase/migrations`)
 
-| Table | Columns (main) | Notes |
+| Table | Migration | Notes |
 | --- | --- | --- |
-| `universities` | `id text pk`, `name`, `country`, `city`, `website`, `world_rank int`, `data jsonb` | `data` holds all `Sourced` fields; validated by Pydantic in `seed.py` |
-| `majors` | `id text pk`, `name_ru`, `name_en`, `cip_codes text[]` | |
-| `profiles` | `user_id uuid pk → auth.users`, `data jsonb`, `updated_at` | one row per user |
-| `achievements` | `id uuid pk`, `user_id`, `type`, `score`, `title`, `level`, `date`, `status`, `created_at` | |
-| `favorites` | `user_id`, `university_id`, pk both | |
-| `roadmap_progress` | `user_id`, `step_id`, `done bool`, `done_at`, pk both | steps are recomputed, only progress is stored |
-| `snapshots` | `id uuid pk`, `user_id`, `at`, `result jsonb`, `roadmap_step_ids text[]`, `profile_hash`, `cause` | keep last 50 per user |
-| `llm_cache` | `key text pk` (hash of input), `value jsonb`, `created_at` | |
-| `doc_chunks` (M5) | `id`, `university_id`, `source_url`, `checked_at`, `content`, `embedding vector(…)` | index on `university_id`; ivfflat/hnsw on embedding |
+| `universities` | 0001 | `id`, `name`, `country`, `city`, `website`, `world_rank`, `data jsonb` (all `Sourced` fields, validated by `seed.py`); public read |
+| `majors` | 0001 | `id`, `name_ru`, `name_en`, `cip_codes`; public read |
+| `profiles` | 0001 | one row per user, `data jsonb` |
+| `achievements` | 0001 | one row per achievement |
+| `favorites` | 0001 | pk (`user_id`, `university_id`) |
+| `roadmap_progress` | 0001 | legacy progress of generated steps; superseded by `roadmap_items` |
+| `snapshots` | 0001 | last 50 per user |
+| `llm_cache` | 0001 | `key` = hash of input |
+| `achievement_attachments` | 0002 | photo / link rows; creates the private `achievement-files` Storage bucket |
+| `roadmap_items` | 0003 | the student's plan steps (from a suggestion via `source_key`, or custom) |
+| `mentor_messages` | 0004 | chat history with actions; last 100 per user |
+| `essays` | 0005 | essay collection; public read |
 
-- Enable RLS on all user tables (`user_id = auth.uid()`), even though the backend is the only client.
-- The backend uses the service connection string; it must always filter by the authenticated `user_id`.
-- `universities` / `majors` are read-only for clients.
+- RLS on all user tables (`user_id = auth.uid()`), although the backend is the only client.
+- The backend uses the service connection string and always filters by the authenticated `user_id`.
+- `universities`, `majors`, `essays` are read-only for clients.
+- **Changed:** `doc_chunks` / pgvector (M5 RAG) not created; the mentor uses structured catalog tools instead (§9.1).
 
 ---
 
 ## 7. API (FastAPI)
 
-All `/me/*` routes require `Authorization: Bearer <supabase jwt>`. Errors return `{ "error": { "code", "message" } }`.
+All `/me/*` and `/ai/*` routes require `Authorization: Bearer <supabase jwt>`. Errors return `{ "error": { "code", "message" } }`. OpenAPI at `/docs`.
 
 | Method & path | Purpose |
 | --- | --- |
-| `GET /health` | liveness (also used to warm up the server before the demo) |
+| `GET /health` | liveness; also warms up the server before a demo |
 | `GET /catalog/universities` · `GET /catalog/universities/{id}` · `GET /catalog/majors` | catalog |
-| `GET /me/profile` · `PUT /me/profile` | read / replace profile → **returns `ComputeResponse`** |
-| `POST /me/achievements` · `PATCH /me/achievements/{id}` · `DELETE /me/achievements/{id}` | CRUD → **returns `ComputeResponse`** |
-| `GET /me/recommendations` | latest result (from last snapshot) |
-| `POST /preview` | stateless: `{ profile, priorities_override? }` → `RecommendationResult`; used by Compare sliders and what-if; never saves |
+| `GET /me/profile` · `PUT /me/profile` | read / replace profile → `ComputeResponse` |
+| `POST /me/achievements` · `PATCH /me/achievements/{id}` · `DELETE /me/achievements/{id}` | CRUD → `ComputeResponse` (POST also returns `achievement_id`) |
+| `POST /me/achievements/{id}/attachments/photo` · `…/link` · `DELETE …/attachments/{attachment_id}` | attachments; no recomputation |
+| `GET /me/recommendations` | latest result |
+| `POST /preview` | stateless `{ profile, priorities_override? }` → `RecommendationResult`; never saves |
 | `GET /me/changes/latest` | last diff with cause |
-| `GET /me/roadmap` · `PATCH /me/roadmap/steps/{step_id}` | roadmap, mark done/undone |
+| `GET /me/roadmap` · `GET /me/roadmap/suggestions` | the plan · explained suggestions |
+| `POST /me/roadmap/items` · `PATCH`/`DELETE /me/roadmap/items/{id}` | add (`{suggestion_id}` or `{title, kind, due_date, note}`), edit, mark done, delete |
 | `GET /me/roadmap.ics` | calendar export |
-| `PUT /me/favorites/{university_id}` · `DELETE …` | favorites (affect roadmap) |
+| `GET /me/favorites` · `PUT`/`DELETE /me/favorites/{university_id}` | favorites (affect suggestions) → `ComputeResponse` |
 | `GET /me/chance-history?ids=a,b,c` | chance history (§8.8) |
-| `POST /me/demo` · `POST /me/reset` | load demo profile / wipe user data |
+| `POST /me/demo` · `POST /me/reset` | load demo profile / wipe user data, files and chat |
 | `POST /ai/passport` · `POST /ai/explain` · `POST /ai/roadmap-text` | LLM texts with fallback (§9) |
-| `POST /ai/ask` (M5) | RAG question about one university |
+| `GET /ai/mentor` · `POST /ai/mentor` · `POST /ai/mentor/{message_id}/actions/{index}` · `DELETE /ai/mentor` | mentor chat, apply/dismiss a proposal, clear (§9.1) |
+| `GET /essays` · `GET /essays/{id}` · `GET /me/essays/recommended` | essays (§8.11) |
 
-Change flow (profile or achievement):
-1. load previous snapshot → 2. save change → 3. `recommend()` + `build_roadmap()` → 4. `diff(prev, new)` → 5. save new snapshot → 6. return `ComputeResponse`.
-The frontend shows a toast "Route updated: +2, ↑1" linking to `/changes`.
+Change flow (profile, achievement or favorite):
+1. load previous snapshot → 2. save change → 3. `recommend()` + `suggest_actions()` + `build_roadmap()` → 4. `diff(prev, new)` → 5. save new snapshot → 6. return `ComputeResponse`.
+The frontend shows a toast "Маршрут обновлён: +2, ↕1" linking to `/changes`.
 
 CORS: only the frontend origins from `CORS_ORIGINS`.
 
 ---
 
-## 8. Scoring engine (`backend/app/engine`)
+## 8. Engine (`backend/app/engine`)
 
-All thresholds and weights live in `engine/config.py`. Every function is pure (no DB, no clock — pass `today` explicitly) and covered by pytest.
+All thresholds and weights live in `engine/config.py` and are documented in the README. Every function is pure (no DB, no clock — `today` is passed in) and covered by pytest.
 
 ### 8.1 Normalization
-- `gpa5_to_gpa4(gpa5)`: linear table `5.0→4.0, 4.5→3.5, 4.0→3.0, 3.5→2.5, 3.0→2.0`, interpolate between. UI must say "approximate conversion".
-- Best exam score = highest `done` achievement of that type. `planned` achievements never affect scoring.
-- `profile_at(profile, date)`: profile with only achievements dated `<= date` (used for history).
+- `gpa5_to_gpa4`: linear table `5.0→4.0, 4.5→3.5, 4.0→3.0, 3.5→2.5, 3.0→2.0`, interpolated. UI says "approximate conversion".
+- `profile_gpa4`: `academic_record` scale `4` is used as is, scale `5` is converted, scales `100` and `ib8` are **not converted** (no official conversion) → GPA treated as missing with a `DATA_NOT_PUBLISHED`-style risk. Falls back to legacy `gpa5`.
+- TOEFL → IELTS by the ETS comparison table. Best exam score = highest `done` achievement. `planned` achievements never affect scoring.
+- `profile_at(profile, date)`: only achievements dated `<= date` (history).
+- `project_deadline`: seed deadlines are shifted to the student's intake year (Aug–Dec deadlines belong to next year's intake).
 
 ### 8.2 Hard filters → `excluded`
-A university is excluded (with a `blocker` reason) if:
-1. none of `profile.majors` is in `university.majors` → `MAJOR_NOT_OFFERED`
-2. `university.country` not in `profile.countries` → `COUNTRY_NOT_SELECTED` (just filter, don't list in "why not")
-3. `cost > budget` AND (`not needs_aid` OR `intl_aid in {none, merit_only}`) → `OVER_BUDGET`
-4. an `extra_requirement` can't be met before the earliest deadline → `REQUIREMENT_UNREACHABLE`
+1. none of `profile.majors` in `university.majors` → `MAJOR_NOT_OFFERED`
+2. `country` not in `profile.countries` → filtered silently
+3. `cost > budget` and no need-based aid (`intl_aid in {none, merit_only}`) → `OVER_BUDGET`
+4. IELTS below minimum with no planned retake before the deadline → `REQUIREMENT_UNREACHABLE` (**only IELTS is checked**; other requirements are shown as information)
 
-Unknown cost (`None`) is never a blocker; add a `risk` reason `COST_UNKNOWN`.
+Unknown cost is never a blocker (`COST_UNKNOWN` risk); unknown aid → `AID_UNKNOWN` risk.
 
 ### 8.3 Fit factors
 ```
-sat_fit:   sat >= p75 → 'above' | sat >= p25 → 'within' | else 'below' (gap = p25 - sat)
-gpa_fit:   gpa4 >= avg → 'above' | gpa4 >= avg - 0.2 → 'within' | else 'below'
-ielts_fit: ielts >= min → 'ok' | no IELTS yet → 'missing' (risk)
-           | below → 'below' (blocker, unless a planned IELTS exists before deadline → risk)
+sat_fit:   sat >= p75 → above | sat >= p25 → within | else below (gap = p25 - sat)
+gpa_fit:   gpa4 >= avg → above | gpa4 >= avg - 0.2 → within | else below
+ielts_fit: ielts >= min → ok | none yet → missing (risk) | below → blocker unless a planned retake → risk
 ```
-Missing university data → factor skipped, reason `DATA_NOT_PUBLISHED` (kind `risk`, neutral wording).
+Missing university data → factor skipped, reason `DATA_NOT_PUBLISHED` (risk, neutral wording).
 
 ### 8.4 Score
-`score = Σ weight_i * factor_i` over: academic fit (SAT, GPA), language, major match, affordability, priorities match (`prestige` uses `world_rank`), achievements bonus (by `level`). Weights in `config.py`, documented in README. Sort by tier, then score desc, then `id` (stable).
+Weighted sum (0..100, ordering only): academic 0.35, language 0.15, affordability 0.20, priorities 0.15 (cost, prestige by `world_rank`, aid, first country), major match 0.10 (refined by RIASEC fit), achievements 0.05 (by level, capped). Sort by tier, then score desc, then `id`.
 
 ### 8.5 Tier + chance
 | Rule (first match wins) | Tier | Chance |
 | --- | --- | --- |
 | acceptance_rate < 0.15 | dream | low (medium only if all fits are `above`) |
-| any fit is `below` but gap is closable before deadline | dream | low |
-| all fits `above`/`within` and acceptance_rate >= 0.30 | safety | high |
+| any fit `below` (closable: SAT gap ≤ 150, GPA gap ≤ 0.3, ≥ 60 days left) | dream | low |
+| all fits `above`/`within` and acceptance_rate ≥ 0.30 | safety | high |
 | otherwise | target | medium |
 
-Never output percentages. If fewer than 3 recs, fill `suggestions` from `excluded` reasons (e.g. "raise budget to $X", "add country Y").
+Unclosable gaps are also dream (never target) with a separate "hard to close" reason. Never output percentages. Fewer than 3 recs → `suggestions` from `excluded` reasons ("raise budget to $X", "add country Y").
 
 ### 8.6 Diff
-`diff(prev: Snapshot | None, new: Snapshot) -> Diff | None` — returns `None` on first compute. `cause` is built from the fields that changed between the two profile versions.
+`diff(prev, new) -> Diff | None` — `None` on first compute. `cause` names the changed profile fields in human text (e.g. "Бюджет $50 000 → $20 000"). `roadmap_added/removed` compare suggestion ids.
 
-### 8.7 Roadmap
-`build_roadmap(profile, favorite_ids, recs, progress, today)`:
-- Steps from gaps and requirements of favorites (fallback: top 3 recs): take/retake SAT/IELTS, documents, essays, recommendation letters, activities, application submission per deadline.
-- Due dates computed backwards from the earliest relevant deadline using `data/exams.json` (e.g. IELTS result delay ≈ 13 days, SAT scores ≈ 2 weeks — `is_demo` if unverified).
-- Step ids are deterministic so stored progress survives recomputation.
-- `detect_conflicts(steps, today)`: a step that can't finish before its dependant's due date → `Conflict`.
-- `next_step(steps)`: earliest not-done step with all dependencies done, highest priority.
-- Frontend: completing an exam step opens `AddAchievementSheet` prefilled with that exam.
+### 8.7 Plan (roadmap)
+> **Changed 2026-09-18:** the plan is no longer generated. A generated plan felt imposed and could not hold the student's own steps.
+
+- `suggest_actions(profile, favorite_ids, recs, universities, added_keys, today)` returns explained `Suggestion`s: exams (SAT/IELTS register + take when missing or below), documents per target university, "raise grades" when GPA is below average, the application per earliest open deadline, and up to 8 activities from `data/activities.json` (25 generic ideas, ranked by major match, top Holland theme, general; skipped if the student already has that type at national level or higher). Targets = favorites, else the best university of each tier.
+- Dates count back from the earliest open deadline with result delays from `data/exams.json` (SAT ≈ 28 days, IELTS 13, TOEFL 3; official sources, `is_demo: false`) plus a 3-day buffer.
+- Suggestion ids are deterministic; an added suggestion disappears from the list.
+- The student's steps live in `roadmap_items`. `build_roadmap(steps, today)` orders them, links an application step to the exam/document steps of the same university, computes progress and `next_step_id` (earliest undone step with all dependencies done, highest priority).
+- `detect_conflicts`: overdue steps; an exam whose result would arrive after the linked application date.
+- Demo profile gets the first two suggestions of each kind so the plan isn't empty. Completing an exam step opens `AddAchievementSheet` prefilled with that exam.
 
 ### 8.8 Chance history
-`chance_history(profile, university_ids, universities)`: for each distinct achievement date (plus `created_at`) run the engine on `profile_at(date)`; return `[{date, chance_by_uni, achievement_id}]`. Rendered as a step chart with achievement markers.
+`chance_history(profile, university_ids, universities)`: for each achievement date (plus `created_at`) run the engine on `profile_at(date)`; returns `[ChancePoint]`. Rendered as a step chart with achievement markers.
 
-### 8.9 Required tests (pytest)
-- same input → identical output (determinism)
-- raising SAT above p25 moves a university from dream → target
-- lowering budget removes a no-aid university and adds `OVER_BUDGET`
+### 8.9 Required tests (pytest) — all present
+- same input → identical output
+- raising SAT above p25 moves a university dream → target
+- lowering budget removes a no-aid university with `OVER_BUDGET`
 - changing major changes the recommendation set
 - acceptance_rate < 0.15 is never `safety`
 - `planned` achievements don't affect scoring
 - missing data never produces a blocker
 - diff reports added / removed / tier_changed correctly
-- conflict detected when an exam result arrives after the deadline
+- conflict when an exam result arrives after the deadline
 - API: `PUT /me/profile` returns a diff; user A can't read user B's data; `/preview` saves nothing
+- added: RIASEC scoring, attachments (type sniffing, limits, cleanup), essays, mentor proposals and guardrails, error format
+
+Current counts: backend 70, frontend (Vitest) 25, pipeline 38.
+
+### 8.10 Interests (RIASEC) — added
+- `data/holland.json`: 30 original questions (not Truity's), six themes, answers 0..4, each theme 0..20. The frontend copy must equal the backend file (tested).
+- The result suggests majors; the student confirms or changes them. The engine uses interests only inside the major-match factor, only among the student's chosen majors. With a fully flat profile no themes are auto-selected.
+- Not psychometrically validated; the UI says it describes interests, not abilities or chances.
+
+### 8.11 Essay recommendations — added
+Deterministic, explained: bachelor's +3, university in the plan +3 (or in recommendations +2), shared major +2, Common App / personal statement +1; ties by id; each card lists its reasons.
 
 ---
 
@@ -381,107 +395,102 @@ Never output percentages. If fewer than 3 recs, fill `suggestions` from `exclude
 
 | Route | Input | Output (Pydantic-validated JSON) | Fallback |
 | --- | --- | --- | --- |
-| `POST /ai/passport` | current profile | `{ goal, strengths[3], constraints[2], risk }` | template from fields |
-| `POST /ai/explain` | university_id (+ current rec) | `{ summary }` (≤ 2 sentences, only from given reasons) | join `reason.text` |
-| `POST /ai/roadmap-text` | step ids | `[{ id, description }]` | static descriptions |
-| `POST /ai/ask` (M5) | university_id + question | `{ answer, sources[] }` | "Not stated on the university site" + link |
+| `POST /ai/passport` | current profile | `{ goal, strengths[≤3], constraints[≤2], risk }`, each `{text, profile_field}` | template from fields |
+| `POST /ai/explain` | `university_id` | `{ summary }` (≤ 2 sentences, only from given reasons) | joined `reason.text` |
+| `POST /ai/roadmap-text` | step / suggestion ids | `[{ id, description }]` | static descriptions |
 
 Rules:
-- Prompts forbid adding facts not present in the input; invalid JSON → fallback.
-- 8 s timeout; cache in `llm_cache` by hash of input.
-- Responses include `{ "generated": true | false }` so the UI can mark template text.
-- Tier, chance, numbers, deadlines always come from the engine, never from the LLM.
-- RAG retrieval is always filtered by `university_id`; answers cite `source_url` + `checked_at`.
+- Prompts forbid facts, numbers and percentages not present in the input. Invalid JSON, `%`, unknown `profile_field` or mismatched ids → fallback.
+- 8 s timeout; results cached in `llm_cache` by hash of input.
+- Responses include `generated: true | false`; the UI marks template text "Шаблонный текст".
+- Tier, chance, numbers and deadlines always come from the engine.
+- The app works fully with `LLM_API_KEY` empty.
+
+### 9.1 Mentor — added (replaces M5 RAG `/ai/ask`)
+- Gemini with function calling, temperature 0.3, 25 s per call, ≤ 4 tool rounds per reply.
+- Context rebuilt per message: profile, top 10 recs with engine reasons, favorites, plan with conflicts, suggestions.
+- Retrieval tools: `get_university` (facts with source + demo flag, projected deadlines, the student's tier) and `find_universities` (by country, major, cost). The catalog is small and structured, so tools replace vector search.
+- Plan tools only **propose** (`propose_add_suggestion`, `propose_add_step`, `propose_update_step`, `propose_delete_step`), validated with the same models as the plan API; dates between today and +2 years. The student presses "Применить"/"Отклонить"; applying runs the plan endpoint code.
+- Replies pairing "шанс" with a percentage are sanitized server-side. Unknown values → "не опубликовано"; demo data is called approximate.
+- Last 100 messages stored, last 12 sent to the model. Without a key the mentor answers with a template naming the next plan step.
 
 ---
 
 ## 10. Frontend: screens & UX
 
-Main path with a stepper: Landing → Onboarding → Passport → Recommendations → Compare → Roadmap → Today.
-After onboarding: bottom tab bar on mobile (Today, Universities, Plan, Profile), sidebar on desktop.
+Main path with a stepper: Landing → Onboarding → Passport → Recommendations → Compare → Plan → Today.
+After onboarding: bottom tab bar on mobile (Сегодня, Университеты, План, Профиль), sidebar on desktop with all sections and a country list.
 
 | Screen | Content | Primary action |
 | --- | --- | --- |
-| Landing | Value in one sentence, preview of result | "Build my route", "Try demo profile" |
-| Onboarding | One question per screen, progress bar, back, "I don't know"; draft kept in Zustand until submit | Next |
-| Passport | Goal, 3 strengths, 2 constraints, main risk; tap item → shows source answer | "Show options" |
-| Recommendations | 3 tier sections, cards with reason chips, "Why not recommended" collapsible, suggestions if < 3 | ★ favorite, Compare |
-| University | Requirements vs your data table, cost, aid, deadlines, SourceBadge on every fact | Add to plan, Ask (M5) |
-| Compare | 2–3 columns, priority sliders re-rank live via `/preview` (debounced 300 ms) | Pick favorite |
-| Roadmap | Timeline by month, conflicts highlighted, sources on deadlines | Mark done, export .ics |
-| Today | One big next-step card, progress ring, chance history chart | Done, "+ Achievement" |
-| History | Achievements timeline, filter by type | Add / edit / delete |
-| Changes | Diff with causes, animated card moves (Framer Motion `layout`) | "Back to route" |
+| Landing | Value in one sentence, preview of result | "Построить маршрут", "Попробовать демо-профиль" |
+| Onboarding | One question per screen, progress bar, back, "не знаю" (incl. budget, with a tip to discuss it with parents); grade scale choice (5 / 4 / 100 / IB MYP); draft in Zustand | Next |
+| Passport | Goal hero, stat tiles, 3 strengths, 2 constraints, main risk, weekly focus; tap item → source answer; profile editor sheet | "Показать варианты" |
+| Interests | RIASEC quiz (5 blocks), themes, suggested majors to confirm | Save majors |
+| Recommendations | Grouped by tier and country, filters by country and difficulty (`?country=US`), reason chips, "Почему не рекомендованы", suggestions if < 3 | ★ favorite, Compare |
+| University | Requirements vs your data, cost, aid, deadlines, SourceBadge on every fact, related essays | Add to plan |
+| Compare | Up to 10 universities, priority sliders re-rank live via `/preview` (debounced 300 ms) | Pick favorite |
+| Plan | Student's steps by month, conflicts highlighted, sources on deadlines; "Рекомендации для тебя" with reasons; "Свой шаг" | Add, edit, mark done, export .ics |
+| Mentor | Chat, proposal cards | Применить / Отклонить |
+| Essays / Essay | Search, filters, sort, recommended with reasons; full text with author, license, source | Read |
+| Today | One big next-step card, progress ring, chance history chart, essays entry | Done, "+ Достижение" |
+| History (Достижения) | Achievements timeline, filter by type, attachments | Add / edit / delete |
+| Changes | Diff with causes, animated card moves (Framer Motion `layout`) | "Назад к маршруту" |
 | Settings | Reset profile, load demo profile | — |
 
 **Add achievement in 2 taps:** floating "+" → bottom sheet with type presets → score + date → Save.
 
-**Design system:** CSS variables in `tokens.css` (tier colors: dream / target / safety; reason kinds: plus / risk / blocker), typography scale, radius, spacing. Original look — do not copy LOCUS or other platforms. Light + dark.
+**Design system:** CSS variables in `tokens.css` (tier colors dream / target / safety; reason kinds plus / risk / blocker), Manrope typography, blue accent, radius, spacing. Original look, not LOCUS. Light + dark. Logo: `frontend/public/applyra-mark.svg`.
 
-**States on every data screen:** loading skeleton, empty, error with retry, backend offline (cached data + banner), LLM unavailable (template text marked), no matching universities (suggestions), demo data badge.
+**States on every data screen:** loading skeleton, empty, error with retry, backend offline (cached data + banner), server waking up (> 3 s), LLM unavailable (template text marked), no matching universities (suggestions), demo data badge.
 
-**Mobile:** must work at 360 px wide. No horizontal page scroll.
+**Mobile:** works at 360 px wide, no horizontal page scroll.
 
-**Auth UX:** on first load call `supabase.auth.signInAnonymously()` silently; no login screen. Session persists in the browser.
+**Auth UX:** `supabase.auth.signInAnonymously()` on first load, silently; no login screen. Session persists in the browser.
 
 ---
 
 ## 11. Data (`supabase/seed`, `pipeline/`)
 
-- `universities.json`: 10–30 universities per selected country (start with US + UK, then others), chosen so that changing SAT / budget / major / country clearly changes results.
-- Sources: US — Common Data Set (C1 admissions, C9 SAT, C11–C12 GPA, C21–C22 deadlines, H6 intl aid) and College Scorecard API; UK — university programme pages + UCAS; others — official admissions pages for international students. `world_rank`: one named ranking and year, cited in README.
-- Every numeric fact is `Sourced`. Anything not verified by a human → `is_demo: true`.
-- Do not scrape QS, THE, Mastersportal, Niche.
+- `universities.json`: **77 universities in 17 countries** (US 19, UK 10, NL/CA/AU 4 each, DE, KR, SG, HK, CN, IT, JP, CH, FR, IE, SE, ES 3 each), 10 majors. 557 facts: 73 real, 484 demo.
+- US real data: College Scorecard API (acceptance rate, SAT 25/75 as sum of section percentiles, international cost) and official Common Data Sets (C12 GPA, C14/C21/C22 deadlines, H6 aid) with verbatim quotes. Other countries: hand-compiled approximate values, `is_demo: true`.
+- `world_rank`: QS World University Rankings 2025, approximate, not scraped.
+- Every numeric fact is `Sourced`. **Changed:** "verified" means automatic verification (Scorecard API value, or a quote found in the official document by `verify.py`), agreed for the hackathon instead of human verification.
+- Never scraped: QS, THE, Mastersportal, Niche, commondatasets.com (terms forbid harvesting). Sites that block bots or need a login are skipped.
+- Essays: 144 from openessays.org (2026-09-18), normalized by `pipeline/essays.py`, shown with author, license and source.
 
-Pipeline (Python, run offline, writes to `supabase/seed/` and DB):
-1. `crawl.py` — crawl 1–2 levels per university, keep pages matching admission / tuition / fees / requirements / deadline / international; respect robots.txt, 1 req/s.
-2. `extract.py` — LLM extracts fields into JSON; every field must include a verbatim `evidence` quote; missing → `null`.
-3. `verify.py` — drop any field whose `evidence` isn't found in the page text; write a report (pages processed, % fields verified).
-4. `embed.py` (M5) — chunk 500–800 tokens with `university_id`, `source_url`, `checked_at` → `doc_chunks`.
+Pipeline (offline): `scorecard.py` → `cds.py` → `crawl.py` (official pages only, robots.txt, 1 req/s, own domain only) → `extract.py` (Gemini, every field needs a verbatim quote, missing → null) → `verify.py` (drops fields whose quote isn't in the page, writes `out/report.json`, `--merge` updates the seed). `embed.py` is a stub (M5 not built).
 
 ---
 
-## 12. README requirements (hackathon)
+## 12. Hackathon submission requirements
 
-Task, solution, stack, architecture diagram, local run instructions for both apps (+ Supabase setup and migrations), test scenario for the jury, team roles, data sources with dates, AI models / APIs and why, list of ready-made components (shadcn/ui, Recharts, etc.), scoring weights, limitations (approximate GPA conversion, overall acceptance rates, demo data, anonymous sessions are per-browser), pipeline metrics, deployed URLs. Include both `.env.example` files.
+Team of 1–5 participants aged 14–19, registered in LOCUS Hackathons; one team per person, one project per team for one case. The **captain** submits on **aistartify.com** with **«Промокод / код участия» = `LOCUSCASE2`** (binds the project to case 2; not a discount code).
+
+| Item | Required content | Where |
+| --- | --- | --- |
+| Working product | Link to the deployed site; test login if sign-in is needed | https://locus-apex.vercel.app — no login (anonymous auth + demo profile) |
+| GitHub | Accessible repository with source code and development history | https://github.com/dracs9/locus_apex |
+| README | Task, solution, stack, architecture, run instructions, test scenario, team roles, sources, AI/API, ready-made components, limitations | [README.md](README.md) |
+| Demo video | ≤ 3 min: problem, main user journey, live product, final result | link in README → Submission |
+| Presentation | ≤ 8 slides, PDF: problem, solution, demo, technology, advantages, team, roadmap | link in README → Submission |
+| Technical reference | Models, APIs, libraries, external services, data, verification methods (may be in README) | README → Technical reference |
 
 ---
 
 ## 13. Milestones
 
-**M1 — Foundation**
-- [ ] Monorepo: `frontend/` (Vite + React + TS + Tailwind + shadcn), `backend/` (FastAPI), `supabase/`
-- [ ] Supabase project, migrations, RLS, anonymous sign-in enabled
-- [ ] Seed: `universities.json` (≥ 15 records, demo flags), `majors.json`; `seed.py`
-- [ ] Engine: normalize, filters, fit, score, tier, recommend + pytest
-- [ ] `/health`, `/catalog/*`, JWT auth dependency
-- [ ] Deploy frontend (Vercel) + backend (Render/Railway) and check CORS end-to-end
-- [ ] Design tokens + `components/ds`
+**M1 — Foundation** ✅ monorepo, Supabase migrations + RLS + anonymous sign-in, seed + `seed.py`, engine + pytest, `/health`, `/catalog/*`, JWT auth, deploy (Vercel + Render) with CORS, design tokens + `components/ds`.
 
-**M2 — Core journey**
-- [ ] OpenAPI → TS types, API client, TanStack Query hooks
-- [ ] Profile endpoints + snapshots + `ComputeResponse`
-- [ ] Landing, Onboarding, Passport (template text), Recommendations with reasons + "why not"
-- [ ] University page, `/preview`, Compare with sliders
-- [ ] Demo / reset endpoints and Settings screen
+**M2 — Core journey** ✅ OpenAPI types + client + hooks, profile endpoints + snapshots + `ComputeResponse`, Landing / Onboarding / Passport / Recommendations with reasons and "why not", University page, `/preview`, Compare with sliders, demo / reset + Settings.
 
-**M3 — Living route**
-- [ ] Achievements CRUD + 2-tap sheet + History
-- [ ] Diff + Changes screen + toast
-- [ ] Roadmap (deadlines, dependencies, conflicts, progress) + Today screen
-- [ ] Favorites affect roadmap
-- [ ] Chance history endpoint + chart
+**M3 — Living route** ✅ achievements CRUD + 2-tap sheet + History, diff + Changes + toast, plan (suggestions, student steps, dependencies, conflicts, progress) + Today, favorites affect suggestions, chance history + chart.
 
-**M4 — AI + polish**
-- [ ] `/ai/passport`, `/ai/explain`, `/ai/roadmap-text` with fallbacks and cache
-- [ ] All states (loading / empty / error / offline / LLM down), 360 px check, dark mode
-- [ ] `.ics` export
-- [ ] README complete
+**M4 — AI + polish** ✅ `/ai/passport`, `/ai/explain`, `/ai/roadmap-text` with fallbacks and cache; all states; 360 px; dark mode; `.ics`; README.
 
-**M5 — Optional (only if M1–M4 are stable)**
-- [ ] Pipeline run on more universities
-- [ ] RAG `/ai/ask` on the university page
-- [ ] Voice guide (Web Speech API → backend intent JSON → highlight / navigate / filter)
+**Added after M4 (before freeze):** RIASEC interests, grade scales and grade 9, country navigation, attachments, AI mentor, essays, real US data from Scorecard + CDS, 77 universities.
+
+**M5 — Optional:** pipeline run on more universities ✅ (US via Scorecard + CDS); RAG `/ai/ask` ✗ (replaced by mentor tools); voice guide ✗.
 
 **Feature freeze:** 2026-09-18 22:00. After that only bug fixes and docs.
 
@@ -489,23 +498,25 @@ Task, solution, stack, architecture diagram, local run instructions for both app
 
 ## 14. Deployment notes
 
-- Free backend hosts sleep after inactivity (cold start 30–60 s). Before any demo or jury window: hit `/health`; consider a scheduled ping or a paid instance for 19–24 September.
-- Frontend must show a friendly "waking up the server…" state if the first request is slow (> 3 s), not a blank page.
+- Free Render instances sleep (cold start 30–60 s). Before any demo or jury window (19–24 September) hit `/health`; consider a scheduled ping.
+- The frontend shows "Пробуждаем сервер…" when a request takes > 3 s, never a blank page.
 - `VITE_API_URL` points to the deployed backend; backend `CORS_ORIGINS` includes the Vercel domain.
-- Service keys and `LLM_API_KEY` live only in the backend host's env settings.
+- Service keys, `SUPABASE_SERVICE_KEY` and `LLM_API_KEY` live only in the backend host's env settings.
+- Deploy backend and migrations together; new profile fields live in JSON and need no migration.
 
 ---
 
 ## 15. Acceptance criteria (jury scenario)
 
-1. From landing to a personal roadmap in under 3 minutes on a phone, no login.
+1. From landing to a personal plan in under 3 minutes on a phone, no login.
 2. Every recommendation shows at least 2 human-readable reasons linked to profile fields.
 3. At least 3 recommendations for the demo profile, across ≥ 2 tiers.
 4. Changing budget, major, country or SAT visibly changes recommendations and opens a diff explaining why.
-5. Adding an achievement updates recommendations, roadmap and chance history.
-6. Every deadline and requirement shows a source badge or a "Demo data" badge.
-7. No percentages of admission chance anywhere.
+5. Adding an achievement updates recommendations, plan suggestions and chance history.
+6. Every deadline and requirement shows a source badge or a "Демо-данные" badge.
+7. No percentages of admission chance anywhere (engine, UI, AI and mentor).
 8. App works with the LLM API disabled.
 9. Reload keeps all state (same browser). Reset clears it.
 10. Backend cold start or outage never shows a blank screen.
 11. No console errors on the main path; no secrets in the repo.
+12. Mentor never changes the plan without the student pressing "Применить".
