@@ -94,6 +94,9 @@ def is_verified(item, docs: dict[str, dict], field: str) -> bool:
     evidence, url = item.get("evidence"), item.get("source_url")
     if not isinstance(evidence, str) or len(normalize(evidence)) < MIN_EVIDENCE_CHARS or url not in docs:
         return False
+    if field == "deadline" and url.startswith("http") and not url.lower().endswith((".pdf", ".xlsx")) \
+            and item["value"]["date"][:4] not in evidence:
+        return False  # a page deadline must state its year; CDS dates (m/d of the CDS year) are exempt
     return normalize(evidence) in docs[url]["text"]
 
 
@@ -171,6 +174,8 @@ def main() -> None:
             for field in SIMPLE_FIELDS:
                 item = data.get(field)
                 if field == "cost_per_year_usd" and isinstance(item, dict) and "parts" in item:
+                    if not item["parts"]:
+                        continue
                     extracted += 1
                     cost = cost_from_parts(item, docs, fx)
                     if cost:

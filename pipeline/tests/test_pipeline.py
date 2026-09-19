@@ -102,17 +102,20 @@ def test_merge_uses_fetch_date_and_is_idempotent(tmp_path, monkeypatch):
 
 @pytest.mark.skipif(not verify.PAGES.exists(), reason="pipeline/out/pages is git-ignored; run cds.py first")
 def test_hand_extraction_still_verifies():
-    """Every fact in cds_manual.json must be found in the downloaded official document."""
-    for uni_id, sources in verify.extractions().items():
+    """Every hand-extracted fact must be found in the downloaded official document."""
+    fx = verify.load_fx()
+    manual = [json.loads(f.read_text(encoding="utf-8")) for f in (verify.MANUAL, verify.MANUAL_PAGES) if f.exists()]
+    for uni_id, data in ((k, v) for m in manual for k, v in m.items() if not k.startswith("_")):
         docs = verify.pages(uni_id)
         if not docs:
             continue
-        for data in sources:
-            for field in verify.SIMPLE_FIELDS:
-                if data.get(field):
-                    assert verify.is_verified(data[field], docs, field), f"{uni_id}.{field}"
-            for d in data.get("deadlines", []):
-                assert verify.is_verified(d, docs, "deadline"), f"{uni_id} {d['value']}"
+        for field in verify.SIMPLE_FIELDS:
+            if field == "cost_per_year_usd" and isinstance(data.get(field), dict) and "parts" in data[field]:
+                assert verify.cost_from_parts(data[field], docs, fx), f"{uni_id}.cost"
+            elif data.get(field):
+                assert verify.is_verified(data[field], docs, field), f"{uni_id}.{field}"
+        for d in data.get("deadlines", []):
+            assert verify.is_verified(d, docs, "deadline"), f"{uni_id} {d['value']}"
 
 
 FEES = "https://example.ac.uk/fees"
