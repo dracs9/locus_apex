@@ -205,7 +205,7 @@ A chat with a mentor who knows the student and can suggest plan changes, which t
 **Real data (US, collected 2026-09-17):**
 - **[College Scorecard API](https://collegescorecard.ed.gov/data/api-documentation/)** (U.S. Department of Education, IPEDS, "latest" data) supplies these for all 19 US universities:
   - acceptance rate
-  - SAT 25th/75th percentile (reading + math); ASU and UCLA don't publish SAT
+  - SAT 25th/75th percentile as the sum of the reading and math section percentiles (an approximation: Scorecard has no composite percentiles); ASU and UCLA don't publish SAT
   - cost for international students (cost of attendance − in-state tuition + out-of-state tuition)
 
   The script is `pipeline/scorecard.py`, and the IPEDS ids in `pipeline/us_unitids.json` were checked by hand.
