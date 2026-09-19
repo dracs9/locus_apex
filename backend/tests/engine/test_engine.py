@@ -6,7 +6,7 @@ from app.engine.history import chance_history
 from app.engine.normalize import gpa5_to_gpa4, profile_at, project_deadline
 from app.engine.recommend import recommend
 from app.engine.roadmap import build_roadmap, detect_conflicts, next_step, suggest_actions
-from app.schemas import Deadline, RoadmapStep, Snapshot
+from app.schemas import Deadline, Priorities, RoadmapStep, Snapshot
 
 from .conftest import TODAY, ach, make_profile, make_uni
 
@@ -99,6 +99,24 @@ def test_safety_when_all_fits_and_accessible():
     uni = make_uni("easy", acceptance_rate={"value": 0.6, "is_demo": True})
     r = rec_of(recommend(make_profile(), [uni], TODAY), "easy")
     assert (r.tier, r.chance) == ("safety", "high")
+
+
+def test_priority_sliders_reorder_by_priority_match():
+    cheap = make_uni("cheap", cost_per_year_usd={"value": 30000, "is_demo": True}, world_rank=90)
+    famous = make_uni("famous", cost_per_year_usd={"value": 45000, "is_demo": True}, world_rank=25)
+    unis = [cheap, famous]
+
+    def order(**prio):
+        result = recommend(make_profile(priorities=Priorities(**prio)), unis, TODAY)
+        return [r.university_id for r in sorted(result.recs, key=lambda r: -r.priority_match)]
+
+    # Both are within the $50k budget: the cost slider must still prefer the cheaper one.
+    assert order(cost=1, prestige=0, location=0, aid=0) == ["cheap", "famous"]
+    assert order(cost=0, prestige=1, location=0, aid=0) == ["famous", "cheap"]
+    # Sliders never change tier or chance.
+    a = recommend(make_profile(priorities=Priorities(cost=1, prestige=0, location=0, aid=0)), unis, TODAY)
+    b = recommend(make_profile(priorities=Priorities(cost=0, prestige=1, location=0, aid=0)), unis, TODAY)
+    assert {(r.university_id, r.tier, r.chance) for r in a.recs} == {(r.university_id, r.tier, r.chance) for r in b.recs}
 
 
 def test_planned_achievements_do_not_affect_scoring():

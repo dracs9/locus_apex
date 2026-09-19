@@ -199,7 +199,7 @@ class Reason(BaseModel):
     kind: Literal['plus', 'risk', 'blocker']; code: str; text: str
     profile_field: str; gap: float | None = None
 
-class Recommendation(BaseModel):  university_id: str; tier: Tier; chance: Chance; score: float; reasons: list[Reason]
+class Recommendation(BaseModel):  university_id: str; tier: Tier; chance: Chance; score: float; priority_match: float; reasons: list[Reason]
 class Excluded(BaseModel):        university_id: str; reasons: list[Reason]      # blockers only
 class RecommendationResult(BaseModel):
     recs: list[Recommendation]; excluded: list[Excluded]; suggestions: list[str]; computed_at: datetime
@@ -338,7 +338,7 @@ ielts_fit: ielts >= min → ok | none yet → missing (risk) | below → blocker
 Missing university data → factor skipped, reason `DATA_NOT_PUBLISHED` (risk, neutral wording).
 
 ### 8.4 Score
-Weighted sum (0..100, ordering only): academic 0.35, language 0.15, affordability 0.20, priorities 0.15 (cost, prestige by `world_rank`, aid, first country), major match 0.10 (refined by RIASEC fit), achievements 0.05 (by level, capped). Sort by tier, then score desc, then `id`.
+Weighted sum (0..100, ordering only): academic 0.35, language 0.15, affordability 0.20, priorities 0.15 (cost, prestige by `world_rank`, aid, first country), major match 0.10 (refined by RIASEC fit), achievements 0.05 (by level, capped). Sort by tier, then score desc, then `id`. Each rec also carries `priority_match` (0..100, the priorities factor alone: cost 1 − cost/$100k, prestige 1 − ln(rank)/ln(600)); Compare sorts by it so the sliders re-rank the columns.
 
 ### 8.5 Tier + chance
 | Rule (first match wins) | Tier | Chance |

@@ -1,4 +1,6 @@
 """Score (§8.4): weighted sum of factors in 0..1, reported as 0..100 (ranking only, never shown as a chance)."""
+import math
+
 from app.schemas import Profile, University
 
 from . import config
@@ -40,11 +42,12 @@ def priority_values(profile: Profile, uni: University) -> dict[str, float]:
     if cost is None:
         cost_v = config.UNKNOWN_FACTOR
     else:
-        cost_v = 1.0 if cost <= 0 else min(1.0, profile.budget_per_year_usd / cost)
+        cost_v = min(1.0, max(0.0, 1 - cost / config.PRIORITY_COST_CEILING))
     aid = uni.intl_aid.value
+    rank = max(1, uni.world_rank)
     return {
         "cost": cost_v,
-        "prestige": max(0.0, 1 - (uni.world_rank - 1) / config.PRESTIGE_RANK_FLOOR),
+        "prestige": max(0.0, 1 - math.log(rank) / math.log(config.PRESTIGE_RANK_FLOOR)),
         "aid": config.AID_VALUE[aid] if aid else config.UNKNOWN_FACTOR,
         "location": 1.0 if uni.country == profile.countries[0] else 0.5,
     }
@@ -57,6 +60,11 @@ def priorities_factor(profile: Profile, uni: University) -> float:
         return config.UNKNOWN_FACTOR
     values = priority_values(profile, uni)
     return sum(p[k] * values[k] for k in values) / total
+
+
+def priority_match(profile: Profile, uni: University) -> float:
+    """How well a university matches the priority sliders alone, 0..100. Compare sorts by it."""
+    return round(priorities_factor(profile, uni) * 100, 1)
 
 
 def achievements_factor(profile: Profile) -> float:

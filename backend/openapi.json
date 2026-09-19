@@ -3631,6 +3631,11 @@
             "type": "number",
             "title": "Score"
           },
+          "priority_match": {
+            "type": "number",
+            "title": "Priority Match",
+            "default": 0.0
+          },
           "reasons": {
             "items": {
               "$ref": "#/components/schemas/Reason"

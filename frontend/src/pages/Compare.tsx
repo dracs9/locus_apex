@@ -78,7 +78,13 @@ export function Compare() {
   const columns = compareIds
     .map((id) => source?.recs.find((r) => r.university_id === id))
     .filter((r): r is Recommendation => !!r)
-    .sort((a, b) => b.score - a.score || a.university_id.localeCompare(b.university_id));
+    // Order by the priority sliders alone; the overall score breaks ties.
+    .sort(
+      (a, b) =>
+        (b.priority_match ?? 0) - (a.priority_match ?? 0) ||
+        b.score - a.score ||
+        a.university_id.localeCompare(b.university_id),
+    );
   const addable = (recs.data?.recs ?? []).filter((r) => !compareIds.includes(r.university_id)).slice(0, 12);
   const full = compareIds.length >= MAX_COMPARE;
 

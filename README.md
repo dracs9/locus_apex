@@ -199,7 +199,7 @@ A country that isn't selected is filtered out silently. Missing data never block
 | Academic (SAT, GPA) | 0.35 | above 1.0 · within 0.7 · missing 0.4 · below 0.3 |
 | Language | 0.15 | ok 1.0 · missing 0.5 · below (retake planned) 0.3 |
 | Affordability | 0.20 | within budget 1.0 · full-need aid 0.7 · partial 0.4 |
-| Priorities (cost, prestige by world rank, aid, first country) | 0.15 | weighted by the student's sliders |
+| Priorities (cost, prestige by world rank, aid, first country) | 0.15 | weighted by the student's sliders: cost 1 − cost/$100k (cheaper is better), prestige 1 − ln(rank)/ln(600), aid full 1.0 · partial 0.6 · merit 0.3 · none 0, first country 1.0 else 0.5 |
 | Major match | 0.10 | main major 1.0 · other major 0.7; refined by RIASEC interest fit within the chosen majors |
 | Achievements | 0.05 | school 0.1 · city 0.2 · national 0.5 · international 1.0 (capped at 1) |
 
@@ -211,6 +211,8 @@ A country that isn't selected is filtered out silently. Missing data never block
 | any fit *below* (SAT gap ≤ 150 and GPA gap ≤ 0.3 with ≥ 60 days left counts as closable) | dream | low |
 | all fits *above*/*within* and acceptance ≥ 30% | safety | high |
 | otherwise | target | medium |
+
+**Compare** orders its columns by `priority_match` (0–100): the priorities factor alone, so the sliders visibly re-rank the table; the overall score breaks ties. Tier and chance never depend on the sliders.
 
 The spec only names the closable-gap case. Unclosable gaps are also classified as dream, never target, and get a separate "hard to close" reason. Results are sorted by tier, then score, then id, so the same input always gives the same output.
 

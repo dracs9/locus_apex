@@ -1141,6 +1141,11 @@ export interface components {
             chance: "low" | "medium" | "high";
             /** Score */
             score: number;
+            /**
+             * Priority Match
+             * @default 0
+             */
+            priority_match: number;
             /** Reasons */
             reasons: components["schemas"]["Reason"][];
         };

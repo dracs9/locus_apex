@@ -21,6 +21,7 @@ class Recommendation(BaseModel):
     tier: Tier
     chance: Chance
     score: float
+    priority_match: float = 0.0  # 0..100, priority sliders only; default keeps old snapshots readable
     reasons: list[Reason]
 
 

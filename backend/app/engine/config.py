@@ -33,8 +33,12 @@ UNKNOWN_FACTOR = 0.5
 LEVEL_BONUS = {"school": 0.1, "city": 0.2, "national": 0.5, "international": 1.0}
 ACTIVITY_TYPES = ("OLYMPIAD", "PROJECT", "VOLUNTEER", "COMPETITION", "OTHER")
 
-# Prestige: world_rank 1 -> 1.0, PRESTIGE_RANK_FLOOR and below -> 0.0
+# Prestige: world_rank 1 -> 1.0, PRESTIGE_RANK_FLOOR and below -> 0.0, on a log scale
+# so that #27 and #89 differ noticeably (a linear scale made the top 100 almost equal).
 PRESTIGE_RANK_FLOOR = 600
+# Cost priority: cheaper is better, $0 -> 1.0, PRIORITY_COST_CEILING and above -> 0.0.
+# The budget itself is handled by the affordability factor.
+PRIORITY_COST_CEILING = 100_000
 AID_VALUE = {"full_need": 1.0, "partial": 0.6, "merit_only": 0.3, "none": 0.0}
 
 # ETS TOEFL iBT -> IELTS comparison (lower bound of TOEFL band, IELTS band)

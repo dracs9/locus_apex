@@ -8,7 +8,7 @@ from . import config, text
 from .interests import interest_fit
 from .filters import check_budget, check_major, hard_filters
 from .fit import compute_fits
-from .score import achievements_factor, score
+from .score import achievements_factor, priority_match, score
 from .tier import tier_and_chance
 
 TIER_ORDER = {"dream": 0, "target": 1, "safety": 2}
@@ -50,7 +50,7 @@ def evaluate(profile: Profile, uni: University, today: date, major_names: dict[s
     tier, chance, tier_reasons = tier_and_chance(profile, uni, fits, today)
     reasons = f.pluses + fits.reasons + _extra_pluses(profile, uni) + f.risks + tier_reasons
     return Recommendation(university_id=uni.id, tier=tier, chance=chance, score=score(profile, uni, fits),
-                          reasons=_sort_reasons(reasons))
+                          priority_match=priority_match(profile, uni), reasons=_sort_reasons(reasons))
 
 
 def _suggestions(profile: Profile, universities: list[University], excluded: list[Excluded],
