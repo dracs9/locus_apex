@@ -1,0 +1,60 @@
+{
+  "_note": "Official pages per university for crawl.py --sources: international undergraduate requirements, fees, living costs, deadlines, aid. University domains only (plus ucas.com).",
+  "oxford": [
+    "https://www.ox.ac.uk/admissions/undergraduate/fees-and-funding/tuition-fees",
+    "https://www.ox.ac.uk/admissions/undergraduate/fees-and-funding/living-costs",
+    "https://www.ox.ac.uk/admissions/undergraduate/applying-to-oxford/for-international-students/english-language-requirements",
+    "https://www.ox.ac.uk/admissions/undergraduate/applying-to-oxford/guide/ucas-application"
+  ],
+  "cambridge": [
+    "https://www.undergraduate.study.cam.ac.uk/fees-and-finance/tuition-fees",
+    "https://www.undergraduate.study.cam.ac.uk/fees-and-finance/living-costs",
+    "https://www.undergraduate.study.cam.ac.uk/international-students/english-language-requirements",
+    "https://www.undergraduate.study.cam.ac.uk/applying/dates-and-deadlines"
+  ],
+  "imperial": [
+    "https://www.imperial.ac.uk/students/fees-and-funding/tuition-fees/undergraduate-fees/",
+    "https://www.imperial.ac.uk/study/apply/undergraduate/entry-requirements/english-language/",
+    "https://www.imperial.ac.uk/study/fees-and-funding/living-costs/",
+    "https://www.imperial.ac.uk/study/apply/undergraduate/process/deadlines/"
+  ],
+  "ucl": [
+    "https://www.ucl.ac.uk/prospective-students/undergraduate/fees-and-funding",
+    "https://www.ucl.ac.uk/prospective-students/undergraduate/application/english-language-requirements",
+    "https://www.ucl.ac.uk/prospective-students/undergraduate/application/how-apply",
+    "https://www.ucl.ac.uk/prospective-students/accommodation/cost-living"
+  ],
+  "lse": [
+    "https://www.lse.ac.uk/study-at-lse/undergraduate/fees-and-funding",
+    "https://www.lse.ac.uk/study-at-lse/undergraduate/entry-requirements/english-language-requirements",
+    "https://www.lse.ac.uk/study-at-lse/undergraduate/how-to-apply"
+  ],
+  "edinburgh": [
+    "https://www.ed.ac.uk/studying/undergraduate/fees-finance/tuition-fees",
+    "https://www.ed.ac.uk/studying/undergraduate/fees-finance/cost-of-living",
+    "https://www.ed.ac.uk/studying/international/english/requirements",
+    "https://www.ed.ac.uk/studying/undergraduate/applying/deadlines"
+  ],
+  "manchester": [
+    "https://www.manchester.ac.uk/study/undergraduate/fees-and-funding/",
+    "https://www.manchester.ac.uk/study/international/finance-and-scholarships/money-matters/living-costs/",
+    "https://www.manchester.ac.uk/study/undergraduate/applications/how-to-apply/"
+  ],
+  "kcl": [
+    "https://www.kcl.ac.uk/study/undergraduate/fees-and-funding",
+    "https://www.kcl.ac.uk/study/undergraduate/how-to-apply",
+    "https://www.kcl.ac.uk/study/undergraduate/english-language-requirements"
+  ],
+  "warwick": [
+    "https://warwick.ac.uk/study/undergraduate/fees-and-funding/tuition-fees/",
+    "https://warwick.ac.uk/study/undergraduate/fees-and-funding/living-costs/",
+    "https://warwick.ac.uk/study/undergraduate/apply/english-language/",
+    "https://warwick.ac.uk/study/undergraduate/apply/deadlines/"
+  ],
+  "leeds": [
+    "https://www.leeds.ac.uk/undergraduate-fees",
+    "https://www.leeds.ac.uk/international-admissions/doc/entry-requirements",
+    "https://www.leeds.ac.uk/undergraduate-apply/doc/apply",
+    "https://www.leeds.ac.uk/international-fees-finance-funding/doc/cost-living"
+  ]
+}
