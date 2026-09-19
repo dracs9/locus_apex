@@ -1,5 +1,6 @@
 import { Logo } from "@/components/brand/Logo";
 import {
+  BookOpen,
   CalendarCheck2,
   Compass,
   GitCompareArrows,
@@ -44,6 +45,7 @@ const SIDEBAR = [
   { to: "/compare", label: t.nav.compare, icon: GitCompareArrows },
   { to: "/roadmap", label: t.nav.plan, icon: CalendarCheck2 },
   { to: "/mentor", label: t.nav.mentor, icon: Sparkles },
+  { to: "/essays", label: t.nav.essays, icon: BookOpen },
   { to: "/today", label: t.nav.today, icon: Home },
   { to: "/history", label: t.nav.achievements, icon: ListChecks },
   { to: "/changes", label: t.nav.changes, icon: History },

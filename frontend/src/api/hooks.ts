@@ -15,12 +15,15 @@ import type {
   AchievementPatch,
   ChancePoint,
   ComputeResponse,
+  Essay,
+  EssaySummary,
   ExplainOut,
   LatestChanges,
   Major,
   MentorMessage,
   MentorReply,
   PassportOut,
+  RecommendedEssay,
   Priorities,
   Profile,
   ProfileIn,
@@ -47,6 +50,9 @@ export const keys = {
   mentor: ["me", "mentor"] as const,
   universities: ["catalog", "universities"] as const,
   majors: ["catalog", "majors"] as const,
+  essays: ["essays"] as const,
+  essay: (id: string) => ["essays", id] as const,
+  recommendedEssays: ["me", "essays", "recommended"] as const,
 };
 
 const noRetryOn404 = (count: number, error: unknown) =>
@@ -73,6 +79,33 @@ export function useMajors() {
     queryKey: keys.majors,
     queryFn: () => api<Major[]>("/catalog/majors", { auth: false }),
     staleTime: 5 * 60 * 1000, // catalog changes only on re-seed; keep it short so new data shows up quickly
+  });
+}
+
+// --- essays --------------------------------------------------------------
+
+export function useEssays() {
+  return useQuery({
+    queryKey: keys.essays,
+    queryFn: () => api<EssaySummary[]>("/essays", { auth: false }),
+    staleTime: 60 * 60 * 1000, // the collection changes only on a new deploy
+  });
+}
+
+export function useEssay(id: string) {
+  return useQuery({
+    queryKey: keys.essay(id),
+    queryFn: () => api<Essay>(`/essays/${encodeURIComponent(id)}`, { auth: false }),
+    staleTime: 60 * 60 * 1000,
+    retry: noRetryOn404,
+  });
+}
+
+export function useRecommendedEssays() {
+  return useQuery({
+    queryKey: keys.recommendedEssays,
+    queryFn: () => api<RecommendedEssay[]>("/me/essays/recommended"),
+    retry: noRetryOn404,
   });
 }
 
@@ -178,6 +211,7 @@ export function applyCompute(qc: QueryClient, res: ComputeResponse, { silent = f
   void qc.invalidateQueries({ queryKey: keys.favorites });
   void qc.invalidateQueries({ queryKey: ["me", "chance-history"] });
   void qc.invalidateQueries({ queryKey: ["me", "ai"] });
+  void qc.invalidateQueries({ queryKey: keys.recommendedEssays });
   if (silent || !res.diff) return;
   const summary = diffSummary(res.diff);
   toast.success(summary ? t.changes.toast(summary) : t.changes.toastNoChange, {

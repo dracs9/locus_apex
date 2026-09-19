@@ -1,8 +1,8 @@
-import { ArrowLeft, CalendarClock, ExternalLink, FileText, Info, Star } from "lucide-react";
+import { ArrowLeft, BookOpen, CalendarClock, ExternalLink, FileText, Info, Star } from "lucide-react";
 import type { ReactNode } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
-import { useExplain, useFavorites, useProfile, useRecommendations, useToggleFavorite, useUniversities } from "@/api/hooks";
+import { useEssays, useExplain, useFavorites, useProfile, useRecommendations, useToggleFavorite, useUniversities } from "@/api/hooks";
 import type { Profile, University as Uni } from "@/api/types";
 import { ChanceBadge, GeneratedMark, ReasonChip, SourceBadge, TierBadge } from "@/components/ds/badges";
 import { Card, SectionTitle } from "@/components/ds/Card";
@@ -111,6 +111,7 @@ export function University() {
   const toggleFavorite = useToggleFavorite();
   const offline = useNetwork((s) => s.offline);
   const explain = useExplain(id, !!profile.data);
+  const essays = useEssays();
 
   if (universities.isPending) return <PageSkeleton />;
   if (universities.isError && !universities.data) return <ErrorState onRetry={() => universities.refetch()} />;
@@ -121,6 +122,7 @@ export function University() {
   const excluded = recs.data?.excluded.find((e) => e.university_id === id);
   const isFav = (favorites.data ?? []).includes(id);
   const p = profile.data;
+  const essayCount = (essays.data ?? []).filter((e) => e.university_id === id).length;
 
   return (
     <div className="space-y-5">
@@ -225,9 +227,19 @@ export function University() {
         </Card>
       </div>
 
-      <Link to="/compare" className="inline-block text-sm font-semibold text-primary hover:underline">
-        {t.nav.compare} →
-      </Link>
+      <div className="flex flex-wrap gap-x-6 gap-y-2">
+        {essayCount > 0 && (
+          <Link
+            to={`/essays?university=${uni.id}`}
+            className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:underline"
+          >
+            <BookOpen className="h-4 w-4" /> {t.essays.fromUniversity(essayCount)} →
+          </Link>
+        )}
+        <Link to="/compare" className="inline-block text-sm font-semibold text-primary hover:underline">
+          {t.nav.compare} →
+        </Link>
+      </div>
     </div>
   );
 }

@@ -3,6 +3,8 @@ import { createBrowserRouter, Navigate } from "react-router-dom";
 import { AppShell } from "./components/layout/AppShell";
 import { Changes } from "./pages/Changes";
 import { Compare } from "./pages/Compare";
+import { Essay } from "./pages/Essay";
+import { Essays } from "./pages/Essays";
 import { History } from "./pages/History";
 import { Interests } from "./pages/Interests";
 import { Landing } from "./pages/Landing";
@@ -28,6 +30,8 @@ export const router = createBrowserRouter([
       { path: "/compare", element: <Compare /> },
       { path: "/roadmap", element: <Roadmap /> },
       { path: "/mentor", element: <Mentor /> },
+      { path: "/essays", element: <Essays /> },
+      { path: "/essays/:id", element: <Essay /> },
       { path: "/today", element: <Today /> },
       { path: "/history", element: <History /> },
       { path: "/changes", element: <Changes /> },

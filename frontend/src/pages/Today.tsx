@@ -1,4 +1,4 @@
-import { ArrowRight, CalendarClock, CheckCircle2, PartyPopper, Plus } from "lucide-react";
+import { ArrowRight, BookOpen, CalendarClock, CheckCircle2, PartyPopper, Plus } from "lucide-react";
 import { lazy, Suspense } from "react";
 import { Link } from "react-router-dom";
 
@@ -112,6 +112,19 @@ export function Today() {
           )}
         </Card>
       </div>
+
+      <Link to="/essays" className="block">
+        <Card className="flex items-center gap-4 p-4 transition-colors hover:bg-muted/50">
+          <div className="rounded-full bg-primary/10 p-3 text-primary">
+            <BookOpen className="h-5 w-5" aria-hidden />
+          </div>
+          <div className="min-w-0 flex-1">
+            <p className="font-semibold">{t.essays.todayTitle}</p>
+            <p className="text-sm text-muted-foreground">{t.essays.todayText}</p>
+          </div>
+          <ArrowRight className="h-5 w-5 shrink-0 text-muted-foreground" aria-hidden />
+        </Card>
+      </Link>
     </div>
   );
 }
