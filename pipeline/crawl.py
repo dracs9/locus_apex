@@ -28,6 +28,21 @@ USER_AGENT = "ApplyraBot/1.0 (hackathon research; contact via repository)"
 KEYWORDS = re.compile(r"admission|apply|tuition|fees?|cost|requirement|deadline|international|english|ielts|toefl|financial.aid|scholarship|sat\b", re.I)
 BLOCKED_HOSTS = ("topuniversities.com", "timeshighereducation.com", "mastersportal.com", "niche.com")
 DELAY_S = 1.0
+# Second-level zones under which each university has its own name (ox.ac.uk, nus.edu.sg, ...).
+PUBLIC_SUFFIXES_2 = {"ac.uk", "co.uk", "ac.kr", "ac.jp", "ac.nz", "ac.at", "ac.il", "ac.in", "ac.za",
+                     "edu.sg", "edu.au", "edu.hk", "edu.cn", "edu.tw", "edu.tr", "edu.my", "com.au"}
+
+
+def site_root(host: str) -> str:
+    """Registrable domain of a host: admissions.purdue.edu -> purdue.edu, www.ox.ac.uk -> ox.ac.uk."""
+    labels = host.lower().split(":")[0].split(".")
+    n = 3 if ".".join(labels[-2:]) in PUBLIC_SUFFIXES_2 else 2
+    return ".".join(labels[-n:])
+
+
+def same_site(host: str, root: str) -> bool:
+    host = host.lower().split(":")[0]
+    return host == root or host.endswith("." + root)
 
 
 def allowed_by_robots(client: httpx.Client, url: str, cache: dict[str, RobotFileParser]) -> bool:
@@ -37,7 +52,10 @@ def allowed_by_robots(client: httpx.Client, url: str, cache: dict[str, RobotFile
         rp = RobotFileParser()
         try:
             res = client.get(f"{base}/robots.txt", timeout=10)
-            rp.parse(res.text.splitlines() if res.status_code == 200 else [])
+            if res.status_code in (401, 403):
+                rp.disallow_all = True  # same rule as RobotFileParser.read(): access denied = crawl nothing
+            else:
+                rp.parse(res.text.splitlines() if res.status_code == 200 else [])
         except httpx.HTTPError:
             rp.parse([])
         cache[base] = rp
@@ -46,8 +64,7 @@ def allowed_by_robots(client: httpx.Client, url: str, cache: dict[str, RobotFile
 
 def crawl_university(client: httpx.Client, uni: dict, depth: int, max_pages: int) -> int:
     start = uni["website"]
-    domain = urlparse(start).netloc.split(":")[0]
-    root_domain = ".".join(domain.split(".")[-2:])
+    root = site_root(urlparse(start).netloc)
     out_dir = OUT / uni["id"]
     out_dir.mkdir(parents=True, exist_ok=True)
     robots: dict[str, RobotFileParser] = {}
@@ -59,7 +76,7 @@ def crawl_university(client: httpx.Client, uni: dict, depth: int, max_pages: int
         url, level = queue.popleft()
         url = urldefrag(url)[0]
         host = urlparse(url).netloc
-        if url in seen or not host.endswith(root_domain) or any(b in host for b in BLOCKED_HOSTS):
+        if url in seen or not same_site(host, root) or any(b in host for b in BLOCKED_HOSTS):
             continue
         seen.add(url)
         if not allowed_by_robots(client, url, robots):
@@ -71,6 +88,8 @@ def crawl_university(client: httpx.Client, uni: dict, depth: int, max_pages: int
             print(f"  ! {url}: {e}")
             continue
         if res.status_code != 200 or "text/html" not in res.headers.get("content-type", ""):
+            continue
+        if not same_site(res.url.host, root):  # redirected off the university site
             continue
 
         text = trafilatura.extract(res.text, include_tables=True, favor_recall=True) or ""
