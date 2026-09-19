@@ -113,3 +113,44 @@ def test_hand_extraction_still_verifies():
                     assert verify.is_verified(data[field], docs, field), f"{uni_id}.{field}"
             for d in data.get("deadlines", []):
                 assert verify.is_verified(d, docs, "deadline"), f"{uni_id} {d['value']}"
+
+
+FEES = "https://example.ac.uk/fees"
+LIVING = "https://example.ac.uk/living"
+FEE_DOCS = {FEES: {"text": verify.normalize("International students: £38,000 per year"), "checked_at": "2026-09-19"},
+            LIVING: {"text": verify.normalize("Budget around £1 200 a month, or £15,000 for the year"),
+                     "checked_at": "2026-09-19"}}
+FX = {"date": "2026-09-18", "usd_per": {"USD": 1.0, "GBP": 1.33442}}
+
+
+def part(kind, amount, evidence, url, currency="GBP"):
+    return {"kind": kind, "amount": amount, "currency": currency, "evidence": evidence, "source_url": url}
+
+
+def test_cost_is_computed_from_quoted_parts():
+    item = {"parts": [part("tuition", 38000, "International students: £38,000 per year", FEES),
+                      part("living", 15000, "£15,000 for the year", LIVING)]}
+    cost = verify.cost_from_parts(item, FEE_DOCS, FX)
+    assert cost["value"] == round(53000 * 1.33442, -2)
+    assert cost["source_url"] == FEES and cost["checked_at"] == "2026-09-19"
+    assert "£38,000" in cost["evidence"] and "1 GBP = 1.33442 USD" in cost["evidence"]
+
+
+@pytest.mark.parametrize("parts", [
+    [part("tuition", 39000, "International students: £38,000 per year", FEES)],   # amount not in the quote
+    [part("tuition", 38000, "International students: £38,000 a year", FEES)],     # quote not on the page
+    [part("tuition", 38000, "International students: £38,000 per year", LIVING)],  # quote on another page
+    [part("tuition", 38000, "International students: £38,000 per year", FEES, "XYZ")],  # no exchange rate
+    [part("living", 15000, "£15,000 for the year", LIVING)],                       # no tuition at all
+    [part("tuition", 3800, "International students: £38,000 per year", FEES)],     # a prefix is not the amount
+])
+def test_cost_parts_rejected(parts):
+    assert verify.cost_from_parts({"parts": parts}, FEE_DOCS, FX) is None
+
+
+@pytest.mark.parametrize("amount, quote, ok", [
+    (38000, "£38,000", True), (38000, "38 000 €", True), (38000, "EUR 38.000", True), (9535, "£9,535.00", True),
+    (38000, "£380,000", False), (1000, "1,000,000", False), (38000, "38000.50", False),
+])
+def test_amount_in_quote(amount, quote, ok):
+    assert verify.amount_in_quote(amount, quote) is ok

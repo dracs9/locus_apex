@@ -1,0 +1,18 @@
+{
+  "date": "2026-09-18",
+  "source": "ECB euro foreign exchange reference rates",
+  "source_url": "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml",
+  "usd_per": {
+    "EUR": 1.146,
+    "GBP": 1.33442,
+    "CHF": 1.21116,
+    "SEK": 0.101492,
+    "AUD": 0.712022,
+    "CAD": 0.713752,
+    "SGD": 0.782199,
+    "HKD": 0.127471,
+    "CNY": 0.149306,
+    "JPY": 0.006334,
+    "KRW": 0.00072
+  }
+}

@@ -4,11 +4,20 @@ Inputs:
   pipeline/out/pages/<id>/*.json      page texts (crawl.py, cds.py)
   pipeline/out/extracted/<id>.json    LLM extraction (extract.py)
   pipeline/cds_manual.json            hand extraction from official CDS text (same shape)
+  pipeline/manual_facts.json          hand extraction from official university pages (same shape)
+  pipeline/fx.json                    fixed ECB exchange rates for fees published in other currencies
   pipeline/out/scorecard/<id>.json    College Scorecard API values (scorecard.py), already sourced
 
 A page-extracted field is kept only if its value is well-formed and its evidence quote appears verbatim
 (whitespace/case-insensitive) in the text of its source_url. Verified values are stored with is_demo=false and
 checked_at = the date the source document was fetched; everything else keeps its current seed value and demo flag.
+Sources are applied in order (LLM draft, CDS hand extraction, page hand extraction): a later verified fact replaces
+an earlier one for the same field or deadline type.
+
+Cost may be given as parts instead of a value:
+  {"parts": [{"kind": "tuition"|"living", "amount": 38000, "currency": "GBP", "evidence": "...", "source_url": "..."}]}
+Each quote must be on its page and contain its amount; the USD value is then computed here from fx.json, so the
+number can't be invented.
 
 Usage:  python pipeline/verify.py [--merge]
 Output: pipeline/out/verified/<id>.json, pipeline/out/report.json; with --merge also supabase/seed/universities.json
@@ -23,6 +32,8 @@ ROOT = Path(__file__).resolve().parents[1]
 PAGES = ROOT / "pipeline" / "out" / "pages"
 EXTRACTED = ROOT / "pipeline" / "out" / "extracted"
 MANUAL = ROOT / "pipeline" / "cds_manual.json"
+MANUAL_PAGES = ROOT / "pipeline" / "manual_facts.json"
+FX = ROOT / "pipeline" / "fx.json"
 SCORECARD = ROOT / "pipeline" / "out" / "scorecard"
 VERIFIED = ROOT / "pipeline" / "out" / "verified"
 SEED = ROOT / "supabase" / "seed" / "universities.json"
@@ -86,16 +97,58 @@ def is_verified(item, docs: dict[str, dict], field: str) -> bool:
     return normalize(evidence) in docs[url]["text"]
 
 
+def amount_in_quote(amount, quote: str) -> bool:
+    """The amount must be written in the quote itself: 38000 matches "£38,000", "38 000 €", "EUR 38.000"."""
+    if not _num(amount) or amount <= 0 or not float(amount).is_integer():
+        return False
+    digits = re.sub(r"(?<=\d)[,.\s  '’](?=\d{3}(?!\d))", "", quote)
+    digits = re.sub(r"(?<=\d)[.,]00(?!\d)", "", digits)  # zero cents: £9,535.00
+    return re.search(rf"(?<![\d.,]){int(amount)}(?!\d|[.,]\d)", digits) is not None
+
+
+def load_fx() -> dict:
+    fx = json.loads(FX.read_text(encoding="utf-8")) if FX.exists() else {"date": None, "usd_per": {}}
+    fx["usd_per"] = {"USD": 1.0, **fx["usd_per"]}
+    return fx
+
+
+def cost_from_parts(item, docs: dict[str, dict], fx: dict) -> dict | None:
+    """Verified cost {value, evidence, source_url, checked_at} computed from quoted parts, or None."""
+    parts = item.get("parts") if isinstance(item, dict) else None
+    if not isinstance(parts, list) or not any(isinstance(p, dict) and p.get("kind") == "tuition" for p in parts):
+        return None
+    total, quotes = 0.0, []
+    for part in parts:
+        if not isinstance(part, dict) or part.get("kind") not in ("tuition", "living"):
+            return None
+        rate = fx["usd_per"].get(part.get("currency"))
+        quote = {"value": 1, "evidence": part.get("evidence"), "source_url": part.get("source_url")}
+        if rate is None or not is_verified(quote, docs, "cost_per_year_usd") \
+                or not amount_in_quote(part.get("amount"), part["evidence"]):
+            return None
+        total += part["amount"] * rate
+        label = "Обучение" if part["kind"] == "tuition" else "Проживание"
+        quotes.append(f"{label}: «{part['evidence'].strip()}»")
+    currencies = sorted({p["currency"] for p in parts} - {"USD"})
+    if currencies:
+        rates = ", ".join(f"1 {c} = {fx['usd_per'][c]:g} USD" for c in currencies)
+        quotes.append(f"курс ЕЦБ на {fx['date']}: {rates}")
+    tuition = next(p for p in parts if p["kind"] == "tuition")
+    return {"value": int(round(total, -2)), "evidence": " · ".join(quotes), "source_url": tuition["source_url"],
+            "checked_at": docs[tuition["source_url"]]["checked_at"]}
+
+
 def extractions() -> dict[str, list[dict]]:
-    """All extraction inputs per university (LLM output and hand extraction)."""
+    """All extraction inputs per university, in order of trust (LLM output, then hand extraction)."""
     out: dict[str, list[dict]] = {}
     if EXTRACTED.exists():
         for path in sorted(EXTRACTED.glob("*.json")):
             out.setdefault(path.stem, []).append(json.loads(path.read_text(encoding="utf-8")))
-    if MANUAL.exists():
-        for uni_id, data in json.loads(MANUAL.read_text(encoding="utf-8")).items():
-            if not uni_id.startswith("_"):
-                out.setdefault(uni_id, []).append(data)
+    for manual in (MANUAL, MANUAL_PAGES):
+        if manual.exists():
+            for uni_id, data in json.loads(manual.read_text(encoding="utf-8")).items():
+                if not uni_id.startswith("_"):
+                    out.setdefault(uni_id, []).append(data)
     return out
 
 
@@ -107,6 +160,7 @@ def main() -> None:
 
     report = {"universities": 0, "pages": 0, "fields_extracted": 0, "fields_verified": 0, "by_university": {}}
     verified_all: dict[str, dict] = {}
+    fx = load_fx()
     for uni_id, sources in sorted(extractions().items()):
         docs = pages(uni_id)
         kept: dict = {"deadlines": []}
@@ -116,6 +170,15 @@ def main() -> None:
                 continue
             for field in SIMPLE_FIELDS:
                 item = data.get(field)
+                if field == "cost_per_year_usd" and isinstance(item, dict) and "parts" in item:
+                    extracted += 1
+                    cost = cost_from_parts(item, docs, fx)
+                    if cost:
+                        kept[field] = cost
+                        verified += 1
+                    else:
+                        print(f"  ✗ {uni_id}.cost parts: a quote is not on its page, lacks its amount or has no fx rate")
+                    continue
                 value = item.get("value") if isinstance(item, dict) else item
                 if value is None:
                     continue
@@ -126,16 +189,19 @@ def main() -> None:
                 else:
                     print(f"  ✗ {uni_id}.{field}={value!r}: {reject_reason(item, field)}")
             deadlines = data.get("deadlines")
+            source_deadlines = []
             for d in deadlines if isinstance(deadlines, list) else []:
                 value = d.get("value") if isinstance(d, dict) else d
                 if not value:
                     continue
                 extracted += 1
                 if is_verified(d, docs, "deadline"):
-                    kept["deadlines"].append({**d, "checked_at": docs[d["source_url"]]["checked_at"]})
+                    source_deadlines.append({**d, "checked_at": docs[d["source_url"]]["checked_at"]})
                     verified += 1
                 else:
                     print(f"  ✗ {uni_id}.deadline {value!r}: {reject_reason(d, 'deadline')}")
+            types = {d["value"]["type"] for d in source_deadlines}
+            kept["deadlines"] = [d for d in kept["deadlines"] if d["value"]["type"] not in types] + source_deadlines
 
         (VERIFIED / f"{uni_id}.json").write_text(json.dumps(kept, ensure_ascii=False, indent=2), encoding="utf-8")
         verified_all[uni_id] = kept
