@@ -34,7 +34,7 @@ TOOLS: list[dict] = [
     {"name": "get_university", "description": "Факты о вузе из каталога: стоимость, IELTS, SAT, дедлайны, финпомощь, "
      "требования, документы — с источником и флагом is_demo; и категория вуза для ученика, если он в подборке.",
      "parameters": {"type": "OBJECT", "properties": {"university_id": {"type": "STRING"}}, "required": ["university_id"]}},
-    {"name": "find_universities", "description": "Поиск вузов в каталоге по стране (код: US, UK, DE, NL, KR, SG, CA, HK, CN, IT), "
+    {"name": "find_universities", "description": "Поиск вузов в каталоге по стране (код: US, UK, DE, NL, KR, SG, CA, HK, CN, IT, JP, CH, FR, AU, IE, SE, ES), "
      "направлению (id: cs, engineering, economics, business, math, physics, biology, medicine, design, social_sciences) "
      "и максимальной стоимости в год (USD). Возвращает до 10 вузов.",
      "parameters": {"type": "OBJECT", "properties": {"country": {"type": "STRING"}, "major": {"type": "STRING"},

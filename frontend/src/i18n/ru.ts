@@ -415,6 +415,13 @@ export const ru = {
     KR: "Южная Корея",
     SG: "Сингапур",
     CA: "Канада",
+    JP: "Япония",
+    CH: "Швейцария",
+    FR: "Франция",
+    AU: "Австралия",
+    IE: "Ирландия",
+    SE: "Швеция",
+    ES: "Испания",
   } as Record<string, string>,
   deadlineTypes: {
     ED: "Early Decision",

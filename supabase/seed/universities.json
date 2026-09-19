@@ -4550,5 +4550,1752 @@
       "passport"
     ],
     "world_rank": 138
+  },
+  {
+    "id": "utokyo",
+    "name": "The University of Tokyo (PEAK)",
+    "country": "JP",
+    "city": "Tokyo",
+    "website": "https://peak.c.u-tokyo.ac.jp",
+    "majors": [
+      "engineering",
+      "cs",
+      "physics",
+      "math",
+      "biology",
+      "social_sciences"
+    ],
+    "acceptance_rate": {
+      "value": null,
+      "source_url": "https://peak.c.u-tokyo.ac.jp",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "sat": {
+      "value": null,
+      "source_url": "https://peak.c.u-tokyo.ac.jp",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "gpa_avg": {
+      "value": null,
+      "source_url": "https://peak.c.u-tokyo.ac.jp",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "ielts_min": {
+      "value": 6.5,
+      "source_url": "https://peak.c.u-tokyo.ac.jp",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "cost_per_year_usd": {
+      "value": 16000,
+      "source_url": "https://peak.c.u-tokyo.ac.jp",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "intl_aid": {
+      "value": "merit_only",
+      "source_url": "https://peak.c.u-tokyo.ac.jp",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "OTHER",
+          "date": "2026-12-05"
+        },
+        "source_url": "https://peak.c.u-tokyo.ac.jp",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      }
+    ],
+    "extra_requirements": [
+      "Англоязычная программа PEAK; интервью для финалистов"
+    ],
+    "documents": [
+      "transcript",
+      "motivation_letter",
+      "recommendations",
+      "passport"
+    ],
+    "world_rank": 32
+  },
+  {
+    "id": "kyoto",
+    "name": "Kyoto University (iUP)",
+    "country": "JP",
+    "city": "Kyoto",
+    "website": "https://iup.kyoto-u.ac.jp",
+    "majors": [
+      "engineering",
+      "cs",
+      "economics",
+      "physics",
+      "math",
+      "biology"
+    ],
+    "acceptance_rate": {
+      "value": null,
+      "source_url": "https://iup.kyoto-u.ac.jp",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "sat": {
+      "value": null,
+      "source_url": "https://iup.kyoto-u.ac.jp",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "gpa_avg": {
+      "value": null,
+      "source_url": "https://iup.kyoto-u.ac.jp",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "ielts_min": {
+      "value": 6.0,
+      "source_url": "https://iup.kyoto-u.ac.jp",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "cost_per_year_usd": {
+      "value": 15000,
+      "source_url": "https://iup.kyoto-u.ac.jp",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "intl_aid": {
+      "value": "merit_only",
+      "source_url": "https://iup.kyoto-u.ac.jp",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "OTHER",
+          "date": "2026-11-20"
+        },
+        "source_url": "https://iup.kyoto-u.ac.jp",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      }
+    ],
+    "extra_requirements": [
+      "Подготовительный японский в первый год (iUP)",
+      "Интервью"
+    ],
+    "documents": [
+      "transcript",
+      "motivation_letter",
+      "recommendations",
+      "passport"
+    ],
+    "world_rank": 50
+  },
+  {
+    "id": "waseda",
+    "name": "Waseda University (SILS)",
+    "country": "JP",
+    "city": "Tokyo",
+    "website": "https://www.waseda.jp/inst/admission/en/undergraduate",
+    "majors": [
+      "economics",
+      "business",
+      "social_sciences",
+      "cs",
+      "engineering"
+    ],
+    "acceptance_rate": {
+      "value": null,
+      "source_url": "https://www.waseda.jp/inst/admission/en/undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "sat": {
+      "value": null,
+      "source_url": "https://www.waseda.jp/inst/admission/en/undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "gpa_avg": {
+      "value": null,
+      "source_url": "https://www.waseda.jp/inst/admission/en/undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "ielts_min": {
+      "value": 6.0,
+      "source_url": "https://www.waseda.jp/inst/admission/en/undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "cost_per_year_usd": {
+      "value": 20000,
+      "source_url": "https://www.waseda.jp/inst/admission/en/undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "intl_aid": {
+      "value": "merit_only",
+      "source_url": "https://www.waseda.jp/inst/admission/en/undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "OTHER",
+          "date": "2026-12-01"
+        },
+        "source_url": "https://www.waseda.jp/inst/admission/en/undergraduate",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      }
+    ],
+    "extra_requirements": [],
+    "documents": [
+      "transcript",
+      "motivation_letter",
+      "recommendations",
+      "passport"
+    ],
+    "world_rank": 181
+  },
+  {
+    "id": "ethz",
+    "name": "ETH Zurich",
+    "country": "CH",
+    "city": "Zurich",
+    "website": "https://ethz.ch/en/studies/registration-application/bachelor.html",
+    "majors": [
+      "engineering",
+      "cs",
+      "math",
+      "physics",
+      "biology",
+      "design"
+    ],
+    "acceptance_rate": {
+      "value": null,
+      "source_url": "https://ethz.ch/en/studies/registration-application/bachelor.html",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "sat": {
+      "value": null,
+      "source_url": "https://ethz.ch/en/studies/registration-application/bachelor.html",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "gpa_avg": {
+      "value": null,
+      "source_url": "https://ethz.ch/en/studies/registration-application/bachelor.html",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "ielts_min": {
+      "value": null,
+      "source_url": "https://ethz.ch/en/studies/registration-application/bachelor.html",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "cost_per_year_usd": {
+      "value": 28000,
+      "source_url": "https://ethz.ch/en/studies/registration-application/bachelor.html",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "intl_aid": {
+      "value": "none",
+      "source_url": "https://ethz.ch/en/studies/registration-application/bachelor.html",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "OTHER",
+          "date": "2027-04-30"
+        },
+        "source_url": "https://ethz.ch/en/studies/registration-application/bachelor.html",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      }
+    ],
+    "extra_requirements": [
+      "Бакалавриат на немецком (уровень C1)",
+      "Вступительный экзамен ETH для аттестата РК"
+    ],
+    "documents": [
+      "transcript",
+      "motivation_letter",
+      "cv",
+      "passport"
+    ],
+    "world_rank": 7
+  },
+  {
+    "id": "epfl",
+    "name": "EPFL",
+    "country": "CH",
+    "city": "Lausanne",
+    "website": "https://www.epfl.ch/education/admission/admission-2",
+    "majors": [
+      "engineering",
+      "cs",
+      "math",
+      "physics",
+      "biology",
+      "design"
+    ],
+    "acceptance_rate": {
+      "value": null,
+      "source_url": "https://www.epfl.ch/education/admission/admission-2",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "sat": {
+      "value": null,
+      "source_url": "https://www.epfl.ch/education/admission/admission-2",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "gpa_avg": {
+      "value": null,
+      "source_url": "https://www.epfl.ch/education/admission/admission-2",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "ielts_min": {
+      "value": null,
+      "source_url": "https://www.epfl.ch/education/admission/admission-2",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "cost_per_year_usd": {
+      "value": 26000,
+      "source_url": "https://www.epfl.ch/education/admission/admission-2",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "intl_aid": {
+      "value": "none",
+      "source_url": "https://www.epfl.ch/education/admission/admission-2",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "OTHER",
+          "date": "2027-04-30"
+        },
+        "source_url": "https://www.epfl.ch/education/admission/admission-2",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      }
+    ],
+    "extra_requirements": [
+      "Бакалавриат на французском (уровень B2)",
+      "Вступительный экзамен или подготовительный курс CMS"
+    ],
+    "documents": [
+      "transcript",
+      "motivation_letter",
+      "cv",
+      "passport"
+    ],
+    "world_rank": 26
+  },
+  {
+    "id": "uzh",
+    "name": "University of Zurich",
+    "country": "CH",
+    "city": "Zurich",
+    "website": "https://www.uzh.ch/en/studies/application/bachelor.html",
+    "majors": [
+      "economics",
+      "business",
+      "cs",
+      "biology",
+      "medicine",
+      "social_sciences"
+    ],
+    "acceptance_rate": {
+      "value": null,
+      "source_url": "https://www.uzh.ch/en/studies/application/bachelor.html",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "sat": {
+      "value": null,
+      "source_url": "https://www.uzh.ch/en/studies/application/bachelor.html",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "gpa_avg": {
+      "value": null,
+      "source_url": "https://www.uzh.ch/en/studies/application/bachelor.html",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "ielts_min": {
+      "value": null,
+      "source_url": "https://www.uzh.ch/en/studies/application/bachelor.html",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "cost_per_year_usd": {
+      "value": 27000,
+      "source_url": "https://www.uzh.ch/en/studies/application/bachelor.html",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "intl_aid": {
+      "value": "none",
+      "source_url": "https://www.uzh.ch/en/studies/application/bachelor.html",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "OTHER",
+          "date": "2027-04-30"
+        },
+        "source_url": "https://www.uzh.ch/en/studies/application/bachelor.html",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      }
+    ],
+    "extra_requirements": [
+      "Бакалавриат на немецком (уровень C1)",
+      "Экзамен ECUS для аттестата РК"
+    ],
+    "documents": [
+      "transcript",
+      "motivation_letter",
+      "cv",
+      "passport"
+    ],
+    "world_rank": 107
+  },
+  {
+    "id": "polytechnique",
+    "name": "École Polytechnique (Bachelor)",
+    "country": "FR",
+    "city": "Palaiseau",
+    "website": "https://programmes.polytechnique.edu/en/bachelor-program",
+    "majors": [
+      "math",
+      "physics",
+      "cs",
+      "economics",
+      "engineering"
+    ],
+    "acceptance_rate": {
+      "value": null,
+      "source_url": "https://programmes.polytechnique.edu/en/bachelor-program",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "sat": {
+      "value": null,
+      "source_url": "https://programmes.polytechnique.edu/en/bachelor-program",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "gpa_avg": {
+      "value": null,
+      "source_url": "https://programmes.polytechnique.edu/en/bachelor-program",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "ielts_min": {
+      "value": 6.5,
+      "source_url": "https://programmes.polytechnique.edu/en/bachelor-program",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "cost_per_year_usd": {
+      "value": 35000,
+      "source_url": "https://programmes.polytechnique.edu/en/bachelor-program",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "intl_aid": {
+      "value": "partial",
+      "source_url": "https://programmes.polytechnique.edu/en/bachelor-program",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "OTHER",
+          "date": "2027-01-10"
+        },
+        "source_url": "https://programmes.polytechnique.edu/en/bachelor-program",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      }
+    ],
+    "extra_requirements": [
+      "Письменный тест и интервью"
+    ],
+    "documents": [
+      "transcript",
+      "motivation_letter",
+      "cv",
+      "passport"
+    ],
+    "world_rank": 46
+  },
+  {
+    "id": "sciencespo",
+    "name": "Sciences Po",
+    "country": "FR",
+    "city": "Paris",
+    "website": "https://www.sciencespo.fr/admissions/en",
+    "majors": [
+      "social_sciences",
+      "economics",
+      "business"
+    ],
+    "acceptance_rate": {
+      "value": null,
+      "source_url": "https://www.sciencespo.fr/admissions/en",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "sat": {
+      "value": null,
+      "source_url": "https://www.sciencespo.fr/admissions/en",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "gpa_avg": {
+      "value": null,
+      "source_url": "https://www.sciencespo.fr/admissions/en",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "ielts_min": {
+      "value": 7.0,
+      "source_url": "https://www.sciencespo.fr/admissions/en",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "cost_per_year_usd": {
+      "value": 30000,
+      "source_url": "https://www.sciencespo.fr/admissions/en",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "intl_aid": {
+      "value": "partial",
+      "source_url": "https://www.sciencespo.fr/admissions/en",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "OTHER",
+          "date": "2027-02-05"
+        },
+        "source_url": "https://www.sciencespo.fr/admissions/en",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      }
+    ],
+    "extra_requirements": [
+      "Интервью"
+    ],
+    "documents": [
+      "transcript",
+      "motivation_letter",
+      "cv",
+      "passport"
+    ],
+    "world_rank": 244
+  },
+  {
+    "id": "sorbonne",
+    "name": "Sorbonne University",
+    "country": "FR",
+    "city": "Paris",
+    "website": "https://www.sorbonne-universite.fr/en/admissions",
+    "majors": [
+      "physics",
+      "math",
+      "biology",
+      "medicine",
+      "cs",
+      "engineering"
+    ],
+    "acceptance_rate": {
+      "value": null,
+      "source_url": "https://www.sorbonne-universite.fr/en/admissions",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "sat": {
+      "value": null,
+      "source_url": "https://www.sorbonne-universite.fr/en/admissions",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "gpa_avg": {
+      "value": null,
+      "source_url": "https://www.sorbonne-universite.fr/en/admissions",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "ielts_min": {
+      "value": null,
+      "source_url": "https://www.sorbonne-universite.fr/en/admissions",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "cost_per_year_usd": {
+      "value": 16000,
+      "source_url": "https://www.sorbonne-universite.fr/en/admissions",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "intl_aid": {
+      "value": "none",
+      "source_url": "https://www.sorbonne-universite.fr/en/admissions",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "OTHER",
+          "date": "2026-12-15"
+        },
+        "source_url": "https://www.sorbonne-universite.fr/en/admissions",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      }
+    ],
+    "extra_requirements": [
+      "Французский язык B2 (DELF/TCF)",
+      "Заявка через Études en France"
+    ],
+    "documents": [
+      "transcript",
+      "motivation_letter",
+      "cv",
+      "passport"
+    ],
+    "world_rank": 63
+  },
+  {
+    "id": "unimelb",
+    "name": "The University of Melbourne",
+    "country": "AU",
+    "city": "Melbourne",
+    "website": "https://study.unimelb.edu.au/how-to-apply",
+    "majors": [
+      "cs",
+      "engineering",
+      "economics",
+      "business",
+      "biology",
+      "design",
+      "social_sciences"
+    ],
+    "acceptance_rate": {
+      "value": null,
+      "source_url": "https://study.unimelb.edu.au/how-to-apply",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "sat": {
+      "value": null,
+      "source_url": "https://study.unimelb.edu.au/how-to-apply",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "gpa_avg": {
+      "value": null,
+      "source_url": "https://study.unimelb.edu.au/how-to-apply",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "ielts_min": {
+      "value": 6.5,
+      "source_url": "https://study.unimelb.edu.au/how-to-apply",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "cost_per_year_usd": {
+      "value": 52000,
+      "source_url": "https://study.unimelb.edu.au/how-to-apply",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "intl_aid": {
+      "value": "merit_only",
+      "source_url": "https://study.unimelb.edu.au/how-to-apply",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "OTHER",
+          "date": "2026-11-30"
+        },
+        "source_url": "https://study.unimelb.edu.au/how-to-apply",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      }
+    ],
+    "extra_requirements": [
+      "Foundation year для аттестата РК"
+    ],
+    "documents": [
+      "transcript",
+      "personal_statement",
+      "recommendations",
+      "passport"
+    ],
+    "world_rank": 13
+  },
+  {
+    "id": "usyd",
+    "name": "The University of Sydney",
+    "country": "AU",
+    "city": "Sydney",
+    "website": "https://www.sydney.edu.au/study/applying.html",
+    "majors": [
+      "cs",
+      "engineering",
+      "economics",
+      "business",
+      "medicine",
+      "biology",
+      "design"
+    ],
+    "acceptance_rate": {
+      "value": null,
+      "source_url": "https://www.sydney.edu.au/study/applying.html",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "sat": {
+      "value": null,
+      "source_url": "https://www.sydney.edu.au/study/applying.html",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "gpa_avg": {
+      "value": null,
+      "source_url": "https://www.sydney.edu.au/study/applying.html",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "ielts_min": {
+      "value": 6.5,
+      "source_url": "https://www.sydney.edu.au/study/applying.html",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "cost_per_year_usd": {
+      "value": 53000,
+      "source_url": "https://www.sydney.edu.au/study/applying.html",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "intl_aid": {
+      "value": "merit_only",
+      "source_url": "https://www.sydney.edu.au/study/applying.html",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "OTHER",
+          "date": "2026-11-30"
+        },
+        "source_url": "https://www.sydney.edu.au/study/applying.html",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      }
+    ],
+    "extra_requirements": [
+      "Foundation year для аттестата РК"
+    ],
+    "documents": [
+      "transcript",
+      "personal_statement",
+      "recommendations",
+      "passport"
+    ],
+    "world_rank": 18
+  },
+  {
+    "id": "unsw",
+    "name": "UNSW Sydney",
+    "country": "AU",
+    "city": "Sydney",
+    "website": "https://www.unsw.edu.au/study/how-to-apply",
+    "majors": [
+      "engineering",
+      "cs",
+      "business",
+      "economics",
+      "math",
+      "physics",
+      "design"
+    ],
+    "acceptance_rate": {
+      "value": null,
+      "source_url": "https://www.unsw.edu.au/study/how-to-apply",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "sat": {
+      "value": null,
+      "source_url": "https://www.unsw.edu.au/study/how-to-apply",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "gpa_avg": {
+      "value": null,
+      "source_url": "https://www.unsw.edu.au/study/how-to-apply",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "ielts_min": {
+      "value": 6.5,
+      "source_url": "https://www.unsw.edu.au/study/how-to-apply",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "cost_per_year_usd": {
+      "value": 50000,
+      "source_url": "https://www.unsw.edu.au/study/how-to-apply",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "intl_aid": {
+      "value": "merit_only",
+      "source_url": "https://www.unsw.edu.au/study/how-to-apply",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "OTHER",
+          "date": "2026-11-30"
+        },
+        "source_url": "https://www.unsw.edu.au/study/how-to-apply",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      }
+    ],
+    "extra_requirements": [
+      "Foundation year для аттестата РК"
+    ],
+    "documents": [
+      "transcript",
+      "personal_statement",
+      "recommendations",
+      "passport"
+    ],
+    "world_rank": 19
+  },
+  {
+    "id": "anu",
+    "name": "Australian National University",
+    "country": "AU",
+    "city": "Canberra",
+    "website": "https://study.anu.edu.au/apply",
+    "majors": [
+      "economics",
+      "social_sciences",
+      "cs",
+      "physics",
+      "math",
+      "biology"
+    ],
+    "acceptance_rate": {
+      "value": null,
+      "source_url": "https://study.anu.edu.au/apply",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "sat": {
+      "value": null,
+      "source_url": "https://study.anu.edu.au/apply",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "gpa_avg": {
+      "value": null,
+      "source_url": "https://study.anu.edu.au/apply",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "ielts_min": {
+      "value": 6.5,
+      "source_url": "https://study.anu.edu.au/apply",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "cost_per_year_usd": {
+      "value": 48000,
+      "source_url": "https://study.anu.edu.au/apply",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "intl_aid": {
+      "value": "merit_only",
+      "source_url": "https://study.anu.edu.au/apply",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "OTHER",
+          "date": "2026-11-30"
+        },
+        "source_url": "https://study.anu.edu.au/apply",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      }
+    ],
+    "extra_requirements": [
+      "Foundation year для аттестата РК"
+    ],
+    "documents": [
+      "transcript",
+      "personal_statement",
+      "recommendations",
+      "passport"
+    ],
+    "world_rank": 30
+  },
+  {
+    "id": "tcd",
+    "name": "Trinity College Dublin",
+    "country": "IE",
+    "city": "Dublin",
+    "website": "https://www.tcd.ie/study/non-eu/undergraduate",
+    "majors": [
+      "cs",
+      "engineering",
+      "economics",
+      "business",
+      "math",
+      "physics",
+      "biology",
+      "medicine",
+      "social_sciences"
+    ],
+    "acceptance_rate": {
+      "value": null,
+      "source_url": "https://www.tcd.ie/study/non-eu/undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "sat": {
+      "value": null,
+      "source_url": "https://www.tcd.ie/study/non-eu/undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "gpa_avg": {
+      "value": null,
+      "source_url": "https://www.tcd.ie/study/non-eu/undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "ielts_min": {
+      "value": 6.5,
+      "source_url": "https://www.tcd.ie/study/non-eu/undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "cost_per_year_usd": {
+      "value": 45000,
+      "source_url": "https://www.tcd.ie/study/non-eu/undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "intl_aid": {
+      "value": "merit_only",
+      "source_url": "https://www.tcd.ie/study/non-eu/undergraduate",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "OTHER",
+          "date": "2027-02-01"
+        },
+        "source_url": "https://www.tcd.ie/study/non-eu/undergraduate",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      }
+    ],
+    "extra_requirements": [
+      "Foundation year или 1 год вуза в РК для аттестата"
+    ],
+    "documents": [
+      "transcript",
+      "personal_statement",
+      "recommendations",
+      "passport"
+    ],
+    "world_rank": 87
+  },
+  {
+    "id": "ucd",
+    "name": "University College Dublin",
+    "country": "IE",
+    "city": "Dublin",
+    "website": "https://www.ucd.ie/global/study-at-ucd",
+    "majors": [
+      "business",
+      "economics",
+      "cs",
+      "engineering",
+      "medicine",
+      "biology",
+      "design"
+    ],
+    "acceptance_rate": {
+      "value": null,
+      "source_url": "https://www.ucd.ie/global/study-at-ucd",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "sat": {
+      "value": null,
+      "source_url": "https://www.ucd.ie/global/study-at-ucd",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "gpa_avg": {
+      "value": null,
+      "source_url": "https://www.ucd.ie/global/study-at-ucd",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "ielts_min": {
+      "value": 6.5,
+      "source_url": "https://www.ucd.ie/global/study-at-ucd",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "cost_per_year_usd": {
+      "value": 42000,
+      "source_url": "https://www.ucd.ie/global/study-at-ucd",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "intl_aid": {
+      "value": "merit_only",
+      "source_url": "https://www.ucd.ie/global/study-at-ucd",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "OTHER",
+          "date": "2027-05-01"
+        },
+        "source_url": "https://www.ucd.ie/global/study-at-ucd",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      }
+    ],
+    "extra_requirements": [
+      "Foundation year или 1 год вуза в РК для аттестата"
+    ],
+    "documents": [
+      "transcript",
+      "personal_statement",
+      "recommendations",
+      "passport"
+    ],
+    "world_rank": 126
+  },
+  {
+    "id": "galway",
+    "name": "University of Galway",
+    "country": "IE",
+    "city": "Galway",
+    "website": "https://www.universityofgalway.ie/international-students",
+    "majors": [
+      "business",
+      "engineering",
+      "cs",
+      "biology",
+      "medicine",
+      "social_sciences"
+    ],
+    "acceptance_rate": {
+      "value": null,
+      "source_url": "https://www.universityofgalway.ie/international-students",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "sat": {
+      "value": null,
+      "source_url": "https://www.universityofgalway.ie/international-students",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "gpa_avg": {
+      "value": null,
+      "source_url": "https://www.universityofgalway.ie/international-students",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "ielts_min": {
+      "value": 6.5,
+      "source_url": "https://www.universityofgalway.ie/international-students",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "cost_per_year_usd": {
+      "value": 36000,
+      "source_url": "https://www.universityofgalway.ie/international-students",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "intl_aid": {
+      "value": "merit_only",
+      "source_url": "https://www.universityofgalway.ie/international-students",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "OTHER",
+          "date": "2027-06-30"
+        },
+        "source_url": "https://www.universityofgalway.ie/international-students",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      }
+    ],
+    "extra_requirements": [
+      "Foundation year или 1 год вуза в РК для аттестата"
+    ],
+    "documents": [
+      "transcript",
+      "personal_statement",
+      "recommendations",
+      "passport"
+    ],
+    "world_rank": 273
+  },
+  {
+    "id": "kth",
+    "name": "KTH Royal Institute of Technology",
+    "country": "SE",
+    "city": "Stockholm",
+    "website": "https://www.kth.se/en/studies/bachelor",
+    "majors": [
+      "engineering",
+      "cs",
+      "math",
+      "physics",
+      "design"
+    ],
+    "acceptance_rate": {
+      "value": null,
+      "source_url": "https://www.kth.se/en/studies/bachelor",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "sat": {
+      "value": null,
+      "source_url": "https://www.kth.se/en/studies/bachelor",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "gpa_avg": {
+      "value": null,
+      "source_url": "https://www.kth.se/en/studies/bachelor",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "ielts_min": {
+      "value": 6.5,
+      "source_url": "https://www.kth.se/en/studies/bachelor",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "cost_per_year_usd": {
+      "value": 30000,
+      "source_url": "https://www.kth.se/en/studies/bachelor",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "intl_aid": {
+      "value": "merit_only",
+      "source_url": "https://www.kth.se/en/studies/bachelor",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "OTHER",
+          "date": "2027-02-01"
+        },
+        "source_url": "https://www.kth.se/en/studies/bachelor",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      }
+    ],
+    "extra_requirements": [
+      "Мало англоязычных бакалаврских программ",
+      "1 год вуза в РК для аттестата"
+    ],
+    "documents": [
+      "transcript",
+      "motivation_letter",
+      "cv",
+      "passport"
+    ],
+    "world_rank": 74
+  },
+  {
+    "id": "lund",
+    "name": "Lund University",
+    "country": "SE",
+    "city": "Lund",
+    "website": "https://www.lunduniversity.lu.se/admissions/bachelors-masters-studies",
+    "majors": [
+      "business",
+      "economics",
+      "social_sciences",
+      "physics",
+      "biology",
+      "engineering"
+    ],
+    "acceptance_rate": {
+      "value": null,
+      "source_url": "https://www.lunduniversity.lu.se/admissions/bachelors-masters-studies",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "sat": {
+      "value": null,
+      "source_url": "https://www.lunduniversity.lu.se/admissions/bachelors-masters-studies",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "gpa_avg": {
+      "value": null,
+      "source_url": "https://www.lunduniversity.lu.se/admissions/bachelors-masters-studies",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "ielts_min": {
+      "value": 6.5,
+      "source_url": "https://www.lunduniversity.lu.se/admissions/bachelors-masters-studies",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "cost_per_year_usd": {
+      "value": 28000,
+      "source_url": "https://www.lunduniversity.lu.se/admissions/bachelors-masters-studies",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "intl_aid": {
+      "value": "merit_only",
+      "source_url": "https://www.lunduniversity.lu.se/admissions/bachelors-masters-studies",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "OTHER",
+          "date": "2027-02-01"
+        },
+        "source_url": "https://www.lunduniversity.lu.se/admissions/bachelors-masters-studies",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      }
+    ],
+    "extra_requirements": [
+      "Мало англоязычных бакалаврских программ",
+      "1 год вуза в РК для аттестата"
+    ],
+    "documents": [
+      "transcript",
+      "motivation_letter",
+      "cv",
+      "passport"
+    ],
+    "world_rank": 72
+  },
+  {
+    "id": "uppsala",
+    "name": "Uppsala University",
+    "country": "SE",
+    "city": "Uppsala",
+    "website": "https://www.uu.se/en/study/bachelors-programmes",
+    "majors": [
+      "physics",
+      "biology",
+      "social_sciences",
+      "economics",
+      "math",
+      "cs"
+    ],
+    "acceptance_rate": {
+      "value": null,
+      "source_url": "https://www.uu.se/en/study/bachelors-programmes",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "sat": {
+      "value": null,
+      "source_url": "https://www.uu.se/en/study/bachelors-programmes",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "gpa_avg": {
+      "value": null,
+      "source_url": "https://www.uu.se/en/study/bachelors-programmes",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "ielts_min": {
+      "value": 6.5,
+      "source_url": "https://www.uu.se/en/study/bachelors-programmes",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "cost_per_year_usd": {
+      "value": 26000,
+      "source_url": "https://www.uu.se/en/study/bachelors-programmes",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "intl_aid": {
+      "value": "merit_only",
+      "source_url": "https://www.uu.se/en/study/bachelors-programmes",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "OTHER",
+          "date": "2027-02-01"
+        },
+        "source_url": "https://www.uu.se/en/study/bachelors-programmes",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      }
+    ],
+    "extra_requirements": [
+      "Мало англоязычных бакалаврских программ",
+      "1 год вуза в РК для аттестата"
+    ],
+    "documents": [
+      "transcript",
+      "motivation_letter",
+      "cv",
+      "passport"
+    ],
+    "world_rank": 103
+  },
+  {
+    "id": "ie_university",
+    "name": "IE University",
+    "country": "ES",
+    "city": "Madrid / Segovia",
+    "website": "https://www.ie.edu/university/admissions",
+    "majors": [
+      "business",
+      "economics",
+      "cs",
+      "design",
+      "social_sciences"
+    ],
+    "acceptance_rate": {
+      "value": null,
+      "source_url": "https://www.ie.edu/university/admissions",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "sat": {
+      "value": null,
+      "source_url": "https://www.ie.edu/university/admissions",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "gpa_avg": {
+      "value": null,
+      "source_url": "https://www.ie.edu/university/admissions",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "ielts_min": {
+      "value": 6.5,
+      "source_url": "https://www.ie.edu/university/admissions",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "cost_per_year_usd": {
+      "value": 40000,
+      "source_url": "https://www.ie.edu/university/admissions",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "intl_aid": {
+      "value": "partial",
+      "source_url": "https://www.ie.edu/university/admissions",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "OTHER",
+          "date": "2027-03-01"
+        },
+        "source_url": "https://www.ie.edu/university/admissions",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      }
+    ],
+    "extra_requirements": [
+      "Собственный вступительный тест IE или SAT",
+      "Интервью"
+    ],
+    "documents": [
+      "transcript",
+      "motivation_letter",
+      "cv",
+      "passport"
+    ],
+    "world_rank": 500
+  },
+  {
+    "id": "uc3m",
+    "name": "Universidad Carlos III de Madrid",
+    "country": "ES",
+    "city": "Madrid",
+    "website": "https://www.uc3m.es/bachelor-degree/admission",
+    "majors": [
+      "economics",
+      "business",
+      "engineering",
+      "cs",
+      "math",
+      "social_sciences"
+    ],
+    "acceptance_rate": {
+      "value": null,
+      "source_url": "https://www.uc3m.es/bachelor-degree/admission",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "sat": {
+      "value": null,
+      "source_url": "https://www.uc3m.es/bachelor-degree/admission",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "gpa_avg": {
+      "value": null,
+      "source_url": "https://www.uc3m.es/bachelor-degree/admission",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "ielts_min": {
+      "value": 6.5,
+      "source_url": "https://www.uc3m.es/bachelor-degree/admission",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "cost_per_year_usd": {
+      "value": 22000,
+      "source_url": "https://www.uc3m.es/bachelor-degree/admission",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "intl_aid": {
+      "value": "none",
+      "source_url": "https://www.uc3m.es/bachelor-degree/admission",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "OTHER",
+          "date": "2027-04-30"
+        },
+        "source_url": "https://www.uc3m.es/bachelor-degree/admission",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      }
+    ],
+    "extra_requirements": [
+      "Омологация аттестата (credencial UNEDasiss)"
+    ],
+    "documents": [
+      "transcript",
+      "motivation_letter",
+      "cv",
+      "passport"
+    ],
+    "world_rank": 300
+  },
+  {
+    "id": "ub",
+    "name": "University of Barcelona",
+    "country": "ES",
+    "city": "Barcelona",
+    "website": "https://www.ub.edu/web/portal/en/studies/bachelors-degrees",
+    "majors": [
+      "medicine",
+      "biology",
+      "economics",
+      "business",
+      "physics",
+      "math",
+      "social_sciences"
+    ],
+    "acceptance_rate": {
+      "value": null,
+      "source_url": "https://www.ub.edu/web/portal/en/studies/bachelors-degrees",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "sat": {
+      "value": null,
+      "source_url": "https://www.ub.edu/web/portal/en/studies/bachelors-degrees",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "gpa_avg": {
+      "value": null,
+      "source_url": "https://www.ub.edu/web/portal/en/studies/bachelors-degrees",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "ielts_min": {
+      "value": null,
+      "source_url": "https://www.ub.edu/web/portal/en/studies/bachelors-degrees",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "cost_per_year_usd": {
+      "value": 16000,
+      "source_url": "https://www.ub.edu/web/portal/en/studies/bachelors-degrees",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "intl_aid": {
+      "value": "none",
+      "source_url": "https://www.ub.edu/web/portal/en/studies/bachelors-degrees",
+      "checked_at": null,
+      "evidence": null,
+      "is_demo": true
+    },
+    "deadlines": [
+      {
+        "value": {
+          "type": "OTHER",
+          "date": "2027-06-30"
+        },
+        "source_url": "https://www.ub.edu/web/portal/en/studies/bachelors-degrees",
+        "checked_at": null,
+        "evidence": null,
+        "is_demo": true
+      }
+    ],
+    "extra_requirements": [
+      "Обучение на испанском/каталанском (B2)",
+      "Омологация аттестата (credencial UNEDasiss)"
+    ],
+    "documents": [
+      "transcript",
+      "motivation_letter",
+      "cv",
+      "passport"
+    ],
+    "world_rank": 165
   }
 ]

@@ -200,7 +200,7 @@ A chat with a mentor who knows the student and can suggest plan changes, which t
 
 ## Data sources
 
-`supabase/seed/universities.json` has **55 universities** (US 19, UK 10, NL 4, CA 4, and 3 each for DE, KR, SG, HK, CN and IT) and 10 majors. Of 403 facts, **73 are real** (source link and check date in the UI), and the rest are demo values with a "Демо-данные" badge. Missing values are `null` and shown as "не опубликовано".
+`supabase/seed/universities.json` has **77 universities** in 17 countries (US 19, UK 10, NL 4, CA 4, AU 4, and 3 each for DE, KR, SG, HK, CN, IT, JP, CH, FR, IE, SE and ES) and 10 majors. Of 557 facts, **73 are real** (source link and check date in the UI), and the rest are demo values with a "Демо-данные" badge. Missing values are `null` and shown as "не опубликовано".
 
 **Real data (US, collected 2026-09-17):**
 - **[College Scorecard API](https://collegescorecard.ed.gov/data/api-documentation/)** (U.S. Department of Education, IPEDS, "latest" data) supplies these for all 19 US universities:
@@ -219,14 +219,15 @@ A chat with a mentor who knows the student and can suggest plan changes, which t
 
 **Demo data:**
 - The remaining US fields and all universities outside the US are approximate figures compiled by hand (`supabase/seed/build_seed.py`). The build script keeps rows that already have verified facts.
-- `world_rank` is taken approximately from QS World University Rankings 2025. It is used only for the prestige priority and is not scraped. Bocconi and SMU are specialised universities without a comparable overall QS position, so they get conservative placeholder ranks (300 and 500).
+- `world_rank` is taken approximately from QS World University Rankings 2025. It is used only for the prestige priority and is not scraped. Bocconi, SMU and IE University are specialised universities without a comparable overall QS position, so they get conservative placeholder ranks (300, 500 and 500).
 - Chinese universities list `ielts_min` as unknown: most bachelor programmes are taught in Chinese and ask for HSK, which is shown as an extra requirement.
+- Swiss (ETH, UZH, EPFL), Sorbonne and University of Barcelona bachelors are taught in German, French or Spanish, so `ielts_min` is unknown and the language requirement is listed under extra requirements.
 - Deadlines come from a single admission cycle. The engine shifts them to the student's intake year (Aug–Dec deadlines belong to the next year's intake).
 
 **Pipeline metrics** (`pipeline/out/report.json`):
 - Scorecard: 19 universities, 55 of 57 fields published.
 - CDS: 12 documents from 11 universities; 17 facts extracted, 17 verified (100%).
-- Seed: 73 real facts, 330 demo facts.
+- Seed: 73 real facts, 484 demo facts.
 
 ## Ready-made components and libraries
 
