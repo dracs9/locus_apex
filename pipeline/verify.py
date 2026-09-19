@@ -6,9 +6,9 @@ Inputs:
   pipeline/cds_manual.json            hand extraction from official CDS text (same shape)
   pipeline/out/scorecard/<id>.json    College Scorecard API values (scorecard.py), already sourced
 
-A page-extracted field is kept only if its evidence quote appears verbatim (whitespace/case-insensitive)
-in the text of its source_url. Verified values are stored with is_demo=false; everything else keeps its
-current seed value and demo flag.
+A page-extracted field is kept only if its value is well-formed and its evidence quote appears verbatim
+(whitespace/case-insensitive) in the text of its source_url. Verified values are stored with is_demo=false and
+checked_at = the date the source document was fetched; everything else keeps its current seed value and demo flag.
 
 Usage:  python pipeline/verify.py [--merge]
 Output: pipeline/out/verified/<id>.json, pipeline/out/report.json; with --merge also supabase/seed/universities.json
@@ -27,25 +27,63 @@ SCORECARD = ROOT / "pipeline" / "out" / "scorecard"
 VERIFIED = ROOT / "pipeline" / "out" / "verified"
 SEED = ROOT / "supabase" / "seed" / "universities.json"
 SIMPLE_FIELDS = ("acceptance_rate", "sat", "gpa_avg", "ielts_min", "cost_per_year_usd", "intl_aid")
+AID_VALUES = {"full_need", "partial", "merit_only", "none"}
+DEADLINE_TYPES = {"ED", "EA", "REA", "RD", "UCAS", "OTHER"}
+MIN_EVIDENCE_CHARS = 5
+
+
+def _num(v) -> bool:
+    return isinstance(v, (int, float)) and not isinstance(v, bool)
+
+
+def valid_value(field: str, v) -> bool:
+    """Shape and range check, so a malformed LLM value (85 instead of 0.85, "Nov 1") never reaches the seed."""
+    if field == "acceptance_rate":
+        return _num(v) and 0 < v <= 1
+    if field == "gpa_avg":
+        return _num(v) and 0 < v <= 4.5
+    if field == "ielts_min":
+        return _num(v) and 4 <= v <= 9
+    if field == "cost_per_year_usd":
+        return _num(v) and v > 0 and float(v).is_integer()
+    if field == "intl_aid":
+        return v in AID_VALUES
+    if field == "sat":
+        if not isinstance(v, dict) or not all(_num(v.get(k)) for k in ("p25", "p75")):
+            return False
+        p50 = v.get("p50")
+        return 400 <= v["p25"] <= v["p75"] <= 1600 and (p50 is None or (_num(p50) and v["p25"] <= p50 <= v["p75"]))
+    if field == "deadline":
+        if not isinstance(v, dict) or v.get("type") not in DEADLINE_TYPES or not isinstance(v.get("date"), str):
+            return False
+        try:
+            date.fromisoformat(v["date"])
+        except ValueError:
+            return False
+        return True
+    return False
 
 
 def normalize(s: str) -> str:
     return re.sub(r"\s+", " ", s.replace(" ", " ")).strip().lower()
 
 
-def page_texts(uni_id: str) -> dict[str, str]:
+def pages(uni_id: str) -> dict[str, dict]:
+    """{url: {"text": normalized text, "checked_at": fetch date}} for every stored document of a university."""
     out = {}
     for p in (PAGES / uni_id).glob("*.json"):
         page = json.loads(p.read_text(encoding="utf-8"))
-        out[page["url"]] = normalize(page["text"])
+        out[page["url"]] = {"text": normalize(page["text"]), "checked_at": page["fetched_at"][:10]}
     return out
 
 
-def is_verified(item: dict | None, texts: dict[str, str]) -> bool:
-    if not item or item.get("value") is None or not item.get("evidence") or not item.get("source_url"):
+def is_verified(item, docs: dict[str, dict], field: str) -> bool:
+    if not isinstance(item, dict) or not valid_value(field, item.get("value")):
         return False
-    text = texts.get(item["source_url"])
-    return text is not None and normalize(item["evidence"]) in text
+    evidence, url = item.get("evidence"), item.get("source_url")
+    if not isinstance(evidence, str) or len(normalize(evidence)) < MIN_EVIDENCE_CHARS or url not in docs:
+        return False
+    return normalize(evidence) in docs[url]["text"]
 
 
 def extractions() -> dict[str, list[dict]]:
@@ -70,36 +108,42 @@ def main() -> None:
     report = {"universities": 0, "pages": 0, "fields_extracted": 0, "fields_verified": 0, "by_university": {}}
     verified_all: dict[str, dict] = {}
     for uni_id, sources in sorted(extractions().items()):
-        texts = page_texts(uni_id)
+        docs = pages(uni_id)
         kept: dict = {"deadlines": []}
         extracted = verified = 0
         for data in sources:
+            if not isinstance(data, dict):
+                continue
             for field in SIMPLE_FIELDS:
                 item = data.get(field)
-                if item and item.get("value") is not None:
-                    extracted += 1
-                    if is_verified(item, texts):
-                        kept[field] = item
-                        verified += 1
-                    else:
-                        print(f"  ✗ {uni_id}.{field}: evidence not found in {item.get('source_url')}")
-            for d in data.get("deadlines") or []:
-                if not isinstance(d, dict) or not d.get("value"):
+                value = item.get("value") if isinstance(item, dict) else item
+                if value is None:
                     continue
                 extracted += 1
-                if is_verified(d, texts):
-                    kept["deadlines"].append(d)
+                if is_verified(item, docs, field):
+                    kept[field] = {**item, "checked_at": docs[item["source_url"]]["checked_at"]}
                     verified += 1
                 else:
-                    print(f"  ✗ {uni_id}.deadline {d['value']}: evidence not found")
+                    print(f"  ✗ {uni_id}.{field}={value!r}: {reject_reason(item, field)}")
+            deadlines = data.get("deadlines")
+            for d in deadlines if isinstance(deadlines, list) else []:
+                value = d.get("value") if isinstance(d, dict) else d
+                if not value:
+                    continue
+                extracted += 1
+                if is_verified(d, docs, "deadline"):
+                    kept["deadlines"].append({**d, "checked_at": docs[d["source_url"]]["checked_at"]})
+                    verified += 1
+                else:
+                    print(f"  ✗ {uni_id}.deadline {value!r}: {reject_reason(d, 'deadline')}")
 
         (VERIFIED / f"{uni_id}.json").write_text(json.dumps(kept, ensure_ascii=False, indent=2), encoding="utf-8")
         verified_all[uni_id] = kept
         report["universities"] += 1
-        report["pages"] += len(texts)
+        report["pages"] += len(docs)
         report["fields_extracted"] += extracted
         report["fields_verified"] += verified
-        report["by_university"][uni_id] = {"pages": len(texts), "extracted": extracted, "verified": verified}
+        report["by_university"][uni_id] = {"pages": len(docs), "extracted": extracted, "verified": verified}
 
     total = report["fields_extracted"]
     report["verified_share"] = round(report["fields_verified"] / total, 3) if total else 0.0
@@ -111,14 +155,21 @@ def main() -> None:
     (ROOT / "pipeline" / "out" / "report.json").write_text(json.dumps(report, indent=2, ensure_ascii=False), encoding="utf-8")
 
 
-def sourced(item: dict, checked_at: str) -> dict:
-    return {"value": item["value"], "source_url": item["source_url"], "checked_at": checked_at,
+def reject_reason(item, field: str) -> str:
+    if not isinstance(item, dict):
+        return "not a {value, evidence, source_url} object"
+    if not valid_value(field, item.get("value")):
+        return "invalid value"
+    return f"evidence not found in {item.get('source_url')}"
+
+
+def sourced(item: dict) -> dict:
+    return {"value": item["value"], "source_url": item["source_url"], "checked_at": item["checked_at"],
             "evidence": re.sub(r"\s+", " ", item["evidence"]).strip(), "is_demo": False}
 
 
 def merge(verified_all: dict[str, dict]) -> dict:
     seed = json.loads(SEED.read_text(encoding="utf-8"))
-    today = date.today().isoformat()
     for uni in seed:
         # 1) College Scorecard values (rate, SAT, cost) — already in Sourced form
         card = SCORECARD / f"{uni['id']}.json"
@@ -129,11 +180,11 @@ def merge(verified_all: dict[str, dict]) -> dict:
         kept = verified_all.get(uni["id"], {})
         for field in SIMPLE_FIELDS:
             if field in kept and field not in from_card:
-                uni[field] = sourced(kept[field], today)
+                uni[field] = sourced(kept[field])
         # 3) deadlines: replace by type, keep unverified types as they are (demo)
         for d in kept.get("deadlines", []):
             uni["deadlines"] = [x for x in uni["deadlines"] if not x["value"] or x["value"]["type"] != d["value"]["type"]]
-            uni["deadlines"].append(sourced(d, today))
+            uni["deadlines"].append(sourced(d))
         uni["deadlines"].sort(key=lambda x: x["value"]["date"] if x["value"] else "")
     SEED.write_text(json.dumps(seed, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
