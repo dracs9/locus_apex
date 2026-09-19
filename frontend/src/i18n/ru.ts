@@ -209,6 +209,7 @@ export const ru = {
     documents: "Документы",
     rank: "Мировой рейтинг",
     rankNote: "QS World University Rankings 2025, приблизительно",
+    unranked: "нет в рейтинге QS",
     addToPlan: "Добавить в план",
     inPlan: "В плане",
     notFound: "Вуз не найден",

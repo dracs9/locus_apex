@@ -12,7 +12,7 @@ import { pickReasons } from "@/components/ds/UniversityCard";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { t } from "@/i18n/ru";
-import { money, oneIn, projectDeadline, shortDate } from "@/lib/format";
+import { money, oneIn, projectDeadline, rank, shortDate } from "@/lib/format";
 import { useDebounced } from "@/lib/useDebounced";
 import { cn } from "@/lib/utils";
 import { DEFAULT_COMPARE, MAX_COMPARE, useNetwork, useUi } from "@/store/ui";
@@ -174,7 +174,7 @@ export function Compare() {
                   ))}
                 </Row>
                 <Row label={t.university.ielts}>{cells((_, uni) => <span className="font-semibold">{uni?.ielts_min.value ?? t.common.notPublished}</span>)}</Row>
-                <Row label={t.university.rank}>{cells((_, uni) => <span className="font-semibold">{uni ? `#${uni.world_rank}` : t.common.notPublished}</span>)}</Row>
+                <Row label={t.university.rank}>{cells((_, uni) => <span className="font-semibold">{uni ? rank(uni.world_rank) : t.common.notPublished}</span>)}</Row>
                 <Row label={t.university.deadlines}>
                   {cells((_, uni) => {
                     const first = uni?.deadlines.find((d) => d.value);

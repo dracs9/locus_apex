@@ -13,6 +13,13 @@ export function oneIn(rate: number | null | undefined): string {
   return n <= 1 ? "почти всех" : `≈1 из ${n}`;
 }
 
+/** world_rank 1000 marks a university that is not in the QS ranking (see supabase/seed/build_seed.py). */
+export const UNRANKED = 1000;
+
+export function rank(worldRank: number): string {
+  return worldRank >= UNRANKED ? t.university.unranked : `#${worldRank}`;
+}
+
 const MONTHS = ["янв", "фев", "мар", "апр", "мая", "июн", "июл", "авг", "сен", "окт", "ноя", "дек"];
 const MONTHS_FULL = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"];
 

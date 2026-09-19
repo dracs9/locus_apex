@@ -13,7 +13,7 @@ import { Skeleton } from "@/components/ui/misc";
 import { t } from "@/i18n/ru";
 import { academicGpa4, academicLabel } from "@/lib/academic";
 import { profileToIn } from "@/lib/profileIn";
-import { countryName, money, oneIn, projectDeadline, shortDate } from "@/lib/format";
+import { countryName, money, oneIn, projectDeadline, rank, shortDate } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import { useNetwork } from "@/store/ui";
 
@@ -96,7 +96,7 @@ function Requirements({ uni, profile }: { uni: Uni; profile: Profile }) {
         </tbody>
       </table>
       <p className="mt-2 flex items-center gap-1 text-[11px] text-muted-foreground">
-        <Info className="h-3 w-3" /> {t.common.approxGpa}. {t.university.rank}: #{uni.world_rank} ({t.university.rankNote}).
+        <Info className="h-3 w-3" /> {t.common.approxGpa}. {t.university.rank}: {rank(uni.world_rank)} ({t.university.rankNote}).
       </p>
     </div>
   );

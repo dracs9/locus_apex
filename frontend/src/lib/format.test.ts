@@ -1,11 +1,16 @@
 import { describe, expect, it } from "vitest";
 
-import { daysBetween, diffSummary, gpa5to4, intakeYearFor, money, oneIn, pluralRu, shortDate } from "./format";
+import { daysBetween, diffSummary, gpa5to4, intakeYearFor, money, oneIn, pluralRu, rank, shortDate } from "./format";
 
 describe("format", () => {
   it("formats money without decimals", () => {
     expect(money(50000)).toBe("$50 000");
     expect(money(null)).toBe("не опубликовано");
+  });
+
+  it("shows unranked universities without a fake number", () => {
+    expect(rank(42)).toBe("#42");
+    expect(rank(1000)).toBe("нет в рейтинге QS");
   });
 
   it("never renders percentages for acceptance rates", () => {
