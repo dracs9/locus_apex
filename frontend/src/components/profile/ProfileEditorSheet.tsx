@@ -25,7 +25,7 @@ import {
 } from "@/components/ui/sheet";
 import { Slider } from "@/components/ui/slider";
 import { t } from "@/i18n/ru";
-import { countryName, money } from "@/lib/format";
+import { catalogCountries, countryName, money } from "@/lib/format";
 import { useNetwork } from "@/store/ui";
 
 export const useProfileEditor = create<{
@@ -62,15 +62,7 @@ function EditorForm({
   const universities = useUniversities();
   const save = useSaveProfile();
   const offline = useNetwork((s) => s.offline);
-  const countries = [
-    ...new Set([
-      "US",
-      "HK",
-      "CN",
-      "IT",
-      ...(universities.data ?? []).map((u) => u.country),
-    ]),
-  ];
+  const countries = catalogCountries(universities.data ?? []);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),

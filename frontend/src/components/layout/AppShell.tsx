@@ -28,7 +28,7 @@ import {
 import { Stepper } from "@/components/ds/Stepper";
 import { ProfileEditorSheet } from "@/components/profile/ProfileEditorSheet";
 import { t } from "@/i18n/ru";
-import { countryName } from "@/lib/format";
+import { catalogCountries, countryName } from "@/lib/format";
 import { cn } from "@/lib/utils";
 
 const TABS = [
@@ -55,15 +55,7 @@ const SIDEBAR = [
 function Sidebar() {
   const { search, pathname } = useLocation();
   const catalog = useUniversities();
-  const countries = [
-    ...new Set([
-      "US",
-      "HK",
-      "CN",
-      "IT",
-      ...(catalog.data ?? []).map((u) => u.country),
-    ]),
-  ];
+  const countries = catalogCountries(catalog.data ?? []);
   const selectedCountry = new URLSearchParams(search).get("country");
   return (
     <aside className="sticky top-0 hidden h-dvh overflow-y-auto w-60 shrink-0 flex-col border-r bg-card px-4 py-7 md:flex">

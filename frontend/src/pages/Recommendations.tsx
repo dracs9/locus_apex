@@ -1,16 +1,22 @@
 import {
   ChevronDown,
   GitCompareArrows,
+  Globe2,
   Lightbulb,
+  Loader2,
   Pencil,
+  Plus,
   SearchX,
 } from "lucide-react";
 import { useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 
 import {
+  useCountryPreview,
   useFavorites,
+  useProfile,
   useRecommendations,
+  useSaveProfile,
   useToggleFavorite,
   useUniversityMap,
 } from "@/api/hooks";
@@ -27,7 +33,8 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/misc";
 import { t } from "@/i18n/ru";
-import { countryName } from "@/lib/format";
+import { catalogCountries, countryName } from "@/lib/format";
+import { profileToIn } from "@/lib/profileIn";
 import { cn } from "@/lib/utils";
 import { MAX_COMPARE, useNetwork, useUi } from "@/store/ui";
 
@@ -41,6 +48,8 @@ export function Recommendations() {
   const country = params.get("country") ?? "all";
   const [tier, setTier] = useState<Tier | "all">("all");
   const recs = useRecommendations();
+  const profile = useProfile();
+  const saveProfile = useSaveProfile();
   const favorites = useFavorites();
   const { map } = useUniversityMap();
   const toggleFavorite = useToggleFavorite();
@@ -50,18 +59,30 @@ export function Recommendations() {
   const [whyNotOpen, setWhyNotOpen] = useState(false);
   const [expanded, setExpanded] = useState<Partial<Record<Tier, boolean>>>({});
 
+  // A country outside the profile isn't in the saved result: rate it with the stateless preview instead.
+  const outside =
+    country !== "all" &&
+    !!profile.data &&
+    !profile.data.countries.includes(country);
+  const countryPreview = useCountryPreview(
+    profile.data,
+    outside ? country : null,
+  );
+  const source = outside ? countryPreview : recs;
+  const loading =
+    source.isPending || (outside && countryPreview.isPlaceholderData);
+
   const favSet = new Set(favorites.data ?? []);
-  const data = recs.data;
+  const data = loading ? undefined : source.data;
   const countryOf = (id: string) => map.get(id)?.country ?? "unknown";
-  const countries = [
-    ...new Set([
-      "US",
-      "HK",
-      "CN",
-      "IT",
-      ...Array.from(map.values()).map((u) => u.country),
-    ]),
-  ];
+  const countries = catalogCountries(Array.from(map.values()));
+  const addCountry = () =>
+    profile.data &&
+    saveProfile.mutate(
+      profileToIn(profile.data, {
+        countries: [...profile.data.countries, country],
+      }),
+    );
   const visible = (data?.recs ?? []).filter(
     (r) =>
       (country === "all" || countryOf(r.university_id) === country) &&
@@ -98,12 +119,79 @@ export function Recommendations() {
         }
       />
 
-      {recs.isPending && <CardsSkeleton count={4} />}
-      {recs.isError && !data && <ErrorState onRetry={() => recs.refetch()} />}
+      <div className="mb-6 space-y-3 rounded-xl border bg-card p-4">
+        <p className="text-sm font-semibold">Университеты по странам</p>
+        <div className="flex flex-wrap gap-2" aria-label="Фильтр по стране">
+          {["all", ...countries].map((code) => (
+            <Button
+              key={code}
+              size="sm"
+              variant={country === code ? "default" : "outline"}
+              aria-pressed={country === code}
+              onClick={() =>
+                setParams(code === "all" ? {} : { country: code })
+              }
+            >
+              {code === "all" ? "Все страны" : countryName(code)}
+            </Button>
+          ))}
+        </div>
+        <div
+          className="flex flex-wrap gap-2"
+          aria-label="Сложность поступления"
+        >
+          {(["all", ...TIERS] as const).map((value) => (
+            <Button
+              key={value}
+              size="sm"
+              variant={tier === value ? "secondary" : "ghost"}
+              aria-pressed={tier === value}
+              onClick={() => setTier(value)}
+            >
+              {value === "all" ? "Все варианты" : t.tiers[value]}
+            </Button>
+          ))}
+        </div>
+        <p className="text-xs text-muted-foreground">
+          {t.recs.filterHint}
+        </p>
+      </div>
+
+      {outside && (
+        <Card className="mb-6 flex flex-wrap items-center gap-4 border-primary/30 bg-primary/5 p-4">
+          <Globe2 className="h-6 w-6 shrink-0 text-primary" aria-hidden />
+          <div className="min-w-0 flex-1 basis-60">
+            <p className="font-semibold">
+              {t.recs.outsideTitle(countryName(country))}
+            </p>
+            <p className="mt-1 text-sm text-muted-foreground">
+              {t.recs.outsideText}
+            </p>
+          </div>
+          <Button
+            onClick={addCountry}
+            disabled={offline || saveProfile.isPending}
+          >
+            {saveProfile.isPending ? (
+              <Loader2 className="animate-spin" />
+            ) : (
+              <Plus />
+            )}
+            {saveProfile.isPending
+              ? t.recs.addingCountry
+              : t.recs.addCountry(countryName(country))}
+          </Button>
+        </Card>
+      )}
+
+      {loading && <CardsSkeleton count={4} />}
+      {source.isError && !data && (
+        <ErrorState onRetry={() => source.refetch()} />
+      )}
 
       {data && (
         <div className="space-y-8">
-          {data.suggestions.length > 0 && (
+          {!outside && data.suggestions.length > 0 && (
             <Card className="border-accent/40 bg-accent/5 p-4">
               <p className="mb-2 flex items-center gap-2 font-semibold">
                 <Lightbulb className="h-4 w-4 text-accent" />
@@ -127,7 +215,7 @@ export function Recommendations() {
             </Card>
           )}
 
-          {data.recs.length === 0 && data.suggestions.length === 0 && (
+          {!outside && data.recs.length === 0 && data.suggestions.length === 0 && (
             <EmptyState
               icon={<SearchX className="h-6 w-6" />}
               title={t.recs.noneTitle}
@@ -145,50 +233,13 @@ export function Recommendations() {
             </p>
           )}
 
-          <div className="space-y-3 rounded-xl border bg-card p-4">
-            <p className="text-sm font-semibold">Университеты по странам</p>
-            <div className="flex flex-wrap gap-2" aria-label="Фильтр по стране">
-              {["all", ...countries].map((code) => (
-                <Button
-                  key={code}
-                  size="sm"
-                  variant={country === code ? "default" : "outline"}
-                  aria-pressed={country === code}
-                  onClick={() =>
-                    setParams(code === "all" ? {} : { country: code })
-                  }
-                >
-                  {code === "all" ? "Все страны" : countryName(code)}
-                </Button>
-              ))}
-            </div>
-            <div
-              className="flex flex-wrap gap-2"
-              aria-label="Сложность поступления"
-            >
-              {(["all", ...TIERS] as const).map((value) => (
-                <Button
-                  key={value}
-                  size="sm"
-                  variant={tier === value ? "secondary" : "ghost"}
-                  aria-pressed={tier === value}
-                  onClick={() => setTier(value)}
-                >
-                  {value === "all" ? "Все варианты" : t.tiers[value]}
-                </Button>
-              ))}
-            </div>
-            <p className="text-xs text-muted-foreground">
-              Подборка учитывает страны и направления из вашей анкеты. Фильтр
-              помогает ориентироваться в результатах.
-            </p>
-          </div>
           {visible.length === 0 && (
             <Card className="p-5">
-              <p className="font-semibold">В этой подборке пока нет вузов</p>
+              <p className="font-semibold">{t.recs.countryEmptyTitle}</p>
               <p className="mt-2 text-sm text-muted-foreground">
-                Проверьте выбранные страны в анкете и причины исключения ниже.
-                Для некоторых стран каталог ещё пополняется.
+                {excluded.length > 0
+                  ? t.recs.countryEmptyExcluded
+                  : t.recs.countryEmptyText}
               </p>
             </Card>
           )}

@@ -20,7 +20,7 @@ import { HollandQuiz } from "@/components/interests/HollandQuiz";
 import { complete, suggestedMajors } from "@/lib/interests";
 import { Slider } from "@/components/ui/slider";
 import { t } from "@/i18n/ru";
-import { countryName, intakeYearFor, todayIso } from "@/lib/format";
+import { catalogCountries, countryName, intakeYearFor, todayIso } from "@/lib/format";
 import { useOnboarding } from "@/store/onboarding";
 import { useNetwork } from "@/store/ui";
 
@@ -77,15 +77,7 @@ export function Onboarding() {
     return <Navigate to="/passport" replace />;
 
   const step = STEPS[draft.step];
-  const countries = [
-    ...new Set([
-      "US",
-      "HK",
-      "CN",
-      "IT",
-      ...(universities.data ?? []).map((u) => u.country),
-    ]),
-  ];
+  const countries = catalogCountries(universities.data ?? []);
   const countByCountry = (c: string) =>
     (universities.data ?? []).filter((u) => u.country === c).length;
   const exams = examSchema.safeParse({

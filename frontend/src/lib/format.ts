@@ -79,6 +79,18 @@ export function countryName(code: string): string {
   return t.countries[code] ?? code;
 }
 
+/** Countries present in the catalog: US first, then by number of universities, then by name. */
+export function catalogCountries(unis: { country: string }[]): string[] {
+  const counts = new Map<string, number>();
+  for (const u of unis) counts.set(u.country, (counts.get(u.country) ?? 0) + 1);
+  return [...counts.keys()].sort(
+    (a, b) =>
+      Number(b === "US") - Number(a === "US") ||
+      counts.get(b)! - counts.get(a)! ||
+      countryName(a).localeCompare(countryName(b), "ru"),
+  );
+}
+
 type DiffLike = { added: string[]; removed: string[]; tier_changed: unknown[]; chance_changed: unknown[] };
 
 /** "+2, −1, ↕1" summary for the toast. */

@@ -185,6 +185,12 @@ export function useRoadmapText(stepIds: string[]) {
   });
 }
 
+/** How a country outside the profile would look for this student: stateless /preview, nothing is saved. */
+export function useCountryPreview(profile: Profile | undefined, country: string | null) {
+  const outside = !!profile && !!country && !profile.countries.includes(country);
+  return usePreview(outside ? { ...profile!, countries: [country!] } : undefined, outside ? profile!.priorities : null);
+}
+
 export function usePreview(profile: Profile | undefined, priorities: Priorities | null) {
   return useQuery({
     queryKey: ["preview", profile?.created_at, profile, priorities],

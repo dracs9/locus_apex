@@ -1,8 +1,8 @@
-import { ArrowLeft, BookOpen, CalendarClock, ExternalLink, FileText, Info, Star } from "lucide-react";
+import { ArrowLeft, BookOpen, CalendarClock, Globe2, Loader2, Plus, ExternalLink, FileText, Info, Star } from "lucide-react";
 import type { ReactNode } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
-import { useEssays, useExplain, useFavorites, useProfile, useRecommendations, useToggleFavorite, useUniversities } from "@/api/hooks";
+import { useCountryPreview, useEssays, useExplain, useFavorites, useSaveProfile, useProfile, useRecommendations, useToggleFavorite, useUniversities } from "@/api/hooks";
 import type { Profile, University as Uni } from "@/api/types";
 import { ChanceBadge, GeneratedMark, ReasonChip, SourceBadge, TierBadge } from "@/components/ds/badges";
 import { Card, SectionTitle } from "@/components/ds/Card";
@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/misc";
 import { t } from "@/i18n/ru";
 import { academicGpa4, academicLabel } from "@/lib/academic";
+import { profileToIn } from "@/lib/profileIn";
 import { countryName, money, oneIn, projectDeadline, shortDate } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import { useNetwork } from "@/store/ui";
@@ -112,6 +113,9 @@ export function University() {
   const offline = useNetwork((s) => s.offline);
   const explain = useExplain(id, !!profile.data);
   const essays = useEssays();
+  const saveProfile = useSaveProfile();
+  // A country outside the profile has no saved rec: rate this university with the stateless preview.
+  const countryPreview = useCountryPreview(profile.data, universities.data?.find((u) => u.id === id)?.country ?? null);
 
   if (universities.isPending) return <PageSkeleton />;
   if (universities.isError && !universities.data) return <ErrorState onRetry={() => universities.refetch()} />;
@@ -122,6 +126,8 @@ export function University() {
   const excluded = recs.data?.excluded.find((e) => e.university_id === id);
   const isFav = (favorites.data ?? []).includes(id);
   const p = profile.data;
+  const previewRec = countryPreview.data?.recs.find((r) => r.university_id === id);
+  const previewExcluded = countryPreview.data?.excluded.find((e) => e.university_id === id);
   const essayCount = (essays.data ?? []).filter((e) => e.university_id === id).length;
 
   return (
@@ -150,7 +156,43 @@ export function University() {
       </header>
 
       {p && !p.countries.includes(uni.country) && (
-        <p className="rounded-md bg-muted px-3 py-2 text-sm text-muted-foreground">{t.university.notInCountries}</p>
+        <Card className="space-y-3 border-primary/30 bg-primary/5 p-4">
+          <SectionTitle className="mb-0 flex items-center gap-2">
+            <Globe2 className="h-4 w-4 text-primary" /> {t.university.previewTitle}
+          </SectionTitle>
+          {countryPreview.isPending ? (
+            <Skeleton className="h-16" />
+          ) : previewRec || previewExcluded ? (
+            <>
+              <p className="text-sm text-muted-foreground">
+                {previewRec
+                  ? t.university.previewText(countryName(uni.country))
+                  : t.university.previewExcluded(countryName(uni.country))}
+              </p>
+              {previewRec && (
+                <div className="flex flex-wrap items-center gap-2">
+                  <TierBadge tier={previewRec.tier} />
+                  <ChanceBadge chance={previewRec.chance} />
+                </div>
+              )}
+              <div className="flex flex-wrap gap-1.5">
+                {(previewRec?.reasons ?? previewExcluded?.reasons ?? []).map((r) => (
+                  <ReasonChip key={r.code + r.text} reason={r} />
+                ))}
+              </div>
+            </>
+          ) : (
+            <p className="text-sm text-muted-foreground">{t.university.notInCountries}</p>
+          )}
+          <Button
+            size="sm"
+            onClick={() => saveProfile.mutate(profileToIn(p, { countries: [...p.countries, uni.country] }))}
+            disabled={offline || saveProfile.isPending}
+          >
+            {saveProfile.isPending ? <Loader2 className="animate-spin" /> : <Plus />}
+            {saveProfile.isPending ? t.recs.addingCountry : t.recs.addCountry(countryName(uni.country))}
+          </Button>
+        </Card>
       )}
 
       {(rec || excluded) && (
