@@ -42,19 +42,20 @@ export function Compare() {
   const toggleFavorite = useToggleFavorite();
   const { map } = useUniversityMap();
   const offline = useNetwork((s) => s.offline);
-  const { compareIds, setCompare, toggleCompare } = useUi();
+  const { compareIds, compareTouched, setCompare, toggleCompare } = useUi();
   const [priorities, setPriorities] = useState<Priorities | null>(null);
 
   useEffect(() => {
     if (profile.data && !priorities) setPriorities(profile.data.priorities);
   }, [profile.data, priorities]);
 
-  // Default selection: favorites, then the best of each tier.
+  // Default selection on the first visit: favorites, then the best of each tier.
+  // Once the student edits the list, only ids that are no longer recommended are dropped.
   useEffect(() => {
     if (!recs.data) return;
     const recIds = recs.data.recs.map((r) => r.university_id);
     const valid = compareIds.filter((id) => recIds.includes(id));
-    if (valid.length >= 2) {
+    if (compareTouched || valid.length >= 2) {
       if (valid.length !== compareIds.length) setCompare(valid);
       return;
     }
@@ -64,7 +65,7 @@ export function Compare() {
       .filter((x): x is string => !!x);
     const ids = [...new Set([...valid, ...favs, ...perTier, ...recIds])].slice(0, DEFAULT_COMPARE);
     if (ids.length >= 2 && ids.join() !== compareIds.join()) setCompare(ids);
-  }, [recs.data, favorites.data, compareIds, setCompare]);
+  }, [recs.data, favorites.data, compareIds, compareTouched, setCompare]);
 
   const debounced = useDebounced(priorities, 300);
   const preview = usePreview(profile.data, debounced);
@@ -111,7 +112,9 @@ export function Compare() {
         </Card>
       )}
 
-      {columns.length < 2 ? (
+      {columns.length === 1 && <p className="text-sm text-muted-foreground">{t.compare.addMore}</p>}
+
+      {columns.length === 0 ? (
         <EmptyState title={t.compare.empty} action={<Button asChild><Link to="/recommendations">{t.nav.universities}</Link></Button>} />
       ) : (
         <Card className="p-0">

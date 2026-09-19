@@ -15,7 +15,7 @@ export function Settings() {
   const navigate = useNavigate();
   const reset = useReset();
   const demo = useLoadDemo();
-  const { theme, setTheme, setCompare } = useUi();
+  const { theme, setTheme, resetCompare } = useUi();
   const resetDraft = useOnboarding((s) => s.reset);
   const openEditor = useProfileEditor((s) => s.setOpen);
   const offline = useNetwork((s) => s.offline);
@@ -24,7 +24,7 @@ export function Settings() {
     if (!window.confirm(t.settings.resetConfirm)) return;
     await reset.mutateAsync();
     resetDraft();
-    setCompare([]);
+    resetCompare();
     toast.success(t.settings.resetDone);
     navigate("/", { replace: true });
   };
@@ -32,7 +32,7 @@ export function Settings() {
   const onDemo = async () => {
     if (!window.confirm(t.settings.demoConfirm)) return;
     await demo.mutateAsync(undefined);
-    setCompare([]);
+    resetCompare();
     toast.success(t.settings.demoDone);
     navigate("/passport");
   };
