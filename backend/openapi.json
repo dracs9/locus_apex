@@ -1811,6 +1811,126 @@
           }
         }
       }
+    },
+    "/essays": {
+      "get": {
+        "tags": [
+          "essays"
+        ],
+        "summary": "List Essays",
+        "operationId": "list_essays_essays_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/EssaySummary"
+                  },
+                  "type": "array",
+                  "title": "Response List Essays Essays Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/essays/{essay_id}": {
+      "get": {
+        "tags": [
+          "essays"
+        ],
+        "summary": "Get Essay",
+        "operationId": "get_essay_essays__essay_id__get",
+        "parameters": [
+          {
+            "name": "essay_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Essay Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Essay"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/essays/recommended": {
+      "get": {
+        "tags": [
+          "essays"
+        ],
+        "summary": "Recommended Essays",
+        "operationId": "recommended_essays_me_essays_recommended_get",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RecommendedEssay"
+                  },
+                  "title": "Response Recommended Essays Me Essays Recommended Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -2475,6 +2595,313 @@
           "cause"
         ],
         "title": "Diff"
+      },
+      "Essay": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "school": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "School"
+          },
+          "university_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "University Id"
+          },
+          "level": {
+            "type": "string",
+            "enum": [
+              "bachelor",
+              "master",
+              "phd",
+              "mba",
+              "other"
+            ],
+            "title": "Level"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "common_app",
+              "personal_statement",
+              "statement_of_purpose",
+              "other"
+            ],
+            "title": "Kind"
+          },
+          "prompt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Prompt"
+          },
+          "program": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Program"
+          },
+          "majors": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Majors"
+          },
+          "topics": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Topics"
+          },
+          "author": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Author"
+          },
+          "license": {
+            "type": "string",
+            "enum": [
+              "CC_BY_NC_SA_4_0",
+              "UNKNOWN"
+            ],
+            "title": "License"
+          },
+          "source_url": {
+            "type": "string",
+            "title": "Source Url"
+          },
+          "original_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Original Url"
+          },
+          "word_count": {
+            "type": "integer",
+            "title": "Word Count"
+          },
+          "excerpt": {
+            "type": "string",
+            "title": "Excerpt"
+          },
+          "body": {
+            "type": "string",
+            "title": "Body"
+          },
+          "references": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "References",
+            "default": []
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "school",
+          "university_id",
+          "level",
+          "kind",
+          "program",
+          "majors",
+          "topics",
+          "author",
+          "license",
+          "source_url",
+          "original_url",
+          "word_count",
+          "excerpt",
+          "body"
+        ],
+        "title": "Essay"
+      },
+      "EssaySummary": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "school": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "School"
+          },
+          "university_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "University Id"
+          },
+          "level": {
+            "type": "string",
+            "enum": [
+              "bachelor",
+              "master",
+              "phd",
+              "mba",
+              "other"
+            ],
+            "title": "Level"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "common_app",
+              "personal_statement",
+              "statement_of_purpose",
+              "other"
+            ],
+            "title": "Kind"
+          },
+          "prompt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Prompt"
+          },
+          "program": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Program"
+          },
+          "majors": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Majors"
+          },
+          "topics": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Topics"
+          },
+          "author": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Author"
+          },
+          "license": {
+            "type": "string",
+            "enum": [
+              "CC_BY_NC_SA_4_0",
+              "UNKNOWN"
+            ],
+            "title": "License"
+          },
+          "source_url": {
+            "type": "string",
+            "title": "Source Url"
+          },
+          "original_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Original Url"
+          },
+          "word_count": {
+            "type": "integer",
+            "title": "Word Count"
+          },
+          "excerpt": {
+            "type": "string",
+            "title": "Excerpt"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "school",
+          "university_id",
+          "level",
+          "kind",
+          "program",
+          "majors",
+          "topics",
+          "author",
+          "license",
+          "source_url",
+          "original_url",
+          "word_count",
+          "excerpt"
+        ],
+        "title": "EssaySummary"
       },
       "Excluded": {
         "properties": {
@@ -3259,6 +3686,26 @@
           "computed_at"
         ],
         "title": "RecommendationResult"
+      },
+      "RecommendedEssay": {
+        "properties": {
+          "essay": {
+            "$ref": "#/components/schemas/EssaySummary"
+          },
+          "reasons": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Reasons"
+          }
+        },
+        "type": "object",
+        "required": [
+          "essay",
+          "reasons"
+        ],
+        "title": "RecommendedEssay"
       },
       "Roadmap": {
         "properties": {

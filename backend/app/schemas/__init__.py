@@ -19,3 +19,4 @@ from .roadmap import (
     TierChange,
 )
 from .university import Deadline, Major, SatRange, Sourced, University
+from .essay import Essay, EssayKind, EssayLevel, EssaySummary, RecommendedEssay
