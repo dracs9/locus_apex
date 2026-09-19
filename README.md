@@ -253,14 +253,6 @@ Backend: FastAPI, Pydantic, pydantic-settings, SQLAlchemy, asyncpg, aiosqlite, P
 - Essays: most are PhD statements of purpose, all texts are in English, and majors are mapped by keywords, so some essays have none.
 - RAG `/ai/ask` and the voice guide (M5) are not implemented.
 
-## Team
-
-| Role | Name |
-| --- | --- |
-| Product / full-stack | _add name_ |
-| Design | _add name_ |
-| Data | _add name_ |
-
 ## Deployed URLs
 
 - Frontend: https://locus-apex.vercel.app

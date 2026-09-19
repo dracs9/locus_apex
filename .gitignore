@@ -11,3 +11,4 @@ __pycache__/
 *.db
 .DS_Store
 pipeline/out/
+data/
