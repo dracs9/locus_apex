@@ -40,16 +40,24 @@ def extract(client: genai.Client, uni_id: str) -> dict | None:
     if not pages:
         return None
     payload = [{"url": p["url"], "text": p["text"][:MAX_CHARS_PER_PAGE]} for p in pages]
-    res = client.models.generate_content(
-        model=MODEL,
-        contents=json.dumps({"university_id": uni_id, "pages": payload}, ensure_ascii=False),
-        config=types.GenerateContentConfig(system_instruction=SYSTEM, response_mime_type="application/json", temperature=0),
-    )
     try:
-        return json.loads(res.text or "")
+        res = client.models.generate_content(
+            model=MODEL,
+            contents=json.dumps({"university_id": uni_id, "pages": payload}, ensure_ascii=False),
+            config=types.GenerateContentConfig(system_instruction=SYSTEM, response_mime_type="application/json", temperature=0),
+        )
+    except Exception as e:  # network, quota, safety block: skip this university, keep going
+        print(f"{uni_id}: model call failed ({type(e).__name__}: {e}), skipped")
+        return None
+    try:
+        data = json.loads(res.text or "")
     except json.JSONDecodeError:
         print(f"{uni_id}: invalid JSON from model, skipped")
         return None
+    if not isinstance(data, dict):
+        print(f"{uni_id}: model returned {type(data).__name__}, expected an object, skipped")
+        return None
+    return data
 
 
 def main() -> None:

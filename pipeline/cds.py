@@ -75,12 +75,20 @@ def main() -> None:
             out_dir.mkdir(parents=True, exist_ok=True)
             for n, url in enumerate(src["urls"]):
                 time.sleep(1)
-                res = client.get(url)
+                try:
+                    res = client.get(url)
+                except httpx.HTTPError as e:
+                    print(f"! {uni_id}: {type(e).__name__} for {url} (skipped)")
+                    continue
                 if res.status_code != 200:
                     print(f"! {uni_id}: HTTP {res.status_code} for {url} (skipped)")
                     continue
                 is_xlsx = url.lower().endswith(".xlsx") or "spreadsheetml" in res.headers.get("content-type", "")
-                text = xlsx_text(res.content) if is_xlsx else pdf_text(res.content)
+                try:
+                    text = xlsx_text(res.content) if is_xlsx else pdf_text(res.content)
+                except Exception as e:  # not a real PDF/XLSX (e.g. an HTML error page with status 200)
+                    print(f"! {uni_id}: cannot parse {url} ({type(e).__name__}: {e}) (skipped)")
+                    continue
                 record = {"url": url, "fetched_at": datetime.now(timezone.utc).isoformat(),
                           "title": f"Common Data Set {src['year']}", "text": text}
                 (out_dir / f"cds-{n}.json").write_text(json.dumps(record, ensure_ascii=False, indent=1), encoding="utf-8")
